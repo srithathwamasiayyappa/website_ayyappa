@@ -674,48 +674,6 @@ function App() {
         <ProfilePortalLayout profile={profile} god={god}>
           <PageHeading eyebrow="YOUR DEVOTIONAL ACCOUNT" title="My Profile" desc="Manage your personal information, saved prayers and website preferences." />
 
-          {/* Seamless Role Switcher for users with registered temple / dual access */}
-          {(profile?.hasDkAccount || profile?.templeName) && (
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              background: '#fdfbf6',
-              border: '1px solid #e8d9b5',
-              padding: '10px 18px',
-              borderRadius: '10px',
-              marginBottom: '18px',
-              flexWrap: 'wrap',
-              gap: '10px'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#5c4a3a' }}>
-                <span>{profile?.role === 'DHARMA_KARTHA' ? '🛕 Currently viewing as Dharma Kartha (Temple Founder)' : '🙏 Currently viewing as Customer (Devotee)'}</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  const nextRole = profile?.role === 'DHARMA_KARTHA' ? 'CUSTOMER' : 'DHARMA_KARTHA';
-                  const updated = { ...(profile || {}), role: nextRole };
-                  setProfile(updated);
-                  localStorage.setItem('sa-profile', JSON.stringify(updated));
-                  notify(`Switched to ${nextRole === 'DHARMA_KARTHA' ? 'Dharma Kartha' : 'Customer'} view`);
-                }}
-                style={{
-                  background: '#0b3d2b',
-                  color: '#f6cd86',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '6px 14px',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  cursor: 'pointer'
-                }}
-              >
-                {profile?.role === 'DHARMA_KARTHA' ? 'Switch to Devotee View 🙏' : 'Switch to Dharma Kartha View 🛕'}
-              </button>
-            </div>
-          )}
-
           {/* Dynamic Profile View based on Role */}
           {profile?.role === 'DHARMA_KARTHA' ? (
             /* DHARMA KARTHA (TEMPLE FOUNDER) PROFILE VIEW */
