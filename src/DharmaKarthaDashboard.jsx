@@ -244,8 +244,9 @@ export default function DharmaKarthaDashboard({ notify, profile: initialProfile 
                       <span className="sa-dk-temple-loc">
                         <Icon name="MapPin" size={13} /> {temple.city}, {temple.state}
                       </span>
-                      <span className="sa-dk-status-pill">
-                        <span className="sa-dk-status-dot" /> {temple.status || 'Active'}
+                      <span className={`sa-dk-status-pill ${temple.status?.toLowerCase().includes('pending') ? 'pending' : temple.status === 'REJECTED' ? 'rejected' : 'published'}`}>
+                        <span className={`sa-dk-status-dot ${temple.status?.toLowerCase().includes('pending') ? 'pending' : temple.status === 'REJECTED' ? 'rejected' : 'published'}`} />
+                        {temple.status === 'PENDING_APPROVAL' ? 'Pending Approval' : temple.status === 'PUBLISHED' ? 'Published / Approved' : temple.status === 'REJECTED' ? 'Rejected' : (temple.status || 'Active')}
                       </span>
                     </div>
 

@@ -151,6 +151,7 @@ export default function DharmaKarthaMyTemples({ notify, profile }) {
             <option value="ALL">All Statuses</option>
             <option value="PUBLISHED">Published / Active</option>
             <option value="PENDING_APPROVAL">Pending Approval</option>
+            <option value="REJECTED">Rejected</option>
           </select>
         </div>
 
@@ -196,8 +197,9 @@ export default function DharmaKarthaMyTemples({ notify, profile }) {
                     <span className="sa-dk-temple-loc">
                       <Icon name="MapPin" size={13} /> {temple.city}, {temple.state}
                     </span>
-                    <span className="sa-dk-status-pill">
-                      <span className="sa-dk-status-dot" /> {temple.status || 'Active'}
+                    <span className={`sa-dk-status-pill ${temple.status?.toLowerCase().includes('pending') ? 'pending' : temple.status === 'REJECTED' ? 'rejected' : 'published'}`}>
+                      <span className={`sa-dk-status-dot ${temple.status?.toLowerCase().includes('pending') ? 'pending' : temple.status === 'REJECTED' ? 'rejected' : 'published'}`} />
+                      {temple.status === 'PENDING_APPROVAL' ? 'Pending Approval' : temple.status === 'PUBLISHED' ? 'Published / Approved' : temple.status === 'REJECTED' ? 'Rejected' : (temple.status || 'Active')}
                     </span>
                   </div>
 

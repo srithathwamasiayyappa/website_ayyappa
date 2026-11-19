@@ -411,6 +411,25 @@
   font-weight: 700;
   padding: 3px 9px;
   border-radius: 12px;
+  border: 1px solid #bbf7d0;
+}
+
+.sa-dk-status-pill.pending {
+  background: #fffbeb;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+.sa-dk-status-pill.published {
+  background: #eaf6ee;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.sa-dk-status-pill.rejected {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
 }
 
 .sa-dk-status-dot {
@@ -418,6 +437,18 @@
   height: 6px;
   border-radius: 50%;
   background: #22c55e;
+}
+
+.sa-dk-status-dot.pending {
+  background: #f59e0b;
+}
+
+.sa-dk-status-dot.published {
+  background: #22c55e;
+}
+
+.sa-dk-status-dot.rejected {
+  background: #ef4444;
 }
 
 .sa-dk-temple-name {
