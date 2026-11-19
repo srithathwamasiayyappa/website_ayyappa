@@ -1,0 +1,509 @@
+/* ══════════════════════════════════════════════════════
+   TODAY'S PANCHANGAM — DEVOTIONAL ALMANAC PAGE STYLES
+   ══════════════════════════════════════════════════════ */
+
+.sa-panchangam-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background: 
+    url("/images/pooja/pooja-vidhanam-background.png") no-repeat top center,
+    radial-gradient(ellipse 90% 70% at 50% 30%, #fbf8f0 0%, #f4ede0 55%, #eae0d0 100%);
+  background-size: 100% auto, cover;
+  background-attachment: scroll, fixed;
+  padding: 0 0 70px;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.sa-panchangam-container {
+  max-width: 1360px;
+  width: min(calc(100% - 64px), 1360px);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* ══════════════════════════════════════════════════════
+   TOP HERO SECTION WITH INTEGRATED TEMPLE ARTWORK
+   ══════════════════════════════════════════════════════ */
+.sa-panchangam-hero {
+  position: relative;
+  min-height: 230px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 28px 0 16px;
+  overflow: hidden;
+}
+
+/* Temple Photograph integrated on the right side */
+.sa-panchangam-hero-temple {
+  position: absolute;
+  top: 0;
+  right: -20px;
+  width: 52%;
+  height: 100%;
+  background-image: url("/images/panchangam/panchangam-temple-hero.png");
+  background-size: cover;
+  background-position: 70% 32%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 1;
+
+  /* Smooth gradient mask blending naturally into the warm ivory page background */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.25) 15%,
+    rgba(0, 0, 0, 0.75) 35%,
+    black 60%
+  ),
+  linear-gradient(
+    to bottom,
+    black 75%,
+    rgba(0, 0, 0, 0.6) 90%,
+    transparent 100%
+  );
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.25) 15%,
+    rgba(0, 0, 0, 0.75) 35%,
+    black 60%
+  ),
+  linear-gradient(
+    to bottom,
+    black 75%,
+    rgba(0, 0, 0, 0.6) 90%,
+    transparent 100%
+  );
+  mask-composite: intersect;
+  filter: drop-shadow(0 4px 15px rgba(212, 167, 83, 0.2));
+}
+
+/* Hero Content Area (Left / Center) */
+.sa-panchangam-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  text-align: center;
+  margin-left: 20px;
+}
+
+.sa-panchangam-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0b3d2b;
+  margin-bottom: 6px;
+}
+
+.sa-panchangam-eyebrow .eb-line {
+  width: 40px;
+  height: 1px;
+  background: #c89d47;
+}
+
+.sa-panchangam-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(38px, 3.4vw, 54px);
+  font-weight: 800;
+  color: #082d20;
+  letter-spacing: -0.025em;
+  margin: 0 0 8px;
+  line-height: 1.12;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.sa-panchangam-desc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14.5px;
+  color: #3b5a4e;
+  margin: 0 auto 12px;
+  max-width: 580px;
+  line-height: 1.5;
+}
+
+.sa-panchangam-lotus-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #d4a753;
+}
+
+.sa-panchangam-lotus-divider .lotus-line {
+  width: 50px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #d4a753);
+}
+
+.sa-panchangam-lotus-divider .lotus-line.reverse {
+  background: linear-gradient(90deg, #d4a753, transparent);
+}
+
+/* ══════════════════════════════════════════════════════
+   DAILY CALENDAR CONTROL PANEL
+   ══════════════════════════════════════════════════════ */
+.sa-daily-calendar-panel {
+  position: relative;
+  background: linear-gradient(135deg, #093725 0%, #05261a 100%);
+  border-radius: 26px;
+  border: 1.5px solid #d4a753;
+  box-shadow: 
+    0 16px 40px rgba(6, 43, 29, 0.28),
+    0 0 0 1px rgba(212, 167, 83, 0.3),
+    inset 0 0 35px rgba(0, 0, 0, 0.25);
+  padding: 24px 34px;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+/* Ornamental corner flourishes */
+.sa-panel-corner {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.sa-panel-corner.tl { top: 6px; left: 6px; }
+.sa-panel-corner.tr { top: 6px; right: 6px; }
+.sa-panel-corner.bl { bottom: 6px; left: 6px; }
+.sa-panel-corner.br { bottom: 6px; right: 6px; }
+
+.sa-calendar-panel-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.sa-calendar-left {
+  flex: 1.2;
+  min-width: 320px;
+}
+
+.sa-cal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffd885;
+  margin-bottom: 6px;
+}
+
+.sa-calendar-left h2 {
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(26px, 2.2vw, 34px);
+  font-weight: 800;
+  color: #fffaf0;
+  margin: 0 0 4px;
+  letter-spacing: -0.015em;
+}
+
+.sa-calendar-left p {
+  font-size: 13.5px;
+  color: #c4e4d7;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Vertical Divider */
+.sa-calendar-divider {
+  width: 1px;
+  height: 68px;
+  background: linear-gradient(180deg, transparent, rgba(212, 167, 83, 0.6), transparent);
+}
+
+/* Calendar Inputs & Button */
+.sa-calendar-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sa-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sa-control-group label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #d1ebe0;
+}
+
+.sa-control-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fbf9f4;
+  border: 1px solid #d4a753;
+  border-radius: 12px;
+  padding: 0 14px;
+  height: 48px;
+  color: #0b3d2b;
+  font-weight: 600;
+  font-size: 13.5px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  min-width: 160px;
+}
+
+.sa-control-input-wrap svg {
+  color: #c89d47;
+  flex-shrink: 0;
+}
+
+.sa-control-input-wrap input {
+  border: none;
+  background: transparent;
+  color: #0b3d2b;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.sa-control-input-wrap select {
+  border: none;
+  background: transparent;
+  color: #0b3d2b;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.sa-view-panchangam-btn {
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 24px;
+  background: linear-gradient(120deg, #f7d283 0%, #caa049 50%, #fcedbb 100%);
+  border: 1px solid #ffebba;
+  color: #0b3323;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 18px rgba(202, 160, 73, 0.35);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.sa-view-panchangam-btn:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 24px rgba(202, 160, 73, 0.45);
+}
+
+.sa-view-panchangam-btn:active {
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════════════════
+   8 PANCHANGAM INFORMATION CARDS (4 COLUMNS × 2 ROWS)
+   ══════════════════════════════════════════════════════ */
+.sa-panchangam-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 26px;
+}
+
+.sa-panch-card {
+  position: relative;
+  background: #fdfbf7;
+  border: 1.5px solid #d8b26e;
+  border-radius: 24px;
+  padding: 22px 18px 20px;
+  box-shadow: 
+    0 10px 26px rgba(30, 60, 48, 0.08),
+    0 0 0 1px rgba(216, 178, 110, 0.3),
+    inset 0 0 25px rgba(255, 248, 230, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 154px;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.sa-panch-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 14px 34px rgba(30, 60, 48, 0.14),
+    0 0 0 1.5px #d4a753,
+    inset 0 0 30px rgba(255, 248, 230, 0.8);
+}
+
+/* Decorative corner engraving on card */
+.sa-panch-card-corner {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.sa-panch-card-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: #d99327;
+  margin-bottom: 6px;
+}
+
+.sa-panch-card-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: #0b3d2b;
+  margin: 0 0 5px;
+  letter-spacing: -0.01em;
+}
+
+.sa-panch-card-value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #244b3c;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.sa-panch-card-sub {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #55796c;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════
+   DYNAMIC PANCHANGAM INTEGRATION STRIP
+   ══════════════════════════════════════════════════════ */
+.sa-panchangam-info-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #e6f2eb;
+  border: 1px solid #b8dcce;
+  border-radius: 16px;
+  padding: 16px 22px;
+  margin-bottom: 35px;
+  box-shadow: 0 4px 14px rgba(18, 57, 45, 0.05);
+}
+
+.sa-info-icon-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid #286546;
+  display: grid;
+  place-items: center;
+  color: #174e36;
+  flex-shrink: 0;
+}
+
+.sa-info-content h4 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0b3d2b;
+  margin: 0 0 2px;
+}
+
+.sa-info-content p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12.5px;
+  color: #3b6354;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ══════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .sa-panchangam-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .sa-panchangam-hero-temple {
+    width: 60%;
+    opacity: 0.35;
+  }
+  .sa-panchangam-hero-content {
+    margin-left: 0;
+    max-width: 100%;
+  }
+  .sa-calendar-panel-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sa-calendar-divider {
+    display: none;
+  }
+  .sa-calendar-controls {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 600px) {
+  .sa-panchangam-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .sa-calendar-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sa-control-input-wrap,
+  .sa-view-panchangam-btn {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .sa-panchangam-container {
+    width: calc(100% - 24px);
+  }
+  .sa-panchangam-title {
+    font-size: 28px;
+  }
+  .sa-panch-card {
+    padding: 16px 14px;
+  }
+}
+

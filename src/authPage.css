@@ -1,0 +1,777 @@
+/* Scoped styles for Saranam Ayyappa Login & Registration Page */
+
+/* Dedicated parent container for auth pages to ensure zero page scrolling */
+.auth-fullscreen-page {
+  min-height: calc(100vh - 70px);
+  overflow-y: auto !important;
+  margin: 0;
+  padding: 16px 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: 
+    radial-gradient(ellipse 90% 70% at 50% 35%, #fcfbf4 0%, #edf3eb 55%, #e0ece0 100%);
+}
+
+.sa-auth-page {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  box-sizing: border-box;
+}
+
+/* Subtle corner mandala line-art and misty temple silhouettes */
+.sa-auth-bg-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.sa-auth-bg-decor .decor-mandala-tl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 180px;
+  height: 180px;
+  background-image: radial-gradient(circle at 0 0, rgba(212, 164, 74, 0.35) 0%, rgba(212, 164, 74, 0.15) 45%, transparent 70%);
+  mask-image: radial-gradient(circle at 0 0, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at 0 0, black 30%, transparent 75%);
+}
+
+.sa-auth-bg-decor .decor-mandala-tl::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: 140px;
+  border-right: 1.5px dashed rgba(199, 150, 58, 0.4);
+  border-bottom: 1.5px dashed rgba(199, 150, 58, 0.4);
+  border-radius: 0 0 100% 0;
+}
+
+.sa-auth-bg-decor .decor-mandala-tr {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 180px;
+  height: 180px;
+  background-image: radial-gradient(circle at 100% 0, rgba(212, 164, 74, 0.35) 0%, rgba(212, 164, 74, 0.15) 45%, transparent 70%);
+  mask-image: radial-gradient(circle at 100% 0, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at 100% 0, black 30%, transparent 75%);
+}
+
+.sa-auth-bg-decor .decor-mandala-tr::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 140px;
+  height: 140px;
+  border-left: 1.5px dashed rgba(199, 150, 58, 0.4);
+  border-bottom: 1.5px dashed rgba(199, 150, 58, 0.4);
+  border-radius: 0 0 0 100%;
+}
+
+.sa-auth-bg-decor .decor-hill-left {
+  position: absolute;
+  bottom: 0;
+  left: -40px;
+  width: 250px;
+  height: 200px;
+  background: radial-gradient(ellipse at bottom left, rgba(130, 165, 142, 0.28) 0%, transparent 75%);
+}
+
+.sa-auth-bg-decor .decor-hill-right {
+  position: absolute;
+  bottom: 0;
+  right: -40px;
+  width: 260px;
+  height: 200px;
+  background: radial-gradient(ellipse at bottom right, rgba(130, 165, 142, 0.28) 0%, transparent 75%);
+}
+
+/* Two-column layout container fitting viewport height comfortably */
+.sa-auth-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: stretch;
+  gap: 24px;
+  max-width: 980px;
+  width: 100%;
+  min-height: 480px;
+  max-height: 90vh;
+  margin: 0 auto;
+}
+
+@media (min-width: 1500px) {
+  .sa-auth-layout {
+    max-width: 1040px;
+    gap: 28px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   LEFT CARD — DEVOTIONAL TEMPLE CARD
+   ══════════════════════════════════════════════════════ */
+.sa-auth-temple-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  height: 100%;
+  box-shadow: 0 12px 34px rgba(22, 54, 40, 0.16), 0 0 0 1.5px #d4a753, inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  background-color: #0d281e;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.sa-auth-temple-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+}
+
+/* Dark emerald gradient overlay on the lower portion of temple image */
+.sa-auth-temple-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 18%,
+    rgba(6, 45, 30, 0.15) 38%,
+    rgba(5, 38, 26, 0.72) 65%,
+    rgba(4, 32, 22, 0.94) 84%,
+    rgba(3, 27, 18, 0.99) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Left card text content layer */
+.sa-auth-temple-content {
+  position: relative;
+  z-index: 2;
+  padding: 20px 28px 24px;
+  color: #fff;
+  text-align: left;
+}
+
+.sa-auth-om-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.sa-auth-om {
+  font-size: 28px;
+  line-height: 1;
+  color: #e5b658;
+  font-family: 'Cinzel Decorative', 'Georgia', serif;
+  text-shadow: 0 0 10px rgba(245, 198, 98, 0.45);
+}
+
+.sa-auth-om-divider {
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, #d4a753, transparent);
+  position: relative;
+}
+
+.sa-auth-om-divider::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f0c56d;
+}
+
+.sa-auth-temple-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(26px, 2vw, 32px);
+  font-weight: 800;
+  line-height: 1.12;
+  color: #fffbf0;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.sa-auth-temple-title span {
+  display: block;
+}
+
+.sa-auth-temple-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #faeed4;
+  margin: 0 0 12px;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.sa-auth-lotus-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d9a84e;
+  opacity: 0.85;
+}
+
+.sa-auth-lotus-divider .lotus-line {
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, #d9a84e, transparent);
+}
+
+.sa-auth-lotus-divider .lotus-line.reverse {
+  background: linear-gradient(270deg, #d9a84e, transparent);
+}
+
+.sa-auth-lotus-divider svg {
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════
+   RIGHT CARD — AUTHENTICATION CARD
+   ══════════════════════════════════════════════════════ */
+.sa-auth-form-card {
+  position: relative;
+  background: #fdfbf7;
+  border-radius: 24px;
+  border: 1.5px solid #d8b26e;
+  box-shadow: 
+    0 12px 34px rgba(22, 54, 40, 0.12),
+    0 0 0 1px rgba(216, 178, 110, 0.35),
+    inset 0 0 25px rgba(255, 248, 230, 0.5);
+  padding: 14px 24px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* Top decorative corner flourishes inside right card */
+.sa-auth-flourish {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  opacity: 0.75;
+  z-index: 1;
+}
+
+.sa-auth-flourish.tl {
+  top: 8px;
+  left: 8px;
+}
+
+.sa-auth-flourish.tr {
+  top: 8px;
+  right: 8px;
+}
+
+/* Center Ayyappa Circular Deity Avatar */
+.sa-auth-deity-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 2;
+}
+
+.sa-auth-deity-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #f7d283 0%, #caa049 50%, #fcedbb 100%);
+  box-shadow: 
+    0 4px 12px rgba(184, 137, 44, 0.28),
+    0 0 0 1.5px rgba(216, 178, 110, 0.4);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sa-auth-deity-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+/* Heading & Subtitle */
+.sa-auth-header {
+  text-align: center;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 2;
+}
+
+.sa-auth-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(19px, 1.5vw, 22px);
+  font-weight: 800;
+  color: #0b3d2b;
+  margin: 0 0 1px;
+  letter-spacing: -0.02em;
+}
+
+.sa-auth-head-lotus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 1px auto 3px;
+  color: #caa049;
+}
+
+.sa-auth-head-lotus .hl-line {
+  width: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #caa049);
+}
+
+.sa-auth-head-lotus .hl-line.reverse {
+  background: linear-gradient(90deg, #caa049, transparent);
+}
+
+.sa-auth-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: #4b665c;
+  margin: 0;
+}
+
+/* ══════════════════════════════════════════════════════
+   SEGMENTED TABS (Login with OTP | Register with OTP)
+   ══════════════════════════════════════════════════════ */
+.sa-auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #eef4ee;
+  padding: 3px;
+  border-radius: 20px;
+  border: 1px solid #d3e4d9;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Role Selector Tabs */
+.sa-auth-role-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.sa-auth-role-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1.5px solid #d2ded7;
+  border-radius: 9px;
+  padding: 5px 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #555555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sa-auth-role-btn.active {
+  border-color: #8B181B;
+  background: #FFF8F5;
+  color: #8B181B;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(139, 24, 27, 0.12);
+}
+
+.sa-auth-role-badge {
+  font-size: 13px;
+}
+
+.sa-auth-tab-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 8px;
+  border-radius: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #0b3d2b;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.sa-auth-tab-btn.active {
+  background: linear-gradient(135deg, #093725 0%, #062b1d 100%);
+  color: #fff9e6;
+  border: 1px solid #d4a753;
+  box-shadow: 0 3px 8px rgba(6, 43, 29, 0.24);
+}
+
+.sa-auth-tab-btn:not(.active):hover {
+  background: rgba(220, 235, 226, 0.5);
+  color: #05261a;
+}
+
+/* ══════════════════════════════════════════════════════
+   AUTH FORM FIELDS
+   ══════════════════════════════════════════════════════ */
+.sa-auth-form {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.sa-auth-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 6px;
+  text-align: left;
+}
+
+.sa-auth-field label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #0b3d2b;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.sa-auth-input {
+  width: 100%;
+  height: 35px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1.5px solid #d2ded7;
+  background: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12.5px;
+  color: #0e2e22;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sa-auth-input:focus {
+  border-color: #caa049 !important;
+  box-shadow: 0 0 0 3px rgba(202, 160, 73, 0.2) !important;
+  outline: none;
+}
+
+.sa-auth-phone-wrap {
+  display: flex;
+  align-items: stretch;
+  border-radius: 8px;
+  border: 1.5px solid #d2ded7;
+  background: #ffffff;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sa-auth-phone-wrap:focus-within {
+  border-color: #caa049 !important;
+  box-shadow: 0 0 0 3px rgba(202, 160, 73, 0.2) !important;
+}
+
+.sa-auth-phone-prefix {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  background: #f7faf7;
+  border-right: 1.5px solid #dbe6e0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0b3d2b;
+  white-space: nowrap;
+}
+
+.sa-auth-phone-input {
+  flex: 1;
+  height: 35px;
+  border: none;
+  padding: 0 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12.5px;
+  color: #0e2e22;
+  background: transparent;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* Primary Submit Button */
+.sa-auth-submit-btn {
+  width: 100%;
+  height: 38px;
+  margin-top: 5px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #093725 0%, #05261a 100%);
+  border: 1.5px solid #caa049;
+  color: #fff9e6;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(6, 43, 29, 0.18);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.sa-auth-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(6, 43, 29, 0.25);
+}
+
+.sa-auth-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Or continue with divider */
+.sa-auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 8px 0 6px;
+  position: relative;
+  z-index: 2;
+}
+
+.sa-auth-divider::before,
+.sa-auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e2d3b5;
+}
+
+.sa-auth-divider span {
+  padding: 0 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: #557268;
+}
+
+/* Social Auth Button Row (Side by side for Google & Apple) */
+.sa-auth-social-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.sa-auth-social-btn {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 10px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.16s;
+}
+
+.sa-auth-social-btn:hover {
+  transform: translateY(-1px);
+}
+
+.sa-auth-social-btn:active {
+  transform: translateY(0);
+}
+
+.sa-auth-social-btn.google {
+  background: #ffffff;
+  border: 1.5px solid #d8cfbe;
+  color: #0b3d2b;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.sa-auth-social-btn.google:hover {
+  background-color: #fbfbf8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.sa-auth-social-btn.apple {
+  background: #000000;
+  border: 1.5px solid #222222;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.sa-auth-social-btn.apple:hover {
+  background-color: #1a1a1a;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Google Sign-in Button (legacy fallback) */
+.sa-auth-google-btn {
+  width: 100%;
+  height: 38px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1.5px solid #d8cfbe;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0b3d2b;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.16s;
+  position: relative;
+  z-index: 2;
+}
+
+.sa-auth-google-btn:hover {
+  background-color: #fbfbf8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.sa-auth-google-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Demo Disclaimer Note */
+.sa-auth-demo-note {
+  margin: 6px auto 0;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 10.5px;
+  font-weight: 400;
+  color: #6a8279;
+  position: relative;
+  z-index: 2;
+  line-height: 1.3;
+}
+
+/* Bottom subtle lotus ornament emerging from card bottom */
+.sa-auth-bottom-lotus {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 38px;
+  pointer-events: none;
+  opacity: 0.35;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.sa-auth-bottom-lotus img {
+  width: 100%;
+  height: auto;
+  max-height: 34px;
+  object-fit: contain;
+}
+
+/* ══════════════════════════════════════════════════════
+   MOBILE BEHAVIOR ONLY (below 860px)
+   ══════════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .auth-fullscreen-page {
+    height: auto;
+    max-height: none;
+    overflow-y: auto !important;
+  }
+  .sa-auth-page {
+    height: auto;
+    min-height: calc(100vh - 70px);
+    overflow-y: auto !important;
+    padding: 20px 16px 36px;
+    align-items: flex-start;
+  }
+  .sa-auth-layout {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    height: auto;
+    gap: 18px;
+  }
+  .sa-auth-temple-card {
+    height: 250px;
+    min-height: 250px;
+  }
+  .sa-auth-form-card {
+    height: auto;
+    padding: 24px 20px 20px;
+  }
+  .sa-auth-temple-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sa-auth-page {
+    padding: 12px 8px 30px;
+  }
+  .sa-auth-form-card {
+    padding: 20px 14px 16px;
+  }
+  .sa-auth-role-tabs {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sa-auth-role-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .sa-auth-social-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

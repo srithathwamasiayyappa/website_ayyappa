@@ -1,0 +1,404 @@
+/* =========================================================
+   SARANAM AYYAPPA — ROLE SELECTION PAGE (EXACT IMAGE 1 MATCH)
+   Pixel-accurate matching based on 935x1024 master geometry:
+   - Full-bleed Image 3 background (Sunrise mountain & temple)
+   - Centered Image 2 Green line-art Ayyappa & Tiger
+   - Saranam Ayyappa title & Connect.. Pray.. Serve..
+   - Large Ivory Curved Panel with gold outline and curved top
+   - 320x340px equal Customer & Dharma Karthas cards
+   - 440px rounded emerald green Continue button
+   ========================================================= */
+
+/* Dedicated full-page shell for role selection to fit without vertical scrolling */
+.role-fullscreen-page {
+  height: calc(100vh - 70px);
+  max-height: calc(100vh - 70px);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden !important;
+}
+
+body:has(.role-fullscreen-page),
+html:has(.role-fullscreen-page) {
+  overflow: hidden !important;
+  height: 100% !important;
+}
+
+.sa-role-page {
+  position: relative;
+  height: 100%;
+  max-height: calc(100vh - 70px);
+  width: 100%;
+  background-color: #f7f1e5;
+  background-image: url("/images/auth/role-background.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 4px 16px 12px;
+  overflow: hidden !important;
+  box-sizing: border-box;
+}
+
+/* 1. TOP BRANDING AREA */
+.sa-role-brand {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.sa-role-brand__art-wrap {
+  width: min(22vh, 160px);
+  max-width: 60vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+.sa-role-brand__art {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.sa-role-brand__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(22px, 3vh, 32px);
+  font-weight: 800;
+  color: #06452E;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.sa-role-brand__divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 150px;
+  margin: 1px auto 2px;
+}
+
+.sa-role-brand__divider-line {
+  flex: 1;
+  height: 1.2px;
+  background: #06452E;
+  opacity: 0.55;
+}
+
+.sa-role-brand__lotus {
+  font-size: 12px;
+  color: #E65100;
+  line-height: 1;
+}
+
+.sa-role-brand__tagline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(13px, 1.8vh, 16px);
+  font-weight: 600;
+  color: #0E382C;
+  letter-spacing: 0.3px;
+  margin: 0;
+}
+
+/* 2. LARGE IVORY ROLE-SELECTION PANEL */
+.sa-role-panel {
+  position: relative;
+  z-index: 3;
+  width: min(92vw, 560px);
+  background: rgba(255, 253, 248, 0.98);
+  border: 1.8px solid #D5A548;
+  border-radius: 28px;
+  padding: 10px 18px 12px;
+  box-shadow: 0 12px 36px rgba(35, 25, 10, 0.16);
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: 0;
+}
+
+.sa-role-panel-header {
+  margin-bottom: 8px;
+}
+
+.sa-role-heading-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 1px;
+}
+
+.sa-role-heading-line {
+  width: 24px;
+  height: 1.2px;
+  background: #C79432;
+}
+
+.sa-role-heading-diamond {
+  font-size: 7px;
+  color: #C79432;
+}
+
+.sa-role-heading-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(17px, 2.2vh, 21px);
+  font-weight: 800;
+  color: #06452E;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.sa-role-heading-desc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: #555555;
+  margin: 0;
+}
+
+/* 3. TWO ROLE SELECTION CARDS (Images 4 & 5) - Compact Proportions */
+.sa-role-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.sa-role-card {
+  position: relative;
+  background: #FFFFFF;
+  border: 1.4px solid #E5D5BC;
+  border-radius: 14px;
+  padding: 6px 6px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.22s ease;
+  box-shadow: 0 2px 8px rgba(45, 30, 10, 0.05);
+  user-select: none;
+}
+
+.sa-role-card:hover {
+  transform: translateY(-2px);
+  border-color: #C79432;
+  box-shadow: 0 5px 14px rgba(199, 148, 50, 0.16);
+}
+
+/* Selected state matching Image 1: Green border, Pale-green tint, Green checkmark */
+.sa-role-card.selected {
+  border-color: #08732C;
+  border-width: 1.8px;
+  background: #F4FAF5;
+  box-shadow: 0 4px 14px rgba(8, 115, 44, 0.14);
+}
+
+/* Top-Right Badge: Circle Checkmark vs Gold Ring */
+.sa-role-card-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.sa-role-card.selected .sa-role-card-badge {
+  background: #08732C;
+  color: #FFFFFF;
+}
+
+.sa-role-card:not(.selected) .sa-role-card-badge {
+  background: transparent;
+  border: 1.4px solid #C79432;
+}
+
+/* Card Image Area with Soft Bottom Fade - Perfectly Proportioned */
+.sa-role-card-img-wrap {
+  position: relative;
+  width: 100%;
+  height: min(13vh, 92px);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  background: #FAF8F5;
+}
+
+.sa-role-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.sa-role-card.customer-card .sa-role-card-img {
+  object-position: 25% 15%;
+}
+
+.sa-role-card.dharma-kartha-card .sa-role-card-img {
+  object-position: center 50%;
+}
+
+/* Soft gradient overlay blending photo bottom into card background */
+.sa-role-card-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.45) 80%, #FFFFFF 100%);
+  pointer-events: none;
+}
+
+.sa-role-card.selected .sa-role-card-img-overlay {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(244, 250, 245, 0.45) 80%, #F4FAF5 100%);
+}
+
+/* Middle Icon */
+.sa-role-card-icon {
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+}
+
+.sa-role-card-icon svg {
+  color: #06452E;
+  width: 18px;
+  height: 18px;
+}
+
+.sa-temple-icon-img {
+  width: auto;
+  height: 19px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Headings */
+.sa-role-card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #06452E;
+  margin: 0 0 1px 0;
+  line-height: 1.15;
+}
+
+.sa-role-card-subtitle {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #0E382C;
+  margin: 0 0 1px 0;
+  display: block;
+}
+
+.sa-role-card-desc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 9.5px;
+  font-weight: 400;
+  color: #555555;
+  margin: 0;
+  line-height: 1.25;
+  max-width: 190px;
+}
+
+/* 4. LARGE PILL CONTINUE BUTTON */
+.sa-role-continue-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: min(100%, 290px);
+  height: 38px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #08732c 0%, #004a28 100%);
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 74, 40, 0.22);
+  transition: all 0.22s ease;
+  text-decoration: none;
+}
+
+.sa-role-continue-btn:hover {
+  background: linear-gradient(135deg, #0a8a35 0%, #005a31 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 74, 40, 0.3);
+}
+
+.sa-role-continue-btn:active {
+  transform: translateY(1px);
+}
+
+.sa-role-continue-btn:hover {
+  background: linear-gradient(135deg, #0a8a35 0%, #005a31 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 74, 40, 0.3);
+}
+
+.sa-role-continue-btn:active {
+  transform: translateY(1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .role-fullscreen-page {
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+  }
+  body:has(.role-fullscreen-page),
+  html:has(.role-fullscreen-page) {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+  .sa-role-page {
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    padding: 20px 16px 40px;
+  }
+  .sa-role-panel {
+    padding: 26px 20px 30px;
+    border-radius: 36px;
+    height: auto !important;
+    max-height: none !important;
+  }
+  .sa-role-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .sa-role-card-img-wrap {
+    height: 160px;
+  }
+  .sa-role-continue-btn {
+    width: 100%;
+    height: 52px;
+    font-size: 17px;
+  }
+}

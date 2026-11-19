@@ -1,0 +1,542 @@
+/* =========================================================
+   SARANAM AYYAPPA — NOTIFICATIONS PAGE
+   Exact Approved Design matching Reference Image
+   ========================================================= */
+
+.sa-notifications-page {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #FFF7E8;
+  background-image: url("/images/pooja/pooja-vidhanam-background.png");
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 44px 0 120px;
+  overflow-x: hidden;
+}
+
+.sa-notifications-container {
+  width: min(calc(100% - 56px), 1220px);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* =========================================================
+   1. PAGE HEADING
+   ========================================================= */
+.sa-notif-header {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 10px;
+}
+
+.sa-notif-eyebrow-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.sa-notif-eyebrow-diamond {
+  color: #cda24e;
+  font-size: 11px;
+}
+
+.sa-notif-eyebrow {
+  font-family: var(--body-font);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #8c4e0f;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.sa-notif-title {
+  font-family: var(--heading-font);
+  font-size: clamp(40px, 4.6vw, 64px);
+  font-weight: 800;
+  color: #063d2b;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  margin: 0 0 8px;
+}
+
+.sa-notif-subtitle {
+  font-family: var(--body-font);
+  font-size: clamp(14.5px, 1.3vw, 18px);
+  line-height: 1.5;
+  color: #40584c;
+  margin: 0 auto 12px;
+  max-width: 680px;
+}
+
+.sa-notif-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 150px;
+  margin: 0 auto;
+}
+
+.sa-notif-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #cda24e, transparent);
+}
+
+.sa-notif-divider-lotus {
+  color: #cda24e;
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* =========================================================
+   2. TOOLBAR (Unread count, Filters, Search, Mark all as read)
+   ========================================================= */
+.sa-notif-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.sa-notif-toolbar-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Unread count badge */
+.sa-notif-unread-count-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #fbf7ee;
+  border: 1.5px solid #d4ae62;
+  color: #063d2b;
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(212, 174, 98, 0.15);
+  white-space: nowrap;
+}
+
+.sa-notif-toolbar-sep {
+  width: 1px;
+  height: 26px;
+  background: rgba(212, 174, 98, 0.45);
+}
+
+/* Filter pills */
+.sa-notif-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sa-notif-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fbf7ee;
+  border: 1.5px solid rgba(212, 174, 98, 0.6);
+  color: #214336;
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.sa-notif-filter-pill:hover {
+  background: #f3e9d2;
+  border-color: #d4ae62;
+}
+
+.sa-notif-filter-pill.active {
+  background: linear-gradient(135deg, #093c25 0%, #032111 100%);
+  border-color: #d4ae62;
+  color: #fff3d6;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(11, 69, 40, 0.25);
+}
+
+.sa-notif-filter-unread-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #d4ae62;
+  margin-left: 2px;
+}
+
+.sa-notif-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Search Box */
+.sa-notif-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fbf7ee;
+  border: 1.5px solid rgba(212, 174, 98, 0.65);
+  border-radius: 999px;
+  padding: 0 16px;
+  height: 42px;
+  width: 230px;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.sa-notif-search-box:focus-within {
+  border-color: #d4ae62;
+  width: 260px;
+  box-shadow: 0 0 0 3px rgba(212, 174, 98, 0.25);
+}
+
+.sa-notif-search-icon {
+  color: #0b4528;
+  flex-shrink: 0;
+}
+
+.sa-notif-search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: var(--body-font);
+  font-size: 13px;
+  color: #063d2b;
+  width: 100%;
+}
+
+.sa-notif-search-box input::placeholder {
+  color: #7b948c;
+}
+
+.sa-notif-search-clear {
+  border: none;
+  background: transparent;
+  color: #8c7b64;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mark All as Read button */
+.sa-notif-mark-read-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #093c25 0%, #032111 100%);
+  border: 1.5px solid #d4ae62;
+  color: #fff3d6;
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(11, 69, 40, 0.28);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+  white-space: nowrap;
+}
+
+.sa-notif-mark-read-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(11, 69, 40, 0.38);
+}
+
+.sa-notif-mark-read-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* =========================================================
+   3. NOTIFICATION CARDS LIST
+   ========================================================= */
+.sa-notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sa-notif-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 26px;
+  min-height: 104px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(212, 174, 98, 0.5);
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(11, 69, 40, 0.05), 0 1px 4px rgba(0, 0, 0, 0.03);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  cursor: pointer;
+}
+
+.sa-notif-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(11, 69, 40, 0.12), 0 2px 8px rgba(212, 174, 98, 0.2);
+  border-color: #d4ae62;
+}
+
+/* UNREAD CARD STYLING (Soft mint/cream gradient) */
+.sa-notif-card.unread {
+  background: linear-gradient(135deg, #eef7f2 0%, #e1f1e7 100%);
+  border-color: #d4ae62;
+}
+
+/* READ CARD STYLING (Soft cream/ivory) */
+.sa-notif-card.read {
+  background: linear-gradient(135deg, #fcf9f2 0%, #f6efe2 100%);
+  border-color: rgba(212, 174, 98, 0.4);
+}
+
+.sa-notif-card-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+/* Left Icon Medallion */
+.sa-notif-medallion {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.sa-notif-card.unread .sa-notif-medallion {
+  background: linear-gradient(135deg, #093c25 0%, #032111 100%);
+  border: 1.5px solid #d4ae62;
+  color: #ffd88a;
+  box-shadow: 0 4px 10px rgba(11, 69, 40, 0.25);
+}
+
+.sa-notif-card.read .sa-notif-medallion {
+  background: #fbf7ee;
+  border: 1.5px solid rgba(212, 174, 98, 0.6);
+  color: #8c4e0f;
+}
+
+.sa-notif-card:hover .sa-notif-medallion {
+  transform: scale(1.05);
+}
+
+/* Card Text Info */
+.sa-notif-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sa-notif-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sa-notif-unread-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d4ae62;
+  box-shadow: 0 0 6px rgba(212, 174, 98, 0.6);
+  flex-shrink: 0;
+}
+
+.sa-notif-card-title {
+  font-family: var(--heading-font);
+  font-size: clamp(16px, 1.4vw, 19px);
+  font-weight: 700;
+  color: #063d2b;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.sa-notif-card-desc {
+  font-family: var(--body-font);
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #486356;
+  margin: 0;
+}
+
+/* Right side: Timestamp & Chevron */
+.sa-notif-card-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.sa-notif-card-time {
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 600;
+  color: #65847c;
+  white-space: nowrap;
+}
+
+.sa-notif-card-arrow {
+  color: #cda24e;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.sa-notif-card:hover .sa-notif-card-arrow {
+  transform: translateX(4px);
+  color: #093c25;
+}
+
+/* =========================================================
+   4. EMPTY STATE
+   ========================================================= */
+.sa-notif-empty-state {
+  text-align: center;
+  padding: 60px 24px;
+  background: #fbf7ee;
+  border: 1.5px dashed #d4ae62;
+  border-radius: 20px;
+  margin-top: 10px;
+}
+
+.sa-notif-empty-icon {
+  color: #cda24e;
+  margin-bottom: 12px;
+}
+
+.sa-notif-empty-state h3 {
+  font-family: var(--heading-font);
+  font-size: 20px;
+  font-weight: 700;
+  color: #063d2b;
+  margin: 0 0 6px;
+}
+
+.sa-notif-empty-state p {
+  font-family: var(--body-font);
+  font-size: 14px;
+  color: #65847c;
+  margin: 0 0 16px;
+}
+
+.sa-notif-empty-btn {
+  background: linear-gradient(135deg, #093c25 0%, #032111 100%);
+  border: 1.5px solid #d4ae62;
+  color: #fff3d6;
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   5. RESPONSIVE QUERIES
+   ========================================================= */
+@media (max-width: 992px) {
+  .sa-notif-page {
+    background-size: cover;
+    padding: 30px 0 90px;
+  }
+  .sa-notif-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .sa-notif-toolbar-left,
+  .sa-notif-toolbar-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .sa-notif-search-box {
+    flex: 1;
+    width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .sa-notif-container {
+    width: calc(100% - 32px);
+  }
+  .sa-notif-toolbar-left {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .sa-notif-toolbar-sep {
+    display: none;
+  }
+  .sa-notif-filters {
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 4px;
+  }
+  .sa-notif-toolbar-right {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sa-notif-mark-read-btn {
+    justify-content: center;
+  }
+  .sa-notif-card {
+    padding: 16px 18px;
+    gap: 12px;
+  }
+  .sa-notif-card-left {
+    gap: 12px;
+  }
+  .sa-notif-medallion {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sa-notif-container {
+    width: calc(100% - 20px);
+  }
+  .sa-notif-title {
+    font-size: 26px;
+  }
+  .sa-notif-card {
+    padding: 14px 12px;
+  }
+  .sa-notif-card-title {
+    font-size: 14px;
+  }
+  .sa-notif-card-desc {
+    font-size: 12px;
+  }
+}
+

@@ -1,0 +1,1046 @@
+/* =========================================================
+   SARANAM AYYAPPA — DHARMA KARTHAS MANAGEMENT PORTAL
+   Exact reproduction of approved screenshot layout & design
+   ========================================================= */
+
+.sa-dk-portal-wrap {
+  background-color: #faf8f4;
+  min-height: calc(100vh - 160px);
+  padding: 32px 0 65px;
+  font-family: var(--body-font, 'Poppins', sans-serif);
+  color: #1e382b;
+}
+
+.sa-dk-layout {
+  display: grid;
+  grid-template-columns: 290px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* =========================================================
+   LEFT SIDEBAR: PROFILE PANEL (Sticky / Fixed Position)
+   ========================================================= */
+.sa-dk-sidebar-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #dce8e0;
+  box-shadow: 0 6px 22px rgba(11, 61, 43, 0.06);
+  padding: 20px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 90px;
+  align-self: start;
+  z-index: 10;
+  overflow: visible;
+}
+
+.sa-dk-profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #edf4ef;
+}
+
+.sa-dk-avatar-ring {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  padding: 2.5px;
+  background: linear-gradient(135deg, #d4a753 0%, #f7d58b 50%, #b27d38 100%);
+  box-shadow: 0 4px 12px rgba(212, 167, 83, 0.3);
+  margin-bottom: 10px;
+}
+
+.sa-dk-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  background: #ffffff;
+}
+
+.sa-dk-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff8eb;
+  color: #9b6c1e;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid #f2ce8a;
+  margin-bottom: 12px;
+}
+
+.sa-dk-role-badge svg {
+  color: #caa049;
+}
+
+.sa-dk-user-name {
+  font-family: var(--heading-font, 'Cinzel', serif);
+  font-size: 25px;
+  font-weight: 800;
+  color: #0b3d2b;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.01em;
+}
+
+.sa-dk-user-location {
+  font-size: 13px;
+  color: #637a70;
+  margin: 0;
+}
+
+/* Sidebar Menu Navigation List */
+.sa-dk-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 10px;
+}
+
+.sa-dk-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9.5px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e382b;
+  text-decoration: none;
+  border-bottom: 1px solid #edf4ef;
+  transition: all 0.18s ease;
+}
+
+.sa-dk-menu-item:last-child {
+  border-bottom: none;
+}
+
+.sa-dk-menu-item-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sa-dk-menu-item-left svg {
+  color: #2e5748;
+  transition: color 0.18s ease;
+}
+
+.sa-dk-menu-arrow {
+  color: #9cb5a9;
+  transition: transform 0.18s ease;
+}
+
+.sa-dk-menu-item:hover {
+  background: #f4faf6;
+  color: #0b3d2b;
+}
+
+.sa-dk-menu-item:hover .sa-dk-menu-arrow {
+  transform: translateX(2px);
+  color: #0b3d2b;
+}
+
+.sa-dk-menu-item.active {
+  background: #e7f3ec;
+  color: #0b3d2b;
+  font-weight: 700;
+  border: 1px solid #cbe3d7;
+}
+
+.sa-dk-menu-item.active .sa-dk-menu-item-left svg {
+  color: #0b3d2b;
+}
+
+/* Decorative Footer Line Art */
+.sa-dk-sidebar-footer-art {
+  margin-top: 20px;
+  padding-top: 14px;
+  display: flex;
+  justify-content: center;
+  opacity: 0.8;
+}
+
+.sa-dk-gopuram-line-svg {
+  width: 140px;
+  height: 40px;
+}
+
+/* =========================================================
+   RIGHT COLUMN: MAIN MANAGEMENT PANEL
+   ========================================================= */
+.sa-dk-main-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Heading Row */
+.sa-dk-heading-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 4px;
+}
+
+.sa-dk-title-with-lotus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sa-dk-lotus-icon {
+  font-size: 24px;
+  filter: drop-shadow(0 2px 4px rgba(202, 160, 73, 0.4));
+}
+
+.sa-dk-title {
+  font-family: var(--heading-font, 'Cinzel', serif);
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 800;
+  color: #0b3d2b;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.sa-dk-subtitle {
+  font-size: 13.5px;
+  color: #556b62;
+  margin: 6px 0 0 0;
+}
+
+.sa-dk-header-art {
+  display: flex;
+  align-items: center;
+}
+
+.sa-dk-banner-gopuram-svg {
+  width: 120px;
+  height: 52px;
+}
+
+/* =========================================================
+   THREE SUMMARY KPI CARDS
+   ========================================================= */
+.sa-dk-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.sa-dk-kpi-card {
+  background: #ffffff;
+  border: 1px solid #dce8e0;
+  border-radius: 16px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 14px rgba(11, 61, 43, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sa-dk-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(11, 61, 43, 0.1);
+  border-color: #caa049;
+}
+
+.sa-dk-kpi-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #f1f8f3;
+  color: #caa049;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 1px solid #dceade;
+}
+
+.sa-dk-kpi-icon-wrap.clock {
+  color: #d97706;
+  background: #fef3c7;
+  border-color: #fde68a;
+}
+
+.sa-dk-kpi-icon-wrap.calendar {
+  color: #0b3d2b;
+  background: #e7f3ec;
+  border-color: #cbe3d7;
+}
+
+.sa-dk-kpi-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.sa-dk-kpi-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a6659;
+  margin-bottom: 2px;
+}
+
+.sa-dk-kpi-value {
+  font-family: var(--heading-font, 'Cinzel', serif);
+  font-size: 30px;
+  font-weight: 800;
+  color: #0b3d2b;
+  line-height: 1.1;
+}
+
+/* =========================================================
+   MANAGED TEMPLES SECTION (TWO-COLUMN CARDS)
+   ========================================================= */
+.sa-dk-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.sa-dk-section-title {
+  font-family: var(--heading-font, 'Cinzel', serif);
+  font-size: 20px;
+  font-weight: 800;
+  color: #0b3d2b;
+  margin: 0;
+}
+
+.sa-dk-btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #0b3d2b;
+  color: #ffffff;
+  padding: 9px 18px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(11, 61, 43, 0.22);
+  transition: all 0.2s ease;
+}
+
+.sa-dk-btn-add:hover {
+  background: #145940;
+  transform: translateY(-1px);
+}
+
+.sa-dk-temples-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.sa-dk-temple-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #dce8e0;
+  box-shadow: 0 4px 16px rgba(11, 61, 43, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.sa-dk-temple-card:hover {
+  transform: translateY(-3px);
+  border-color: #caa049;
+  box-shadow: 0 10px 24px rgba(11, 61, 43, 0.12);
+}
+
+.sa-dk-temple-img-wrap {
+  width: 100%;
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+  background: #f2eee3;
+}
+
+.sa-dk-temple-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.sa-dk-temple-body {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.sa-dk-temple-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.sa-dk-temple-loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #3b6051;
+}
+
+.sa-dk-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #eaf6ee;
+  color: #15803d;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 12px;
+}
+
+.sa-dk-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.sa-dk-temple-name {
+  font-family: var(--heading-font, 'Cinzel', serif);
+  font-size: 17px;
+  font-weight: 800;
+  color: #0b3d2b;
+  margin: 0 0 6px 0;
+  line-height: 1.25;
+}
+
+.sa-dk-temple-desc {
+  font-size: 12.5px;
+  color: #556b62;
+  margin: 0 0 18px 0;
+  line-height: 1.45;
+  flex: 1;
+}
+
+/* Actions Row: View / Update / Delete */
+.sa-dk-temple-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  padding-top: 14px;
+  border-top: 1px solid #edf4ef;
+}
+
+.sa-dk-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  border: 1px solid transparent;
+}
+
+.sa-dk-action-btn.view {
+  background: #fdf8eb;
+  color: #8b181b;
+  border-color: #d4a753;
+}
+
+.sa-dk-action-btn.view:hover {
+  background: #fbf0d3;
+}
+
+.sa-dk-action-btn.update {
+  background: #0b3d2b;
+  color: #ffffff;
+}
+
+.sa-dk-action-btn.update:hover {
+  background: #145940;
+}
+
+.sa-dk-action-btn.delete {
+  background: #fff1f2;
+  color: #be123c;
+  border-color: #fecdd3;
+}
+
+.sa-dk-action-btn.delete:hover {
+  background: #ffe4e6;
+}
+
+/* =========================================================
+   QUICK MANAGEMENT SECTION
+   ========================================================= */
+.sa-dk-quick-mgmt-wrap {
+  margin-top: 8px;
+}
+
+.sa-dk-quick-mgmt-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.sa-dk-quick-mgmt-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sa-dk-quick-star {
+  color: #0b3d2b;
+}
+
+.sa-dk-quick-mgmt-title-group h3 {
+  font-family: var(--heading-font, 'Cinzel', serif);
+  font-size: 18px;
+  font-weight: 800;
+  color: #0b3d2b;
+  margin: 0;
+}
+
+.sa-dk-temple-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #2e5748;
+}
+
+.sa-dk-temple-select {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #bad2c3;
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0b3d2b;
+  outline: none;
+}
+
+.sa-dk-quick-rows-card {
+  background: #ffffff;
+  border: 1px solid #dce8e0;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(11, 61, 43, 0.05);
+  overflow: hidden;
+}
+
+.sa-dk-quick-row {
+  display: grid;
+  grid-template-columns: 44px 1fr 90px;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 22px;
+  border-bottom: 1px solid #edf4ef;
+  transition: background 0.15s ease;
+}
+
+.sa-dk-quick-row:last-child {
+  border-bottom: none;
+}
+
+.sa-dk-quick-row:hover {
+  background: #f7faf8;
+}
+
+.sa-dk-quick-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #fdf8eb;
+  color: #caa049;
+  display: grid;
+  place-items: center;
+  border: 1px solid #f2e2be;
+}
+
+.sa-dk-quick-info h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0b3d2b;
+  margin: 0 0 3px 0;
+}
+
+.sa-dk-quick-info p {
+  font-size: 12.5px;
+  color: #556b62;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.sa-dk-quick-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 16px;
+  background: #fdf8eb;
+  color: #8b181b;
+  border: 1px solid #d4a753;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.sa-dk-quick-edit-btn:hover {
+  background: #0b3d2b;
+  color: #ffffff;
+  border-color: #0b3d2b;
+}
+
+/* Empty Card State */
+.sa-dk-empty-card {
+  background: #ffffff;
+  border: 1.5px dashed #bad2c3;
+  border-radius: 16px;
+  padding: 40px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.sa-dk-empty-card svg {
+  color: #caa049;
+}
+
+.sa-dk-empty-card h3 {
+  font-size: 18px;
+  color: #0b3d2b;
+  margin: 4px 0 0 0;
+}
+
+.sa-dk-empty-card p {
+  font-size: 13px;
+  color: #556b62;
+  max-width: 440px;
+  margin-bottom: 8px;
+}
+
+/* Modal Styling */
+.sa-dk-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 61, 43, 0.45);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.sa-dk-modal-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid #dce8e0;
+  text-align: center;
+}
+
+.sa-dk-modal-icon-wrap {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #fff1f2;
+  color: #be123c;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 16px;
+}
+
+.sa-dk-modal-card h3 {
+  font-size: 20px;
+  color: #0b3d2b;
+  margin: 0 0 8px 0;
+}
+
+.sa-dk-modal-card p {
+  font-size: 13.5px;
+  color: #385044;
+  margin: 0 0 6px 0;
+}
+
+.sa-dk-modal-subnote {
+  font-size: 11.5px;
+  color: #71837a;
+  margin-bottom: 16px !important;
+}
+
+.sa-dk-modal-reason-label {
+  display: block;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2e5748;
+  margin-bottom: 20px;
+}
+
+.sa-dk-modal-reason-label textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #c8ded1;
+  font-size: 12.5px;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.sa-dk-modal-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN (360px - 1024px)
+   ========================================================= */
+@media (max-width: 1024px) {
+  .sa-dk-layout {
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
+  }
+  .sa-dk-kpi-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .sa-dk-layout {
+    grid-template-columns: 1fr;
+  }
+  .sa-dk-kpi-row {
+    grid-template-columns: 1fr;
+  }
+  .sa-dk-temples-grid {
+    grid-template-columns: 1fr;
+  }
+  .sa-dk-quick-row {
+    grid-template-columns: 40px 1fr auto;
+  }
+}
+
+/* =========================================================
+   DHARMA KARTHA PORTAL STANDALONE SUB-PAGES
+   Standard Container, Layout & Alignment (Industry-level)
+   ========================================================= */
+
+.sa-dk-page {
+  background-color: #faf8f4;
+  min-height: calc(100vh - 160px);
+  padding: 36px 0 72px;
+  font-family: var(--body-font, 'Poppins', sans-serif);
+  color: #1e382b;
+  box-sizing: border-box;
+}
+
+.sa-dk-container {
+  width: min(calc(100% - 64px), 1250px);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .sa-dk-page {
+    padding: 24px 0 48px;
+  }
+  .sa-dk-container {
+    width: calc(100% - 32px);
+  }
+}
+
+/* Breadcrumb / Back Navigation Pill */
+.sa-dk-back-wrap {
+  margin-bottom: 22px;
+}
+
+.sa-dk-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #0b3d2b;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13.5px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #dce8e0;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(11, 61, 43, 0.04);
+}
+
+.sa-dk-back-btn:hover {
+  background: #e7f3ec;
+  border-color: #0b3d2b;
+  color: #0b3d2b;
+  transform: translateX(-3px);
+  box-shadow: 0 4px 12px rgba(11, 61, 43, 0.08);
+}
+
+.sa-dk-back-btn svg {
+  color: #caa049;
+  transition: transform 0.2s ease;
+}
+
+.sa-dk-back-btn:hover svg {
+  transform: translateX(-2px);
+}
+
+/* Toolbar Card */
+.sa-dk-toolbar-box {
+  background: #ffffff;
+  padding: 16px 22px;
+  border-radius: 14px;
+  border: 1px solid #dce8e0;
+  box-shadow: 0 2px 10px rgba(11, 61, 43, 0.03);
+  margin: 20px 0 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.sa-dk-select-control {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #c8ded1;
+  background: #ffffff;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: #0b3d2b;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.sa-dk-select-control:focus {
+  border-color: #0b3d2b;
+}
+
+/* Filter Pill Controls */
+.sa-dk-filter-pill {
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #dce8e0;
+  background: #ffffff;
+  color: #4a5c54;
+}
+
+.sa-dk-filter-pill:hover {
+  background: #f4faf6;
+  color: #0b3d2b;
+}
+
+.sa-dk-filter-pill.active {
+  background: #0b3d2b;
+  color: #ffffff;
+  border-color: #0b3d2b;
+}
+
+/* Responsive Cards Grid for Festivals and Events */
+.sa-dk-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+  margin-top: 16px;
+}
+
+@media (max-width: 640px) {
+  .sa-dk-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Festival & Event Cards */
+.sa-dk-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #dce8e0;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(11, 61, 43, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  position: relative;
+}
+
+.sa-dk-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(11, 61, 43, 0.1);
+  border-color: #caa049;
+}
+
+.sa-dk-card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sa-dk-badge-category {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #b8860b;
+  background: #fff8eb;
+  border: 1px solid #fae8c8;
+  padding: 3px 9px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.sa-dk-badge-status {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.sa-dk-badge-status.published {
+  background: #e7f3ec;
+  color: #0b3d2b;
+  border: 1px solid #c8ded1;
+}
+
+.sa-dk-badge-status.pending {
+  background: #fef8ea;
+  color: #b8860b;
+  border: 1px solid #fae8c8;
+}
+
+.sa-dk-card-title {
+  color: #0b3d2b;
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  line-height: 1.35;
+  font-family: var(--heading-font, 'Cinzel', serif);
+}
+
+.sa-dk-card-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #556b62;
+  margin-bottom: 12px;
+}
+
+.sa-dk-card-meta-pill svg {
+  color: #caa049;
+}
+
+.sa-dk-card-desc {
+  color: #4a5c54;
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+
+.sa-dk-card-highlight {
+  font-size: 12.5px;
+  color: #0b3d2b;
+  background: #f4faf6;
+  border: 1px solid #e1efe7;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Empty State Card */
+.sa-dk-empty-card {
+  background: #ffffff;
+  border: 1px solid #dce8e0;
+  border-radius: 16px;
+  padding: 56px 24px;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(11, 61, 43, 0.04);
+  margin: 20px 0;
+}
+
+.sa-dk-empty-card h3 {
+  font-family: var(--heading-font, 'Cinzel', serif);
+  color: #0b3d2b;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 12px 0 8px;
+}
+
+.sa-dk-empty-card p {
+  color: #556b62;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 auto 24px;
+  max-width: 480px;
+}
+
+/* Gallery Media Grid & Cards */
+.sa-dk-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.sa-dk-gallery-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #dce8e0;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(11, 61, 43, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.sa-dk-gallery-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(11, 61, 43, 0.1);
+  border-color: #caa049;
+}
+

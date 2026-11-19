@@ -1,0 +1,307 @@
+/* =========================================================
+   SARANAM AYYAPPA — DEVOTIONAL CLEAN LIST & FLOWER STRUCTURE
+   Replaces boxy card style with elegant devotional rows,
+   gold-halo deity medallion, lotus flowers, and sacred timers
+   ========================================================= */
+
+/* --- DEVOTIONAL SERVICES (/categories) CLEAN LIST STRUCTURE --- */
+.sa-devotional-clean-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 1040px;
+  margin: 0 auto;
+  background: rgba(255, 253, 248, 0.72);
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  border: 1px solid rgba(230, 210, 170, 0.6);
+  padding: 8px 16px;
+  box-shadow: 0 4px 20px rgba(183, 129, 3, 0.05);
+}
+
+.sa-devotional-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 14px;
+  text-decoration: none;
+  background: transparent;
+  border-bottom: 1px solid rgba(232, 218, 192, 0.45);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.sa-devotional-list-row:last-child {
+  border-bottom: none;
+}
+
+.sa-devotional-list-row:hover {
+  background: rgba(255, 248, 235, 0.85);
+  padding-left: 20px;
+}
+
+/* Left Deity Emblem / God Avatar with Golden Halo */
+.sa-row-deity-avatar {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFF8E7 0%, #F5E5C0 100%);
+  border: 1.8px solid #D4AF37;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.sa-row-deity-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.sa-devotional-list-row:hover .sa-row-deity-img {
+  transform: scale(1.1);
+}
+
+/* Row Center Information */
+.sa-row-content {
+  flex: 1;
+  min-width: 0;
+  margin: 0 18px;
+}
+
+.sa-row-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.sa-row-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1A3826;
+  margin: 0;
+}
+
+.sa-row-flower-icon {
+  font-size: 15px;
+  color: #E65100;
+  line-height: 1;
+  display: inline-block;
+}
+
+.sa-row-sub {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: #6D5B4F;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Row Right: Timer, Sacred Flower & Arrow */
+.sa-row-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.sa-row-timer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(254, 247, 232, 0.95);
+  border: 1px solid #EAD8B5;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8B181B;
+  box-shadow: 0 1px 4px rgba(139, 24, 27, 0.08);
+}
+
+.sa-row-timer-pill svg {
+  color: #B71C1C;
+}
+
+.sa-row-floral-separator {
+  color: #D4AF37;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.sa-row-arrow-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #FFFDF8;
+  border: 1.2px solid #E6D2B5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8B181B;
+  transition: all 0.2s ease;
+}
+
+.sa-devotional-list-row:hover .sa-row-arrow-circle {
+  background: #8B181B;
+  border-color: #8B181B;
+  color: #FFFFFF;
+  transform: translateX(4px);
+}
+
+/* --- POOJA & SUBCATEGORIES CLEAN LIST STRUCTURE --- */
+.sa-pooja-clean-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 18px;
+  border: 1px solid rgba(220, 195, 150, 0.55);
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(11, 69, 40, 0.06);
+}
+
+.sa-pooja-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  text-decoration: none;
+  background: transparent;
+  border-bottom: 1px solid rgba(235, 222, 198, 0.5);
+  transition: all 0.2s ease;
+}
+
+.sa-pooja-list-item:last-child {
+  border-bottom: none;
+}
+
+.sa-pooja-list-item:hover {
+  background: rgba(255, 249, 238, 0.95);
+  padding-left: 24px;
+}
+
+.sa-pooja-list-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.sa-pooja-god-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #E0B44C;
+  box-shadow: 0 0 10px rgba(224, 180, 76, 0.35);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFDF8;
+}
+
+.sa-pooja-god-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.sa-pooja-list-item:hover .sa-pooja-god-thumb img {
+  transform: scale(1.1);
+}
+
+.sa-pooja-list-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sa-pooja-list-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sa-pooja-list-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0b4528;
+  margin: 0;
+}
+
+.sa-pooja-list-flower {
+  color: #E65100;
+  font-size: 14px;
+}
+
+.sa-pooja-list-desc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: #4b6153;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sa-pooja-list-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+.sa-pooja-list-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(254, 247, 232, 0.95);
+  border: 1px solid #E2CCA2;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8B181B;
+}
+
+@media (max-width: 768px) {
+  .sa-devotional-list-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 12px;
+  }
+  .sa-row-meta-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .sa-row-content {
+    margin: 0 0 0 12px;
+  }
+  .sa-pooja-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 12px;
+  }
+  .sa-pooja-list-meta {
+    margin-left: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+}

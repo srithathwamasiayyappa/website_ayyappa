@@ -1,0 +1,99 @@
+.profile-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.profile-role-badge.customer {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border: 1px solid #C8E6C9;
+}
+
+.profile-role-badge.dharma-kartha {
+  background: #FFF8E1;
+  color: #B78103;
+  border: 1px solid #FFE082;
+}
+
+.trust-overview-card {
+  background: linear-gradient(135deg, #FFFDF8 0%, #FFF8EB 100%);
+  border: 1.5px solid #F0DFB7;
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(183, 129, 3, 0.08);
+}
+
+.trust-overview-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.trust-badge-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #B71C1C;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.trust-overview-title h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: #2C1810;
+  margin: 0 0 2px 0;
+}
+
+.trust-overview-title p {
+  font-size: 13px;
+  color: #8A6D3B;
+  margin: 0;
+}
+
+.trust-quick-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.trust-stat-box {
+  background: #FFFFFF;
+  border: 1px solid #EEDBBE;
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.trust-stat-box b {
+  display: block;
+  font-size: 18px;
+  color: #8B181B;
+}
+
+.trust-stat-box span {
+  font-size: 11.5px;
+  color: #666666;
+}
+
+.dharma-kartha-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}

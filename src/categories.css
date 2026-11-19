@@ -1,0 +1,530 @@
+/* =========================================================
+   SARANAM AYYAPPA — DEVOTIONAL CATEGORIES PAGE
+   Exact Pixel-Accurate Redesign matching Approved Reference
+========================================================= */
+
+.sa-categories-page {
+  position: relative;
+  min-height: calc(100vh - 70px);
+  background-color: #faf6ec;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, #fbf8f0 0%, #f7f2e4 55%, #f2eae0 100%),
+    radial-gradient(circle at 10% 12%, rgba(212, 174, 98, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 90% 12%, rgba(212, 174, 98, 0.12) 0%, transparent 45%);
+  padding: 40px 0 100px;
+  overflow: hidden;
+}
+
+/* Devotional Watermark Background with Soft Opacity */
+.sa-categories-bg-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(850px, 90vw);
+  max-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.12; /* Refined elegant devotional opacity */
+  mix-blend-mode: multiply;
+  transition: opacity 0.3s ease;
+}
+
+.sa-categories-bg-watermark-img {
+  width: 100%;
+  height: auto;
+  max-height: 85vh;
+  object-fit: contain;
+  filter: contrast(1.1) brightness(0.95);
+}
+
+/* 1. Corner Temple Bells & Arches matching Reference */
+.sa-categories-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: 200px;
+  background-image: url('/images/categories/cat-decor-left-trans.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top left;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.95;
+}
+
+.sa-categories-page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 140px;
+  height: 200px;
+  background-image: url('/images/categories/cat-decor-right-trans.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top right;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.95;
+}
+
+/* 2. Main Page Container */
+.sa-categories-container {
+  position: relative;
+  z-index: 2;
+  width: min(calc(100% - 64px), 1400px);
+  margin: 0 auto;
+}
+
+/* 3. Header Group */
+.sa-cat-header {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto 24px;
+}
+
+.sa-cat-lotus-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.sa-cat-lotus-img {
+  width: 32px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(212, 174, 98, 0.4));
+}
+
+.sa-cat-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  color: #8c4e0f;
+  margin-bottom: 8px;
+}
+
+.sa-cat-flourish {
+  color: #cda24e;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.sa-cat-title {
+  font-family: var(--heading-font);
+  font-size: clamp(38px, 4.2vw, 56px);
+  font-weight: 800;
+  color: #123d30;
+  line-height: 1.12;
+  margin: 0 0 10px;
+  letter-spacing: -0.5px;
+}
+
+.sa-cat-subtitle {
+  font-family: var(--body-font);
+  font-size: clamp(14px, 1.25vw, 17px);
+  line-height: 1.55;
+  color: #435b51;
+  margin: 0 auto;
+  max-width: 680px;
+}
+
+.sa-cat-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 140px;
+  margin: 12px auto 0;
+}
+
+.sa-cat-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(205, 162, 78, 0.8), transparent);
+}
+
+.sa-cat-divider .sa-cat-divider-line:first-child {
+  background: linear-gradient(90deg, transparent, rgba(205, 162, 78, 0.8));
+}
+
+.sa-cat-divider-diamond {
+  color: #cda24e;
+  font-size: 10px;
+}
+
+/* 4. Large Centered Search Field */
+.sa-cat-search-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 24px auto 34px;
+}
+
+.sa-cat-search-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  border: 1.5px solid #dfcba1;
+  border-radius: 999px;
+  padding: 0 22px;
+  height: 52px;
+  width: min(860px, 100%);
+  box-shadow: 0 3px 12px rgba(18, 61, 48, 0.05);
+  transition: all 0.22s ease;
+}
+
+.sa-cat-search-box:focus-within {
+  border-color: #b8860b;
+  box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.16);
+}
+
+.sa-cat-search-icon {
+  color: #235443;
+  flex-shrink: 0;
+}
+
+.sa-cat-search-box input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: var(--body-font);
+  font-size: 14px;
+  color: #1a2f26;
+  outline: none;
+}
+
+.sa-cat-search-box input::placeholder {
+  color: #8c9791;
+}
+
+.sa-cat-search-clear {
+  border: none;
+  background: transparent;
+  color: #8c9490;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: color 0.15s ease;
+}
+
+.sa-cat-search-clear:hover {
+  color: #a46014;
+}
+
+/* 5. Category Grid (3 columns, 4 rows: 3-3-3-2) */
+.sa-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 20px;
+}
+
+/* Individual Category Card */
+.sa-cat-card {
+  background: #ffffff;
+  border: 1.2px solid #edd9b2;
+  border-radius: 22px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  box-shadow: 0 2px 10px rgba(18, 61, 48, 0.04);
+  transition: all 0.22s ease;
+  position: relative;
+  min-height: 104px;
+}
+
+.sa-cat-card:hover {
+  transform: translateY(-3px);
+  border-color: #d4ae60;
+  box-shadow: 0 8px 22px rgba(180, 130, 40, 0.16);
+  background: #fffdf8;
+}
+
+/* Row 4 centering: Last 2 cards (Donations & Food Donation) centered horizontally */
+.sa-cat-card:nth-child(10) {
+  grid-column: 1 / 2;
+}
+
+@media (min-width: 992px) {
+  /* Offset 10th card by half column */
+  .sa-cat-card:nth-child(10) {
+    grid-column: 1 / 2;
+    transform: translateX(50%);
+  }
+  .sa-cat-card:nth-child(10):hover {
+    transform: translate(50%, -3px);
+  }
+  .sa-cat-card:nth-child(11) {
+    grid-column: 2 / 3;
+    transform: translateX(50%);
+  }
+  .sa-cat-card:nth-child(11):hover {
+    transform: translate(50%, -3px);
+  }
+}
+
+/* Medallion Icon on Left */
+.sa-cat-card-medallion {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #fbf5e6;
+  border: 1.2px solid #ebd9b5;
+  color: #1a4d3d;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  clip-path: polygon(
+    28% 0%, 72% 0%,
+    100% 28%, 100% 72%,
+    72% 100%, 28% 100%,
+    0% 72%, 0% 28%
+  );
+}
+
+.sa-cat-card:hover .sa-cat-card-medallion {
+  background: #123d30;
+  color: #f7d57f;
+  border-color: #123d30;
+}
+
+/* Card Info: Title and Description */
+.sa-cat-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.sa-cat-card-title {
+  font-family: var(--heading-font);
+  font-size: 16px;
+  font-weight: 800;
+  color: #133a2d;
+  margin: 0 0 3px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sa-cat-card-sub {
+  font-family: var(--body-font);
+  font-size: 12px;
+  color: #5c6861;
+  margin: 0;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Devotional Artwork near Right */
+.sa-cat-card-art-wrap {
+  width: 72px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sa-cat-card-art {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.25s ease;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.1));
+}
+
+.sa-cat-card:hover .sa-cat-card-art {
+  transform: scale(1.06);
+}
+
+/* Arrow Circle on Far Right */
+.sa-cat-card-arrow-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #f7f2e4;
+  border: 1px solid #ebd9b5;
+  color: #274538;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.sa-cat-card:hover .sa-cat-card-arrow-circle {
+  background: #123d30;
+  border-color: #123d30;
+  color: #fdf6e2;
+  transform: translateX(2px);
+}
+
+/* Special Warm-Gold Highlight for Food Donation Today Card */
+.sa-cat-card-food {
+  background: linear-gradient(135deg, #fff7e6 0%, #fcedd0 100%);
+  border-color: #e5bd68;
+  box-shadow: 0 3px 12px rgba(229, 189, 104, 0.22);
+}
+
+.sa-cat-card-food .sa-cat-card-medallion {
+  background: #edd296;
+  border-color: #d8b466;
+  color: #5c3506;
+}
+
+.sa-cat-card-food:hover {
+  background: linear-gradient(135deg, #fff4dc 0%, #fae6be 100%);
+  border-color: #c99933;
+}
+
+/* Empty State */
+.sa-cat-empty-state {
+  padding: 50px 20px;
+  text-align: center;
+  background: #ffffff;
+  border: 1.5px dashed #dfcba1;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #6a746e;
+  margin-top: 20px;
+}
+
+.sa-cat-reset-btn {
+  background: #123d30;
+  border: 1.5px solid #d4ae60;
+  color: #fff6de;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sa-cat-reset-btn:hover {
+  background: #195241;
+  color: #fff;
+}
+
+/* 6. Bottom Scenery Layer */
+.sa-cat-scenery-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  opacity: 0.85;
+}
+
+.sa-cat-scenery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom center;
+}
+
+/* 7. Responsive Breakpoints */
+@media (max-width: 1200px) {
+  .sa-cat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sa-cat-card:nth-child(10) {
+    grid-column: auto;
+    transform: none;
+  }
+  .sa-cat-card:nth-child(10):hover {
+    transform: translateY(-3px);
+  }
+  .sa-cat-card:nth-child(11) {
+    grid-column: 1 / -1;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+    transform: none;
+  }
+  .sa-cat-card:nth-child(11):hover {
+    transform: translateY(-3px);
+  }
+}
+
+@media (max-width: 768px) {
+  .sa-categories-page {
+    padding: 30px 0 60px;
+  }
+  .sa-categories-page::before,
+  .sa-categories-page::after {
+    width: 80px;
+    height: 120px;
+    opacity: 0.7;
+  }
+  .sa-cat-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .sa-cat-card {
+    min-height: 88px;
+    padding: 12px 14px;
+  }
+  .sa-cat-card-art-wrap {
+    width: 55px;
+    height: 48px;
+  }
+  .sa-cat-card:nth-child(11) {
+    max-width: 100%;
+  }
+  .sa-cat-scenery-bottom {
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sa-categories-container {
+    width: calc(100% - 24px);
+  }
+  .sa-cat-title {
+    font-size: 26px;
+  }
+  .sa-cat-subtitle {
+    font-size: 13px;
+  }
+  .sa-categories-page::before,
+  .sa-categories-page::after {
+    display: none;
+  }
+  .sa-cat-card-medallion {
+    width: 38px;
+    height: 38px;
+    margin-right: 10px;
+  }
+  .sa-cat-card-title {
+    font-size: 15px;
+  }
+  .sa-cat-card-sub {
+    font-size: 12px;
+  }
+}
+

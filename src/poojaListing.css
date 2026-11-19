@@ -1,0 +1,666 @@
+/* =========================================================
+   SARANAM AYYAPPA — POOJA VIDHANAM LISTING PAGE STYLES
+   Exact 1:1 reproduction of Reference Image 2 over Image 1
+========================================================= */
+
+.sa-pooja-page {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #faf6ee;
+  background-image: url("/images/pooja/pooja-vidhanam-background.png");
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #1a3826;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 24px;
+}
+
+/* Devotional Watermark Background with Soft Opacity */
+.sa-pooja-bg-watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(850px, 90vw);
+  max-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12; /* Refined elegant devotional opacity */
+  mix-blend-mode: multiply;
+  transition: opacity 0.3s ease;
+}
+
+.sa-pooja-bg-watermark-img {
+  width: 100%;
+  height: auto;
+  max-height: 85vh;
+  object-fit: contain;
+  filter: contrast(1.1) brightness(0.95);
+}
+
+/* Main Content Container matching Image 2 desktop viewport */
+.sa-pooja-page__content {
+  position: relative;
+  z-index: 1;
+  width: min(calc(100% - 90px), 1460px);
+  margin: 0 auto;
+  padding: 16px 20px 24px;
+}
+
+/* Top Breadcrumb */
+.sa-pooja-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #3b5a45;
+  margin-bottom: 4px;
+}
+
+.sa-pooja-breadcrumb a {
+  color: #3b5a45;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.sa-pooja-breadcrumb a:hover {
+  color: #0b4528;
+}
+
+.sa-pooja-breadcrumb span.sep {
+  color: #a48235;
+  font-size: 12px;
+}
+
+.sa-pooja-breadcrumb span.current {
+  color: #0b4528;
+  font-weight: 700;
+}
+
+/* Header Section */
+.sa-pooja-header-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sa-pooja-header-center {
+  text-align: center;
+  max-width: 820px;
+}
+
+.sa-pooja-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.sa-pooja-heading-lotus {
+  width: 48px;
+  height: auto;
+  display: block;
+}
+
+.sa-pooja-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 60px;
+  font-weight: 800;
+  color: #0b4528;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.sa-pooja-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 17.5px;
+  color: #3b5043;
+  margin: 4px 0 14px;
+}
+
+/* Sacred Guides Counter Badge (Top Right) */
+.sa-pooja-sacred-badge-wrap {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.sa-pooja-sacred-badge-img {
+  width: 190px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(11, 69, 40, 0.25));
+}
+
+.sa-pooja-sacred-badge-styled {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #093c25 0%, #032111 100%);
+  border: 1.5px solid #d4ae62;
+  border-radius: 999px;
+  padding: 8px 20px;
+  color: #fff3d6;
+  font-family: var(--body-font);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 18px rgba(3, 33, 17, 0.4), inset 0 0 0 1px rgba(255, 230, 160, 0.25);
+  white-space: nowrap;
+}
+
+.sa-pooja-badge-lotus {
+  color: #ffd27a;
+  font-size: 14px;
+}
+
+/* =========================================================
+   TWO-COLUMN MAIN LAYOUT (Left: 410px, Right: 1fr)
+   ========================================================= */
+.sa-pooja-main-grid {
+  display: grid;
+  grid-template-columns: 410px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* =========================================================
+   LEFT PROMOTIONAL DEVOTIONAL CARD
+   ========================================================= */
+.sa-pooja-promo-card {
+  position: relative;
+  width: 100%;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 14px 34px rgba(11, 69, 40, 0.28), 0 3px 10px rgba(0,0,0,0.12);
+  display: flex;
+  background-color: #032111;
+}
+
+.sa-pooja-promo-full-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* =========================================================
+   RIGHT COLUMN (Toolbar, Filters, Info Strip, Cards)
+   ========================================================= */
+.sa-pooja-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Search and Sort Toolbar */
+.sa-pooja-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sa-pooja-search-box {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sa-pooja-search-icon {
+  position: absolute;
+  left: 20px;
+  color: #0b4528;
+  pointer-events: none;
+}
+
+.sa-pooja-search-box input {
+  width: 100%;
+  height: 50px;
+  background: #fdfbf7;
+  border: 1.5px solid #dfcba1;
+  border-radius: 999px;
+  padding: 0 44px 0 52px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #0b4528;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(184, 142, 54, 0.08);
+  transition: all 0.2s ease;
+}
+
+.sa-pooja-search-box input:focus {
+  border-color: #0b4528;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(11, 69, 40, 0.12);
+}
+
+.sa-pooja-search-clear {
+  position: absolute;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: #8c9791;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.sa-pooja-sort-box {
+  position: relative;
+  width: 185px;
+  flex-shrink: 0;
+}
+
+.sa-pooja-sort-box select {
+  width: 100%;
+  height: 50px;
+  background: #fdfbf7;
+  border: 1.5px solid #dfcba1;
+  border-radius: 999px;
+  padding: 0 36px 0 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0b4528;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(184, 142, 54, 0.08);
+}
+
+.sa-pooja-sort-box select:focus {
+  border-color: #0b4528;
+}
+
+.sa-pooja-sort-arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #0b4528;
+  pointer-events: none;
+}
+
+/* Filter Chips */
+.sa-pooja-filters-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sa-pooja-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 22px;
+  border-radius: 999px;
+  border: 1.5px solid #dfcba1;
+  background: #fdfbf7;
+  color: #1a3826;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  outline: none;
+}
+
+.sa-pooja-filter-chip:hover {
+  border-color: #0b4528;
+  background: #f6efe0;
+}
+
+.sa-pooja-filter-chip.active {
+  background: #0b4528;
+  border-color: #0b4528;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(11, 69, 40, 0.25);
+}
+
+.sa-pooja-filter-chip.active svg {
+  color: #f7ca55;
+}
+
+/* Information Strip */
+.sa-pooja-info-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fdfbf7;
+  border: 1.2px solid #ebd8b0;
+  border-radius: 14px;
+  padding: 10px 22px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #3b5043;
+  box-shadow: 0 2px 6px rgba(184, 142, 54, 0.05);
+}
+
+.sa-pooja-info-left,
+.sa-pooja-info-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sa-pooja-info-icon {
+  color: #b8860b;
+}
+
+.sa-pooja-info-right strong {
+  color: #0b4528;
+  font-weight: 600;
+}
+
+/* =========================================================
+   SIX POOJA LISTING CARDS
+   ========================================================= */
+.sa-pooja-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sa-pooja-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, #ffffff 0%, #fdfbf7 100%);
+  border: 1.2px solid #ecd8af;
+  border-radius: 18px;
+  padding: 8px 22px 8px 12px;
+  box-shadow: 0 4px 14px rgba(184, 142, 54, 0.06);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.sa-pooja-card:hover {
+  transform: translateX(4px);
+  border-color: #c49a38;
+  box-shadow: 0 6px 20px rgba(184, 142, 54, 0.16);
+}
+
+/* Slim Gold Accent on Far Left */
+.sa-pooja-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%);
+}
+
+.sa-pooja-card-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Devotional Thumbnail */
+.sa-pooja-card-thumb-wrap {
+  width: 120px;
+  height: 52px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid #dfcba1;
+  background: #000;
+}
+
+.sa-pooja-card-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.sa-pooja-card:hover .sa-pooja-card-thumb {
+  transform: scale(1.04);
+}
+
+/* Text: Title & Description */
+.sa-pooja-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sa-pooja-card-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0b4528;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sa-pooja-card-desc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #4b6153;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Metadata Group (Duration, Difficulty Badge, Type) */
+.sa-pooja-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+.sa-pooja-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #3b5043;
+}
+
+.sa-pooja-meta-item svg {
+  color: #0b4528;
+}
+
+.sa-pooja-meta-sep {
+  color: #d8c49d;
+  font-size: 14px;
+  user-select: none;
+}
+
+/* Difficulty Badge */
+.sa-pooja-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sa-pooja-badge.badge-beginner {
+  background: #eaf4ed;
+  color: #0b4528;
+  border: 1px solid #c2dfc9;
+}
+
+.sa-pooja-badge.badge-festival {
+  background: #fcf4e4;
+  color: #8c5d14;
+  border: 1px solid #ebd3a8;
+}
+
+.sa-pooja-badge.badge-daily {
+  background: #eaf4ed;
+  color: #0b4528;
+  border: 1px solid #c2dfc9;
+}
+
+.sa-pooja-badge.badge-popular {
+  background: #f7eef7;
+  color: #6a2a6b;
+  border: 1px solid #e2cce2;
+}
+
+/* Type (Pooja, Vratham, Festival) */
+.sa-pooja-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3b5043;
+}
+
+.sa-pooja-type-lotus {
+  color: #b8860b;
+  font-size: 13px;
+}
+
+/* Circular Right Arrow Button */
+.sa-pooja-arrow-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid #d4c19c;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b4528;
+  flex-shrink: 0;
+  margin-left: 12px;
+  transition: all 0.2s ease;
+}
+
+.sa-pooja-card:hover .sa-pooja-arrow-circle {
+  background: #0b4528;
+  border-color: #0b4528;
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+/* Empty State */
+.sa-pooja-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  background: #fdfbf7;
+  border-radius: 20px;
+  border: 1px dashed #d4c19c;
+  color: #4b6153;
+}
+
+.sa-pooja-empty-state p {
+  margin: 10px 0 16px;
+  font-size: 15px;
+}
+
+.sa-pooja-reset-btn {
+  background: #0b4528;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 22px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* =========================================================
+   RESPONSIVE ADAPTATIONS
+   ========================================================= */
+@media (max-width: 1200px) {
+  .sa-pooja-main-grid {
+    grid-template-columns: 360px 1fr;
+    gap: 24px;
+  }
+  .sa-pooja-title {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 992px) {
+  .sa-pooja-main-grid {
+    grid-template-columns: 1fr;
+  }
+  .sa-pooja-promo-card {
+    max-width: 480px;
+    margin: 0 auto 20px;
+  }
+  .sa-pooja-sacred-badge-wrap {
+    position: static;
+    transform: none;
+    justify-content: center;
+    margin-top: 14px;
+  }
+  .sa-pooja-header-wrap {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .sa-pooja-page {
+    background-size: auto 100%;
+  }
+  .sa-pooja-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px;
+    gap: 12px;
+  }
+  .sa-pooja-card-main {
+    width: 100%;
+  }
+  .sa-pooja-card-meta {
+    margin-left: 0;
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .sa-pooja-info-strip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

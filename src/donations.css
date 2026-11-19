@@ -1,0 +1,859 @@
+/* Saranam Ayyappa - Donations & Annadanam Page Styles */
+.sa-donations-page {
+  position: relative;
+  min-height: 100vh;
+  background-color: #fbf7ee;
+  background-image: 
+    radial-gradient(circle at 50% 15%, rgba(255, 255, 255, 0.7) 0%, transparent 60%),
+    linear-gradient(180deg, #fdfbf7 0%, #f9f4e8 50%, #f5eedc 100%);
+  color: #1a3826;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 90px;
+}
+
+/* Background corner decorations and bottom landscape */
+.sa-donations-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.sa-donations-decor-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 130px;
+  height: auto;
+  opacity: 0.95;
+  user-select: none;
+}
+
+.sa-donations-decor-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 130px;
+  height: auto;
+  opacity: 0.95;
+  user-select: none;
+}
+
+.sa-donations-decor-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  object-position: bottom center;
+  opacity: 0.55;
+  user-select: none;
+}
+
+/* Page container */
+.sa-donations-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 24px 32px 40px;
+}
+
+/* Heading section */
+.sa-donations-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.sa-donations-lotus-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.sa-donations-lotus {
+  width: 32px;
+  height: auto;
+  display: block;
+}
+
+.sa-donations-eyebrow-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.sa-donations-eyebrow-line {
+  display: inline-block;
+  width: 55px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #b88e36 40%, #b88e36 60%, transparent);
+}
+
+.sa-donations-eyebrow {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2.6px;
+  text-transform: uppercase;
+  color: #556b2f;
+  margin: 0;
+}
+
+.sa-donations-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 54px;
+  font-weight: 800;
+  color: #0b4528;
+  margin: 4px 0 8px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+
+.sa-donations-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: #3b5043;
+  margin: 0 0 10px;
+}
+
+.sa-donations-divider-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sa-donations-gold-divider {
+  height: 16px;
+  width: auto;
+  opacity: 0.9;
+}
+
+/* =========================================================
+   HERO BANNER (Image 1 Left ~39%, Deep Green Right ~61%)
+   ========================================================= */
+.sa-annadanam-hero {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 248px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(11, 69, 40, 0.15), 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1.5px solid #d8b870;
+  margin-bottom: 26px;
+  background-color: #014d2a;
+}
+
+/* Left portion (Photograph with Image 1) */
+.sa-annadanam-hero-photo-wrap {
+  position: relative;
+  flex: 0 0 39%;
+  width: 39%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.sa-annadanam-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+  display: block;
+}
+
+/* Gold curved transition separator */
+.sa-annadanam-curve-overlay {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  height: 100%;
+  width: auto;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Right portion (Deep Emerald-Green Devotional Text Panel) */
+.sa-annadanam-hero-text-panel {
+  position: relative;
+  flex: 0 0 61%;
+  width: 61%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at 95% 15%, rgba(13, 100, 58, 0.6) 0%, transparent 60%),
+    linear-gradient(135deg, #014d2a 0%, #004524 50%, #00361c 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 54px 0 65px;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+/* Corner mandala background accents on right side */
+.sa-annadanam-mandala-tr {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 130px;
+  height: 130px;
+  opacity: 0.14;
+  pointer-events: none;
+  background: radial-gradient(circle at 100% 0%, #fbd578 0%, transparent 70%);
+}
+
+.sa-annadanam-mandala-br {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 130px;
+  height: 130px;
+  opacity: 0.14;
+  pointer-events: none;
+  background: radial-gradient(circle at 100% 100%, #fbd578 0%, transparent 70%);
+}
+
+.sa-annadanam-hero-eyebrow {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #f7ca55;
+  margin: 0 0 8px;
+}
+
+.sa-annadanam-hero-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 8px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.sa-annadanam-hero-desc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #e5f2e9;
+  margin: 0 0 14px;
+}
+
+.sa-annadanam-hero-divider-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 140px;
+}
+
+.sa-annadanam-hero-divider-line::before,
+.sa-annadanam-hero-divider-line::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e2ba64, transparent);
+}
+
+.sa-annadanam-hero-divider-line span {
+  color: #f5cf6d;
+  font-size: 10px;
+}
+
+/* =========================================================
+   THREE DONATION CARDS (Temple, Annadanam, Festival Seva)
+   ========================================================= */
+.sa-donations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.sa-donation-card {
+  position: relative;
+  background: linear-gradient(180deg, #fdfbf7 0%, #fbf6ec 100%);
+  border: 1.5px solid #e8d7b0;
+  border-radius: 26px;
+  padding: 28px 24px 26px;
+  box-shadow: 0 8px 22px rgba(184, 142, 54, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.sa-donation-card:hover {
+  transform: translateY(-3px);
+  border-color: #c99e3a;
+  box-shadow: 0 12px 28px rgba(184, 142, 54, 0.15), 0 3px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Decorative watermark in bottom corners of cards */
+.sa-donation-card-sketch-l {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: auto;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.sa-donation-card-sketch-r {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 80px;
+  height: auto;
+  opacity: 0.25;
+  pointer-events: none;
+  transform: scaleX(-1);
+}
+
+.sa-donation-card-icon-wrap {
+  width: 58px;
+  height: 58px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sa-donation-card-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sa-donation-card-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 27px;
+  font-weight: 800;
+  color: #0b4528;
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.sa-donation-card-desc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14.5px;
+  color: #495e50;
+  margin: 0 0 18px;
+  line-height: 1.35;
+}
+
+/* Amount Selector Buttons */
+.sa-donation-amounts-wrap {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sa-donation-amount-btn {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1.5px solid #d4c19c;
+  background: #fdfbf7;
+  color: #0b4528;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  outline: none;
+}
+
+.sa-donation-amount-btn:hover {
+  border-color: #0b4528;
+  background: #f5eedc;
+}
+
+.sa-donation-amount-btn.active {
+  background: #0b4528;
+  border-color: #0b4528;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(11, 69, 40, 0.25);
+}
+
+/* Custom amount input field when Custom is selected */
+.sa-donation-custom-input-wrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 240px;
+  margin: -10px auto 16px;
+  border: 1.5px solid #0b4528;
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 4px 14px;
+  box-sizing: border-box;
+}
+
+.sa-donation-custom-currency {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #0b4528;
+  margin-right: 6px;
+}
+
+.sa-donation-custom-input {
+  border: none;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0b4528;
+  width: 100%;
+  background: transparent;
+}
+
+/* Donate Now Button */
+.sa-donation-donate-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 32px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0b4528 0%, #073a21 100%);
+  border: 1px solid #165b38;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(11, 69, 40, 0.28);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.sa-donation-donate-btn:hover {
+  background: linear-gradient(135deg, #0e5632 0%, #094728 100%);
+  border-color: #d8b870;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(11, 69, 40, 0.35);
+}
+
+.sa-donation-donate-btn svg {
+  transition: transform 0.18s ease;
+}
+
+.sa-donation-donate-btn:hover svg {
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   TODAY'S FOOD DONATION LOCATIONS BANNER
+   ========================================================= */
+.sa-donations-locations-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 98px;
+  background: linear-gradient(180deg, #fdfbf7 0%, #fbf6ec 100%);
+  border: 1.5px solid #e8d7b0;
+  border-radius: 26px;
+  padding: 18px 36px 18px 28px;
+  box-sizing: border-box;
+  box-shadow: 0 6px 20px rgba(184, 142, 54, 0.08), 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.sa-donations-locations-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.sa-donations-locations-icon-wrap {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sa-donations-locations-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sa-donations-locations-heading {
+  font-family: 'Raleway', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0b4528;
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+
+.sa-donations-locations-desc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  color: #495e50;
+  margin: 0;
+}
+
+.sa-donations-locations-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0b4528 0%, #073a21 100%);
+  border: 1.5px solid #b88e36;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(11, 69, 40, 0.25);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.sa-donations-locations-btn:hover {
+  background: linear-gradient(135deg, #0e5632 0%, #094728 100%);
+  border-color: #f7ca55;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(11, 69, 40, 0.35);
+}
+
+.sa-donations-locations-btn svg {
+  transition: transform 0.18s ease;
+}
+
+.sa-donations-locations-btn:hover svg {
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   LIVE DEVOTEE DONATIONS SECTION
+   ========================================================= */
+.sa-live-donations-section {
+  background: #ffffff;
+  border: 1.5px solid #d4ae62;
+  border-radius: 24px;
+  padding: 32px 36px;
+  box-shadow: 0 10px 30px rgba(11, 69, 40, 0.08), 0 2px 8px rgba(212, 174, 98, 0.15);
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sa-live-donations-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(212, 174, 98, 0.35);
+}
+
+.sa-live-donations-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sa-live-donations-eyebrow {
+  font-family: var(--body-font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  color: #8c4e0f;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.sa-live-donations-title {
+  font-family: var(--heading-font);
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 800;
+  color: #063d2b;
+  margin: 0;
+}
+
+.sa-live-donations-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #093c25 0%, #032111 100%);
+  border: 1px solid #d4ae62;
+  color: #fff3d6;
+  font-family: var(--body-font);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 7px 18px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(11, 69, 40, 0.25);
+}
+
+.sa-live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #27ae60;
+  box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7);
+  animation: saLivePulse 1.8s infinite;
+}
+
+@keyframes saLivePulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 8px rgba(39, 174, 96, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
+  }
+}
+
+.sa-live-donations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.sa-live-donor-card {
+  background: #fdfaf3;
+  border: 1px solid rgba(212, 174, 98, 0.45);
+  border-radius: 18px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.sa-live-donor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(11, 69, 40, 0.08);
+  border-color: #d4ae62;
+}
+
+.sa-live-donor-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sa-live-donor-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sa-live-donor-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e0a546, #fce4a2);
+  display: grid;
+  place-items: center;
+  color: #0b4528;
+  font-weight: 800;
+  font-size: 15px;
+  flex-shrink: 0;
+  border: 1.5px solid #d4ae62;
+}
+
+.sa-live-donor-name {
+  font-family: var(--heading-font);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #063d2b;
+  margin: 0;
+}
+
+.sa-live-donor-city {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--body-font);
+  font-size: 11.5px;
+  color: #65847c;
+  margin: 0;
+}
+
+.sa-live-donor-amount {
+  font-family: var(--heading-font);
+  font-size: 16px;
+  font-weight: 800;
+  color: #8c4e0f;
+  background: #fdf2d9;
+  border: 1px solid #ebd09c;
+  padding: 4px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.sa-live-donor-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--body-font);
+  font-size: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(212, 174, 98, 0.35);
+}
+
+.sa-live-donor-cause {
+  color: #0b4528;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sa-live-donor-time {
+  color: #7b948c;
+  font-size: 11.5px;
+}
+
+/* =========================================================
+   RESPONSIVE STYLES
+   ========================================================= */
+@media (max-width: 1280px) {
+  .sa-annadanam-hero-title {
+    font-size: 32px;
+  }
+  .sa-annadanam-hero-text-panel {
+    padding: 0 40px 0 50px;
+  }
+  .sa-donation-card-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sa-donations-title {
+    font-size: 44px;
+  }
+  .sa-annadanam-hero {
+    height: 220px;
+  }
+  .sa-annadanam-hero-title {
+    font-size: 27px;
+  }
+  .sa-annadanam-hero-desc {
+    font-size: 14.5px;
+  }
+  .sa-donations-grid {
+    gap: 16px;
+  }
+  .sa-donation-amount-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 860px) {
+  .sa-annadanam-hero {
+    flex-direction: column;
+    height: auto;
+  }
+  .sa-annadanam-hero-photo-wrap {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 220px;
+  }
+  .sa-annadanam-curve-overlay {
+    display: none;
+  }
+  .sa-annadanam-hero-text-panel {
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 30px 24px;
+  }
+  .sa-annadanam-hero-title {
+    white-space: normal;
+  }
+  .sa-donations-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .sa-live-donations-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .sa-live-donations-section {
+    padding: 24px 20px;
+  }
+  .sa-donations-locations-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px 20px;
+  }
+  .sa-donations-decor-left,
+  .sa-donations-decor-right {
+    width: 90px;
+  }
+}
+
+@media (max-width: 540px) {
+  .sa-donations-container {
+    padding: 20px 16px 36px;
+  }
+  .sa-donations-title {
+    font-size: 34px;
+  }
+  .sa-donations-subtitle {
+    font-size: 15px;
+  }
+  .sa-annadanam-hero-title {
+    font-size: 24px;
+  }
+  .sa-donations-decor-left,
+  .sa-donations-decor-right {
+    width: 70px;
+  }
+}
+
+@media (max-width: 420px) {
+  .sa-donations-decor-left,
+  .sa-donations-decor-right {
+    display: none;
+  }
+  .sa-donations-title {
+    font-size: 26px;
+  }
+  .sa-donation-card {
+    padding: 24px 16px;
+  }
+  .sa-annadanam-hero-title {
+    font-size: 20px;
+  }
+}
+

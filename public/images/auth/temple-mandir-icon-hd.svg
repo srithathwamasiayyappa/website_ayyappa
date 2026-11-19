@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="28" viewBox="0 0 36 28" fill="none">
+  <!-- Roof Triangle with Traditional Eaves -->
+  <path d="M18 2L32 10.5H4L18 2Z" fill="#C79432" stroke="#C79432" stroke-width="1.2" stroke-linejoin="round"/>
+  <!-- Architrave / Top Beam -->
+  <rect x="5.5" y="10.5" width="25" height="2.2" rx="0.8" fill="#C79432"/>
+  <!-- Four Pillars matching reference -->
+  <rect x="8" y="14" width="3.2" height="9.5" rx="0.8" fill="#C79432"/>
+  <rect x="13.5" y="14" width="3.2" height="9.5" rx="0.8" fill="#C79432"/>
+  <rect x="19.3" y="14" width="3.2" height="9.5" rx="0.8" fill="#C79432"/>
+  <rect x="24.8" y="14" width="3.2" height="9.5" rx="0.8" fill="#C79432"/>
+  <!-- Base Pedestal -->
+  <rect x="4" y="24.5" width="28" height="2.5" rx="0.8" fill="#C79432"/>
+</svg>
