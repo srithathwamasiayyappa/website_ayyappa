@@ -18,10 +18,12 @@ export default function DharmaKarthaGalleryPage({ notify, profile }) {
   const [mediaList, setMediaList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [mediaInputMode, setMediaInputMode] = useState('URL');
+  const [uploadingMedia, setUploadingMedia] = useState(false);
   const [uploadData, setUploadData] = useState({
     title: '',
     caption: '',
-    mediaUrl: '/images/temple-hero.jpg',
+    mediaUrl: '',
     category: 'Temple Exterior',
     type: 'Photo',
   });
@@ -86,13 +88,50 @@ export default function DharmaKarthaGalleryPage({ notify, profile }) {
       if (data?.success) {
         if (notify) notify('Media uploaded! Awaiting Super Admin approval 🙏');
         setShowUploadModal(false);
-        setUploadData({ templeId: selectedTempleId, title: '', caption: '', mediaUrl: '/images/temple-hero.jpg', category: 'Temple Exterior', type: 'Photo' });
+        setUploadData({ templeId: selectedTempleId, title: '', caption: '', mediaUrl: '', category: 'Temple Exterior', type: 'Photo' });
         fetchMedia();
       }
     } catch {
       if (notify) notify('Media submitted in development mode.');
       setShowUploadModal(false);
     }
+  };
+
+  const handleMediaFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      if (notify) notify('Please select an image file (PNG, JPG, WEBP).', 'error');
+      return;
+    }
+
+    setUploadingMedia(true);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64Data = reader.result;
+      try {
+        const res = await fetch(`${API_BASE_URL}/dharma-kartha/upload-image`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: base64Data, fileName: file.name }),
+        });
+        const data = await res.json();
+        if (data.success && data.url) {
+          const fullUrl = data.url.startsWith('http')
+            ? data.url
+            : `${API_BASE_URL.replace('/api/v1', '')}${data.url}`;
+          setUploadData((prev) => ({ ...prev, mediaUrl: fullUrl }));
+        } else {
+          setUploadData((prev) => ({ ...prev, mediaUrl: base64Data }));
+        }
+      } catch {
+        setUploadData((prev) => ({ ...prev, mediaUrl: base64Data }));
+      } finally {
+        setUploadingMedia(false);
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleDelete = async (id) => {
@@ -398,25 +437,132 @@ export default function DharmaKarthaGalleryPage({ notify, profile }) {
                 </div>
 
                 <div style={{ marginBottom: '16px' }}>
-                  <label style={{ display: 'block', fontSize: '13.5px', fontWeight: 700, color: '#1f2937', marginBottom: '6px' }}>
-                    Image Asset Path / URL *
+                  <label style={{ display: 'block', fontSize: '13.5px', fontWeight: 700, color: '#1f2937', marginBottom: '8px' }}>
+                    Photo / Media Image *
                   </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="/images/temple-hero.jpg"
-                    value={uploadData.mediaUrl}
-                    onChange={(e) => setUploadData({ ...uploadData, mediaUrl: e.target.value })}
-                    style={{
-                      width: '100%',
-                      padding: '10px 14px',
-                      borderRadius: '8px',
-                      border: '1px solid #d1d5db',
-                      fontSize: '14px',
-                      outline: 'none',
-                      boxSizing: 'border-box'
-                    }}
-                  />
+
+                  {/* Mode Selector */}
+                  <div style={{ display: 'inline-flex', background: '#f3f4f6', padding: '4px', borderRadius: '8px', marginBottom: '12px', gap: '4px' }}>
+                    <button
+                      type="button"
+                      onClick={() => setMediaInputMode('URL')}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: '6px',
+                        border: 'none',
+                        background: mediaInputMode === 'URL' ? '#064e3b' : 'transparent',
+                        color: mediaInputMode === 'URL' ? '#ffffff' : '#4b5563',
+                        fontSize: '12.5px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      <Icon name="Globe" size={14} /> Web URL
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setMediaInputMode('FILE')}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: '6px',
+                        border: 'none',
+                        background: mediaInputMode === 'FILE' ? '#064e3b' : 'transparent',
+                        color: mediaInputMode === 'FILE' ? '#ffffff' : '#4b5563',
+                        fontSize: '12.5px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      <Icon name="Upload" size={14} /> Upload File
+                    </button>
+                  </div>
+
+                  {mediaInputMode === 'URL' ? (
+                    <input
+                      type="text"
+                      required={!uploadData.mediaUrl}
+                      placeholder="https://example.com/sanctum.jpg or /images/..."
+                      value={uploadData.mediaUrl}
+                      onChange={(e) => setUploadData({ ...uploadData, mediaUrl: e.target.value })}
+                      style={{
+                        width: '100%',
+                        padding: '10px 14px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        fontSize: '14px',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
+                    />
+                  ) : (
+                    <div>
+                      <div style={{
+                        border: '2px dashed #064e3b',
+                        borderRadius: '10px',
+                        padding: '20px',
+                        textAlign: 'center',
+                        background: '#f9fafb',
+                        position: 'relative',
+                        cursor: 'pointer'
+                      }}>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleMediaFileUpload}
+                          disabled={uploadingMedia}
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            opacity: 0,
+                            cursor: 'pointer'
+                          }}
+                        />
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                          <Icon name="Camera" size={28} color="#064e3b" />
+                          <div style={{ fontSize: '13px', fontWeight: 600, color: '#1f2937' }}>
+                            {uploadingMedia ? 'Uploading image to sacred cloud...' : 'Click or drop sacred photo here'}
+                          </div>
+                          <div style={{ fontSize: '11px', color: '#6b7280' }}>
+                            Supports PNG, JPG, JPEG, WEBP
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Live Preview */}
+                  {uploadData.mediaUrl && (
+                    <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '12px', background: '#f3f4f6', padding: '8px 12px', borderRadius: '8px' }}>
+                      <img
+                        src={uploadData.mediaUrl}
+                        alt="Preview"
+                        style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #e5e7eb' }}
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: '12px', fontWeight: 600, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {uploadData.mediaUrl.startsWith('data:') ? 'Local Image File Selected' : uploadData.mediaUrl}
+                        </div>
+                        <div style={{ fontSize: '11px', color: '#059669', fontWeight: 600 }}>Image Ready</div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setUploadData(prev => ({ ...prev, mediaUrl: '' }))}
+                        style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '4px', fontSize: '12px', fontWeight: 600 }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div style={{ marginBottom: '24px' }}>
