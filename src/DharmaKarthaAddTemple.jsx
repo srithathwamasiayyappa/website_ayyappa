@@ -184,48 +184,35 @@ export default function DharmaKarthaAddTemple({ notify, profile }) {
 
           {/* DYNAMIC TEMPLE TYPE SELECTION (Main Temple, Sub Temple, Multi Temple, etc.) */}
           <div style={{ marginBottom: '24px', padding: '16px', background: '#fcf8f0', borderRadius: '12px', border: '1px solid #ebdcc5' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#0b3d2b', marginBottom: '8px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#0b3d2b', marginBottom: '6px' }}>
               Select Temple Classification / Type *
             </label>
-            <p style={{ fontSize: '12px', color: '#6d5a47', margin: '0 0 12px 0' }}>
+            <p style={{ fontSize: '12px', color: '#6d5a47', margin: '0 0 10px 0' }}>
               Indicate whether this is an independent Main Temple, a Sub-Temple (branch/subsidiary shrine), or part of a Multi-Temple trust complex.
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '12px' }}>
-              {templeTypes.map((type) => {
-                const isSelected = formData.templeType === type.id;
-                return (
-                  <button
-                    key={type.id}
-                    type="button"
-                    onClick={() => handleChange('templeType', type.id)}
-                    style={{
-                      textAlign: 'left',
-                      padding: '12px 14px',
-                      borderRadius: '10px',
-                      border: isSelected ? '2px solid #0b3d2b' : '1px solid #dcd4c5',
-                      background: isSelected ? '#ffffff' : 'rgba(255,255,255,0.6)',
-                      boxShadow: isSelected ? '0 2px 8px rgba(11,61,43,0.12)' : 'none',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                      <span style={{ fontWeight: 700, fontSize: '13px', color: isSelected ? '#0b3d2b' : '#333', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <Icon name="Landmark" size={15} color="#caa049" /> {type.name}
-                      </span>
-                      {isSelected && (
-                        <span style={{ color: '#0b3d2b', fontSize: '14px', fontWeight: 800 }}>✓</span>
-                      )}
-                    </div>
-                    {type.description && (
-                      <p style={{ margin: 0, fontSize: '11px', color: '#777', lineHeight: 1.4 }}>
-                        {type.description}
-                      </p>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+            <select
+              value={formData.templeType}
+              onChange={(e) => handleChange('templeType', e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px 14px',
+                borderRadius: '8px',
+                border: '1.5px solid #dcd4c5',
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#0b3d2b',
+                background: '#ffffff',
+                outline: 'none',
+                boxSizing: 'border-box',
+                cursor: 'pointer',
+              }}
+            >
+              {templeTypes.map((type) => (
+                <option key={type.id} value={type.id}>
+                  🛕 {type.name} {type.description ? `— ${type.description}` : ''}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '20px' }}>

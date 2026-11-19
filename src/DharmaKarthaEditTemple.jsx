@@ -428,37 +428,31 @@ export default function DharmaKarthaEditTemple({ notify, profile }) {
               {/* Dynamic Temple Classification Selector */}
               <div style={{ marginBottom: '22px', padding: '14px 16px', background: '#fcf8f0', borderRadius: '12px', border: '1px solid #ebdcc5' }}>
                 <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#0b3d2b', marginBottom: '6px' }}>
-                  Temple Classification / Type
+                  Temple Classification / Type *
                 </label>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px' }}>
-                  {templeTypes.map((type) => {
-                    const isSelected = formData.templeType === type.id;
-                    return (
-                      <button
-                        key={type.id}
-                        type="button"
-                        onClick={() => handleChange('templeType', type.id)}
-                        style={{
-                          textAlign: 'left',
-                          padding: '10px 12px',
-                          borderRadius: '8px',
-                          border: isSelected ? '2px solid #0b3d2b' : '1px solid #dcd4c5',
-                          background: isSelected ? '#ffffff' : 'rgba(255,255,255,0.6)',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <div style={{ fontWeight: 700, fontSize: '12px', color: isSelected ? '#0b3d2b' : '#333' }}>
-                          🛕 {type.name} {isSelected && '✓'}
-                        </div>
-                        {type.description && (
-                          <div style={{ fontSize: '10px', color: '#777', marginTop: '2px', lineHeight: 1.3 }}>
-                            {type.description}
-                          </div>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
+                <select
+                  value={formData.templeType}
+                  onChange={(e) => handleChange('templeType', e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '11px 14px',
+                    borderRadius: '8px',
+                    border: '1.5px solid #dcd4c5',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#0b3d2b',
+                    background: '#ffffff',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {templeTypes.map((type) => (
+                    <option key={type.id} value={type.id}>
+                      🛕 {type.name} {type.description ? `— ${type.description}` : ''}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '20px' }}>
