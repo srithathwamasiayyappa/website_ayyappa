@@ -88,6 +88,46 @@ export default function DharmaKarthaEditTemple({ notify, profile }) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteReason, setDeleteReason] = useState('');
   const [deleting, setDeleting] = useState(false);
+  const [imageInputMode, setImageInputMode] = useState('URL');
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      if (notify) notify('Please select a valid image file (JPEG, PNG, WebP).', 'error');
+      return;
+    }
+
+    setUploadingImage(true);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64Data = reader.result;
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/dharma-kartha/upload-image`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: base64Data, fileName: file.name }),
+        });
+        const data = await res.json();
+        if (data.success && data.url) {
+          const fullUrl = data.url.startsWith('http')
+            ? data.url
+            : `${API_BASE_URL.replace('/api/v1', '')}${data.url}`;
+          handleChange('heroImageUrl', fullUrl);
+        } else {
+          handleChange('heroImageUrl', base64Data);
+        }
+      } catch {
+        handleChange('heroImageUrl', base64Data);
+      } finally {
+        setUploadingImage(false);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   const getUserId = () => {
     try {
@@ -631,21 +671,112 @@ export default function DharmaKarthaEditTemple({ notify, profile }) {
                 Provide high-resolution image links for the temple hero banner, sanctum photos, and virtual darshan walkthroughs.
               </p>
 
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#333', marginBottom: '16px' }}>
-                Primary Hero Banner Image URL
-                <input
-                  type="url"
-                  placeholder="https://example.com/images/temple-front.jpg"
-                  value={formData.heroImageUrl || ''}
-                  onChange={(e) => handleChange('heroImageUrl', e.target.value)}
-                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc', marginTop: '4px' }}
-                />
-              </label>
+              {/* Image Input Options Switcher: URL vs File */}
+              <div style={{ display: 'inline-flex', background: '#ece5d8', padding: '4px', borderRadius: '8px', marginBottom: '16px', gap: '4px' }}>
+                <button
+                  type="button"
+                  onClick={() => setImageInputMode('URL')}
+                  style={{
+                    padding: '6px 14px',
+                    borderRadius: '6px',
+                    border: 'none',
+                    background: imageInputMode === 'URL' ? '#0b3d2b' : 'transparent',
+                    color: imageInputMode === 'URL' ? '#ffffff' : '#444',
+                    fontSize: '12.5px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <Icon name="Globe" size={14} /> Web Image URL
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setImageInputMode('FILE')}
+                  style={{
+                    padding: '6px 14px',
+                    borderRadius: '6px',
+                    border: 'none',
+                    background: imageInputMode === 'FILE' ? '#0b3d2b' : 'transparent',
+                    color: imageInputMode === 'FILE' ? '#ffffff' : '#444',
+                    fontSize: '12.5px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <Icon name="Upload" size={14} /> Upload Image File
+                </button>
+              </div>
+
+              {imageInputMode === 'URL' ? (
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#333', marginBottom: '16px' }}>
+                  Primary Hero Banner Image URL
+                  <input
+                    type="url"
+                    placeholder="https://example.com/images/temple-front.jpg"
+                    value={formData.heroImageUrl || ''}
+                    onChange={(e) => handleChange('heroImageUrl', e.target.value)}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc', marginTop: '4px' }}
+                  />
+                </label>
+              ) : (
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#333', marginBottom: '6px' }}>
+                    Choose Image File from Device
+                  </label>
+                  <div style={{
+                    border: '2px dashed #caa049',
+                    borderRadius: '10px',
+                    padding: '24px',
+                    textAlign: 'center',
+                    background: '#ffffff',
+                    position: 'relative',
+                    cursor: 'pointer',
+                  }}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                      disabled={uploadingImage}
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        opacity: 0,
+                        cursor: 'pointer',
+                        width: '100%',
+                        height: '100%',
+                      }}
+                    />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '28px' }}>📷</span>
+                      <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0b3d2b' }}>
+                        {uploadingImage ? 'Uploading image to server...' : 'Click to Browse & Upload Temple Photo'}
+                      </span>
+                      <span style={{ fontSize: '11px', color: '#888' }}>
+                        Supports PNG, JPG, JPEG, WebP (Max 5MB)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {formData.heroImageUrl && (
                 <div style={{ marginBottom: '20px', padding: '12px', background: '#fdfaf5', borderRadius: '8px', border: '1px solid #e8dec8' }}>
-                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#0b3d2b', marginBottom: '8px' }}>
-                    Banner Preview:
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <span style={{ fontSize: '12px', fontWeight: 600, color: '#0b3d2b' }}>Banner Preview:</span>
+                    <button
+                      type="button"
+                      onClick={() => handleChange('heroImageUrl', '')}
+                      style={{ background: 'none', border: 'none', color: '#c00', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
+                    >
+                      ✕ Remove
+                    </button>
                   </div>
                   <img
                     src={formData.heroImageUrl}

@@ -42,8 +42,52 @@ export default function DharmaKarthaAddTemple({ notify, profile }) {
     officePhone: '',
     officialEmail: '',
     officialWebsite: '',
-    heroImageUrl: '/images/temple-hero.jpg',
+    heroImageUrl: '',
   });
+
+  // Image mode state: 'URL' | 'FILE'
+  const [imageInputMode, setImageInputMode] = useState('URL');
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [filePreview, setFilePreview] = useState(null);
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      if (notify) notify('Please select a valid image file (JPEG, PNG, WebP).', 'error');
+      return;
+    }
+
+    setUploadingImage(true);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64Data = reader.result;
+      setFilePreview(base64Data);
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/dharma-kartha/upload-image`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: base64Data, fileName: file.name }),
+        });
+        const data = await res.json();
+        if (data.success && data.url) {
+          const fullUrl = data.url.startsWith('http')
+            ? data.url
+            : `${API_BASE_URL.replace('/api/v1', '')}${data.url}`;
+          handleChange('heroImageUrl', fullUrl);
+        } else {
+          handleChange('heroImageUrl', base64Data);
+        }
+      } catch {
+        handleChange('heroImageUrl', base64Data);
+      } finally {
+        setUploadingImage(false);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/home/temple-types`)
@@ -354,6 +398,139 @@ export default function DharmaKarthaAddTemple({ notify, profile }) {
                 style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc', marginTop: '4px' }}
               />
             </label>
+          </div>
+
+          {/* Section 4: Temple Image (URL & File Upload) */}
+          <h3 style={{ color: '#0b3d2b', borderBottom: '2px solid #f0e6d6', paddingBottom: '10px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Icon name="Image" size={20} color="#caa049" /> 4. Temple Sanctum &amp; Hero Image
+          </h3>
+
+          <div style={{ marginBottom: '28px', padding: '18px', background: '#fdfaf5', borderRadius: '12px', border: '1px solid #ebdcc5' }}>
+            <p style={{ fontSize: '13px', color: '#6d5a47', margin: '0 0 14px 0' }}>
+              Add an authentic photo of the sanctum sanctorum or temple gopuram. You can provide a direct web image link or upload a file directly from your computer/device.
+            </p>
+
+            {/* Segment Switcher: URL vs File */}
+            <div style={{ display: 'inline-flex', background: '#ece5d8', padding: '4px', borderRadius: '8px', marginBottom: '16px', gap: '4px' }}>
+              <button
+                type="button"
+                onClick={() => setImageInputMode('URL')}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  background: imageInputMode === 'URL' ? '#0b3d2b' : 'transparent',
+                  color: imageInputMode === 'URL' ? '#ffffff' : '#444',
+                  fontSize: '12.5px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}
+              >
+                <Icon name="Globe" size={14} /> Web Image URL
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setImageInputMode('FILE')}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  background: imageInputMode === 'FILE' ? '#0b3d2b' : 'transparent',
+                  color: imageInputMode === 'FILE' ? '#ffffff' : '#444',
+                  fontSize: '12.5px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}
+              >
+                <Icon name="Upload" size={14} /> Upload Image File
+              </button>
+            </div>
+
+            {imageInputMode === 'URL' ? (
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#333', marginBottom: '6px' }}>
+                  Image Web Link (URL)
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://example.com/temple-gopuram.jpg"
+                  value={formData.heroImageUrl}
+                  onChange={(e) => handleChange('heroImageUrl', e.target.value)}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc' }}
+                />
+              </div>
+            ) : (
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#333', marginBottom: '6px' }}>
+                  Choose Image File from Device
+                </label>
+                <div style={{
+                  border: '2px dashed #caa049',
+                  borderRadius: '10px',
+                  padding: '24px',
+                  textAlign: 'center',
+                  background: '#ffffff',
+                  position: 'relative',
+                  cursor: 'pointer',
+                }}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    disabled={uploadingImage}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      opacity: 0,
+                      cursor: 'pointer',
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  />
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '30px' }}>📷</span>
+                    <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0b3d2b' }}>
+                      {uploadingImage ? 'Uploading image to server...' : 'Click to Browse & Upload Temple Photo'}
+                    </span>
+                    <span style={{ fontSize: '11px', color: '#888' }}>
+                      Supports PNG, JPG, JPEG, WebP (Max 5MB)
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Live Image Preview */}
+            {formData.heroImageUrl && formData.heroImageUrl !== '/images/temple-hero.jpg' && (
+              <div style={{ marginTop: '16px', padding: '12px', background: '#ffffff', borderRadius: '10px', border: '1px solid #e0d5c0' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#0b3d2b' }}>Selected Image Preview:</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleChange('heroImageUrl', '');
+                      setFilePreview(null);
+                    }}
+                    style={{ background: 'none', border: 'none', color: '#c00', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
+                  >
+                    ✕ Remove Image
+                  </button>
+                </div>
+                <img
+                  src={formData.heroImageUrl}
+                  alt="Temple Preview"
+                  style={{ width: '100%', maxHeight: '240px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #eee' }}
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+              </div>
+            )}
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
