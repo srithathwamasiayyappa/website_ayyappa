@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as L from 'lucide-react';
+import { useLanguage } from './LanguageContext';
 import './dharmaKarthaDashboard.css';
 
 const Icon = ({ name = 'Sparkles', size = 18, ...props }) => {
@@ -9,6 +10,7 @@ const Icon = ({ name = 'Sparkles', size = 18, ...props }) => {
 };
 
 export default function ProfileSidebar({ profile: propProfile, god = 'Lord Ayyappa' }) {
+  const { t } = useLanguage();
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -54,26 +56,31 @@ export default function ProfileSidebar({ profile: propProfile, god = 'Lord Ayyap
   }, [location.pathname]);
 
   const menuItems = [
-    { id: 'edit-profile', label: 'Edit Profile', icon: 'UserRoundPen', link: '/edit-profile' },
-    { id: 'bookmarks', label: 'Bookmarks', icon: 'Bookmark', link: '/bookmarks', badge: favCount > 0 ? favCount : null },
+    { id: 'edit-profile', label: t('menuEditProfile', 'Edit Profile'), icon: 'UserRoundPen', link: '/edit-profile' },
+    { id: 'bookmarks', label: t('menuBookmarks', 'Bookmarks'), icon: 'Bookmark', link: '/bookmarks', badge: favCount > 0 ? favCount : null },
     ...(isDharmaKartha ? [
-      { id: 'temples', label: 'Manage Your Temples', icon: 'LayoutDashboard', link: '/dharma-kartha/dashboard' },
-      { id: 'add-mandir', label: 'Add / Manage Mandir', icon: 'Landmark', link: '/dharma-kartha/temples/new' },
-      { id: 'events', label: 'Manage Events', icon: 'CalendarDays', link: '/dharma-kartha/events' },
-      { id: 'festivals', label: 'Temple Festivals', icon: 'Flame', link: '/dharma-kartha/festivals' },
-      { id: 'gallery', label: 'Gallery', icon: 'Image', link: '/dharma-kartha/gallery' },
+      { id: 'temples', label: t('menuManageTemples', 'Manage Your Temples'), icon: 'LayoutDashboard', link: '/dharma-kartha/dashboard' },
+      { id: 'add-mandir', label: t('menuAddMandir', 'Add New Mandir'), icon: 'Landmark', link: '/dharma-kartha/temples/new' },
+      { id: 'events', label: t('menuEvents', 'Events'), icon: 'CalendarDays', link: '/dharma-kartha/events' },
+      { id: 'festivals', label: t('navFestivals', 'Festivals'), icon: 'Flame', link: '/dharma-kartha/festivals' },
+      { id: 'gallery', label: t('tabGallery', 'Gallery'), icon: 'Image', link: '/dharma-kartha/gallery' },
     ] : []),
-    { id: 'notifications', label: 'Notifications', icon: 'Bell', link: isDharmaKartha ? '/dharma-kartha/notifications' : '/notifications' },
-    { id: 'terms', label: 'Terms & Conditions', icon: 'FileText', link: '/terms' },
-    { id: 'privacy', label: 'Privacy Policy', icon: 'ShieldCheck', link: '/privacy' },
-    { id: 'about', label: 'About', icon: 'Info', link: '/about' },
-    { id: 'delete-account', label: 'Delete Account', icon: 'Trash2', link: '/delete-account', danger: true },
-    { id: 'logout', label: 'Logout', icon: 'LogOut', link: '/logout' },
+    { id: 'notifications', label: t('navNotifications', 'Notifications'), icon: 'Bell', link: isDharmaKartha ? '/dharma-kartha/notifications' : '/notifications' },
+    { id: 'terms', label: t('footerTerms', 'Terms & Conditions'), icon: 'FileText', link: '/terms' },
+    { id: 'privacy', label: t('footerPrivacy', 'Privacy Policy'), icon: 'ShieldCheck', link: '/privacy' },
+    { id: 'refund', label: t('menuRefundPolicy', 'Refund Policy'), icon: 'RotateCcw', link: '/refund-policy' },
+    { id: 'about', label: t('about', 'About'), icon: 'Info', link: '/about' },
+    { id: 'delete-account', label: t('menuAccountDeletion', 'Delete Account'), icon: 'Trash2', link: '/delete-account', danger: true },
+    { id: 'logout', label: t('menuLogout', 'Logout'), icon: 'LogOut', link: '/logout' },
   ];
 
   const isItemActive = (item) => {
     if (currentPath === item.link) return true;
     if (item.id === 'bookmarks' && currentPath === '/bookmarks') return true;
+    if (item.id === 'refund' && (currentPath === '/refund-policy' || currentPath === '/refunds')) return true;
+    if (item.id === 'events' && (currentPath === '/dharma-kartha/events' || currentPath === '/events')) return true;
+    if (item.id === 'festivals' && currentPath.startsWith('/dharma-kartha/festivals')) return true;
+    if (item.id === 'gallery' && currentPath.startsWith('/dharma-kartha/gallery')) return true;
     if (item.id === 'delete-account' && (currentPath === '/delete-account' || currentPath === '/account-deletion')) return true;
     if (item.id === 'temples' && (currentPath === '/dharma-kartha/temples' || currentPath === '/dharma-kartha' || currentPath.startsWith('/dharma-kartha/temples/'))) {
       if (currentPath === '/dharma-kartha/temples/new') return false;

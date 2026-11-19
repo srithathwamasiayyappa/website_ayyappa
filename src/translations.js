@@ -111,6 +111,53 @@ export const translations = {
     footerTerms: 'నిబంధనలు',
     footerRefunds: 'విరాళాల విధానం',
     footerDataSafety: 'డేటా భద్రత',
+
+    // Contact Page
+    contactEyebrow: 'సంప్రదించండి',
+    contactTitle: 'భక్త సహాయ కేంద్రం',
+    contactLead: 'ఆలయ వివరాలు, సమాచారం లేదా ఏవైనా సూచనల కోసం మమ్మల్ని సంప్రదించండి.',
+    contactEmailTitle: 'ఈమెయిల్',
+    contactEmailDesc: 'సాధారణ ప్రశ్నలు మరియు ఆలయ జాబితా సవరణల కోసం.',
+    contactHelpdeskTitle: 'భక్తుల సహాయ డెస్క్',
+    contactHelpdeskDesc: 'సహాయ వేళలు: ఉదయం 9:00 నుండి సాయంత్రం 7:00 వరకు (భారత కాలమానం).',
+    contactLocationTitle: 'ఆలయ కార్యాలయం',
+    contactLocationDesc: 'శరణం అయ్యప్ప సేవా ట్రస్ట్, హైదరాబాద్, తెలంగాణ, భారతదేశం.',
+
+    // Temple Details & Listing
+    tabAbout: 'సమగ్ర సమాచారం',
+    tabTimings: 'దర్శన వేళలు',
+    tabFestivals: 'ఆలయ పండుగలు',
+    tabGallery: 'చిత్రమాలిక',
+    tabContact: 'సంప్రదించండి',
+    btnGetDirections: 'మార్గం (మ్యాప్)',
+    btnSaveFavorite: 'ఇష్టమైనదిగా భద్రపరచు',
+    btnSavedFavorite: 'భద్రపరిచారు',
+    templeOverview: 'క్షేత్ర ప్రాశస్త్యం & దర్శనం',
+    sanctumTimings: 'గర్భాలయ పూజ & దర్శన సమయాలు',
+    templeSpeciality: 'ఆలయ విశేషాలు & ప్రాముఖ్యత',
+    templeHistory: 'క్షేత్ర పురాణం & చరిత్ర',
+    exploreTemple: 'ఆలయ దర్శనం',
+    allStates: 'అన్ని రాష్ట్రాలు',
+    allTempleTypes: 'అన్ని ఆలయ రకాలు',
+
+    // Pooja & Devotional Listings
+    searchPoojaPlaceholder: 'పూజలు, వ్రతాలు లేదా మంత్రాలు వెతకండి...',
+    badgeBeginner: 'ప్రారంభ స్థాయి',
+    badgeFestival: 'పండుగ విశేషం',
+    filterAll: 'అన్నీ',
+    exploreGuide: 'పూజా మార్గదర్శి చూడండి',
+    procedureTitle: 'పూజా విధానం & క్రమం',
+
+    // Profile & Sidebar
+    menuEditProfile: 'ప్రొఫైల్ సవరణ',
+    menuBookmarks: 'భద్రపరిచినవి (బుక్‌మార్క్స్)',
+    menuManageTemples: 'ఆలయ నిర్వహణ',
+    menuAddMandir: 'నూతన మందిరం జోడించండి',
+    menuEvents: 'ఈవెంట్లు',
+    menuRefundPolicy: 'రీఫండ్ పాలసీ',
+    menuSettings: 'సెట్టింగ్స్ & భాష',
+    menuAccountDeletion: 'ఖాతా తొలగింపు',
+    menuLogout: 'లాగ్ అవుట్',
   },
 
   kn: {
@@ -222,6 +269,53 @@ export const translations = {
     footerTerms: 'ನಿಯಮಗಳು',
     footerRefunds: 'ದೇಣಿಗೆ ನೀತಿ',
     footerDataSafety: 'ಡೇಟಾ ಸುರಕ್ಷತೆ',
+
+    // Contact Page
+    contactEyebrow: 'ಸಂಪರ್ಕಿಸಿ',
+    contactTitle: 'ಭಕ್ತ ಸಹಾಯ ಕೇಂದ್ರ',
+    contactLead: 'ದೇವಾಲಯದ ವಿವರಗಳು, ಮಾಹಿತಿ ಅಥವಾ ಯಾವುದೇ ಪ್ರಶ್ನೆಗಳಿಗಾಗಿ ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ.',
+    contactEmailTitle: 'ಇಮೇಲ್',
+    contactEmailDesc: 'ಸಾಮಾನ್ಯ ಪ್ರಶ್ನೆಗಳು ಮತ್ತು ದೇವಾಲಯ ತಿದ್ದುಪಡಿಗಳಿಗಾಗಿ.',
+    contactHelpdeskTitle: 'ಭಕ್ತರ ಸಹಾಯ ಡೆಸ್ಕ್',
+    contactHelpdeskDesc: 'ಸಹಾಯ ಸಮಯ: ಬೆಳಗ್ಗೆ 9:00 ರಿಂದ ಸಂಜೆ 7:00 ರವರೆಗೆ (ಭಾರತೀಯ ಕಾಲಮಾನ).',
+    contactLocationTitle: 'ದೇವಾಲಯ ಕಚೇರಿ',
+    contactLocationDesc: 'ಶರಣಂ ಅಯ್ಯಪ್ಪ ಸೇವಾ ಟ್ರಸ್ಟ್, ಹೈದರಾಬಾದ್, ಭಾರತ.',
+
+    // Temple Details & Listing
+    tabAbout: 'ಸಮಗ್ರ ಮಾಹಿತಿ',
+    tabTimings: 'ದರ್ಶನ ಸಮಯ',
+    tabFestivals: 'ದೇವಾಲಯ ಹಬ್ಬಗಳು',
+    tabGallery: 'ಚಿತ್ರಶಾಲೆ',
+    tabContact: 'ಸಂಪರ್ಕಿಸಿ',
+    btnGetDirections: 'ಮಾರ್ಗ (ಮ್ಯಾಪ್)',
+    btnSaveFavorite: 'ಮೆಚ್ಚಿನದಾಗಿ ಉಳಿಸಿ',
+    btnSavedFavorite: 'ಉಳಿಸಲಾಗಿದೆ',
+    templeOverview: 'ಕ್ಷೇತ್ರ ಪರಿಚಯ & ದರ್ಶನ',
+    sanctumTimings: 'ಗರ್ಭಗುಡಿ ಪೂಜೆ & ದರ್ಶನ ಸಮಯ',
+    templeSpeciality: 'ದೇವಾಲಯದ ವೈಶಿಷ್ಟ್ಯತೆಗಳು',
+    templeHistory: 'ಕ್ಷೇತ್ರ ಪುರಾಣ & ಇತಿಹಾಸ',
+    exploreTemple: 'ದೇವಾಲಯ ದರ್ಶಿಸಿ',
+    allStates: 'ಎಲ್ಲ ರಾಜ್ಯಗಳು',
+    allTempleTypes: 'ಎಲ್ಲ ದೇವಾಲಯ ಪ್ರಕಾರಗಳು',
+
+    // Pooja & Devotional Listings
+    searchPoojaPlaceholder: 'ಪೂಜೆಗಳು, ವ್ರತಗಳು ಅಥವಾ ಮಂತ್ರಗಳನ್ನು ಹುಡುಕಿ...',
+    badgeBeginner: 'ಪ್ರಾರಂಭಿಕ ಹಂತ',
+    badgeFestival: 'ಹಬ್ಬದ ವಿಶೇಷ',
+    filterAll: 'ಎಲ್ಲವೂ',
+    exploreGuide: 'ಪೂಜಾ ಮಾರ್ಗದರ್ಶಿ ವೀಕ್ಷಿಸಿ',
+    procedureTitle: 'ಪೂಜಾ ವಿಧಾನ & ಕ್ರಮ',
+
+    // Profile & Sidebar
+    menuEditProfile: 'ಪ್ರೊಫೈಲ್ ತಿದ್ದುಪಡಿ',
+    menuBookmarks: 'ಉಳಿಸಿದವು (ಬುಕ್‌ಮಾರ್ಕ್‌ಗಳು)',
+    menuManageTemples: 'ದೇವಾಲಯ ನಿರ್ವಹಣೆ',
+    menuAddMandir: 'ಹೊಸ ಮಂದಿರ ಸೇರಿಸಿ',
+    menuEvents: 'ಕಾರ್ಯಕ್ರಮಗಳು',
+    menuRefundPolicy: 'ಮರುಪಾವತಿ ನೀತಿ',
+    menuSettings: 'ಸೆಟ್ಟಿಂಗ್ಸ್ & ಭಾಷೆ',
+    menuAccountDeletion: 'ಖಾತೆ ಅಳಿಸುವಿಕೆ',
+    menuLogout: 'ಲಾಗ್ ಔಟ್',
   },
 
   en: {
@@ -229,7 +323,7 @@ export const translations = {
     navSannidhi: 'Sannidhi',
     navServices: 'Devotional Services',
     navFestivals: 'Festivals',
-    navEvents: 'Live Streams',
+    navEvents: 'Events',
     navPanchangam: 'Panchangam',
     navTemples: 'Temples',
     navDonations: 'Donations / Seva',
@@ -333,6 +427,53 @@ export const translations = {
     footerTerms: 'Terms & Conditions',
     footerRefunds: 'Donation & Refund',
     footerDataSafety: 'Data Safety',
+
+    // Contact Page
+    contactEyebrow: 'CONTACT',
+    contactTitle: 'Get in touch',
+    contactLead: "Questions, corrections to a temple listing, or partnership enquiries — we'd love to hear from you.",
+    contactEmailTitle: 'Email',
+    contactEmailDesc: '— for general queries and listing corrections.',
+    contactHelpdeskTitle: 'Devotee Support & Help Desk',
+    contactHelpdeskDesc: 'Operating hours: 9:00 AM – 7:00 PM IST, Monday to Saturday.',
+    contactLocationTitle: 'Sanctuary & Operations Office',
+    contactLocationDesc: 'Saranam Ayyappa Seva Trust, Hyderabad, Telangana, India.',
+
+    // Temple Details & Listing
+    tabAbout: 'About',
+    tabTimings: 'Timings',
+    tabFestivals: 'Festivals',
+    tabGallery: 'Gallery',
+    tabContact: 'Contact',
+    btnGetDirections: 'Get Directions',
+    btnSaveFavorite: 'Save Favorite',
+    btnSavedFavorite: 'Saved',
+    templeOverview: 'Temple Overview & Sanctum',
+    sanctumTimings: 'Sanctum & Darshan Timings',
+    templeSpeciality: 'Spiritual Significance & Speciality',
+    templeHistory: 'Temple Legend & History',
+    exploreTemple: 'Explore Temple',
+    allStates: 'All States',
+    allTempleTypes: 'All Temple Types',
+
+    // Pooja & Devotional Listings
+    searchPoojaPlaceholder: 'Search poojas, vrathams, or rituals...',
+    badgeBeginner: 'Beginner',
+    badgeFestival: 'Festival',
+    filterAll: 'All',
+    exploreGuide: 'Explore Sacred Guide',
+    procedureTitle: 'Pooja Vidhanam & Steps',
+
+    // Profile & Sidebar
+    menuEditProfile: 'Edit Profile',
+    menuBookmarks: 'Bookmarks',
+    menuManageTemples: 'Manage Your Temples',
+    menuAddMandir: 'Add New Mandir',
+    menuEvents: 'Events',
+    menuRefundPolicy: 'Refund Policy',
+    menuSettings: 'Settings & Language',
+    menuAccountDeletion: 'Account Deletion',
+    menuLogout: 'Logout',
   },
 
   ta: {
@@ -444,6 +585,53 @@ export const translations = {
     footerTerms: 'விதிமுறைகள்',
     footerRefunds: 'நன்கொடை கொள்கை',
     footerDataSafety: 'தரவுப் பாதுகாப்பு',
+
+    // Contact Page
+    contactEyebrow: 'தொடர்புக்கு',
+    contactTitle: 'பக்தர் உதவி மையம்',
+    contactLead: 'கோயில் விவரங்கள், தகவல்கள் அல்லது சந்தேகங்களுக்கு எங்களைத் தொடர்பு கொள்ளுங்கள்.',
+    contactEmailTitle: 'மின்னஞ்சல்',
+    contactEmailDesc: 'பொதுவான கேள்விகள் மற்றும் கோயில் திருத்தங்களுக்கு.',
+    contactHelpdeskTitle: 'பக்தர் உதவி மையம்',
+    contactHelpdeskDesc: 'நேரம்: காலை 9:00 முதல் இரவு 7:00 வரை (இந்திய நேரம்).',
+    contactLocationTitle: 'ஆலய அலுவலகம்',
+    contactLocationDesc: 'சரணம் ஐயப்பா சேவா அறக்கட்டளை, ஹைதராபாத், இந்தியா.',
+
+    // Temple Details & Listing
+    tabAbout: 'முழு விவரங்கள்',
+    tabTimings: 'தரிசன நேரம்',
+    tabFestivals: 'திருவிழாக்கள்',
+    tabGallery: 'புகைப்படங்கள்',
+    tabContact: 'தொடர்புக்கு',
+    btnGetDirections: 'வழிகாட்டி (வரைபடம்)',
+    btnSaveFavorite: 'விருப்பத்தில் சேமிக்க',
+    btnSavedFavorite: 'சேமிக்கப்பட்டது',
+    templeOverview: 'கோயில் அறிமுகம் & தரிசனம்',
+    sanctumTimings: 'கருவறை பூஜை & தரிசன நேரங்கள்',
+    templeSpeciality: 'கோயில் சிறப்புகள் & ஆன்மீகம்',
+    templeHistory: 'தல வரலாறு & புராணம்',
+    exploreTemple: 'கோயில் தரிசனம்',
+    allStates: 'அனைத்து மாநிலங்கள்',
+    allTempleTypes: 'அனைத்து கோயில் வகைகள்',
+
+    // Pooja & Devotional Listings
+    searchPoojaPlaceholder: 'பூஜைகள், விரதங்கள், மந்திரங்களைத் தேடுங்கள்...',
+    badgeBeginner: 'ஆரம்ப நிலை',
+    badgeFestival: 'திருவிழா சிறப்பு',
+    filterAll: 'அனைத்தும்',
+    exploreGuide: 'பூஜை வழிகாட்டியைப் பார்க்க',
+    procedureTitle: 'பூஜை முறை & படிகள்',
+
+    // Profile & Sidebar
+    menuEditProfile: 'சுயவிவரம் திருத்து',
+    menuBookmarks: 'சேமிக்கப்பட்டவை',
+    menuManageTemples: 'கோயில்கள் மேலாண்மை',
+    menuAddMandir: 'புதிய மந்திர் சேர்க்க',
+    menuEvents: 'நிகழ்வுகள்',
+    menuRefundPolicy: 'திருப்பிச் செலுத்தும் கொள்கை',
+    menuSettings: 'அமைப்புகள் & மொழி',
+    menuAccountDeletion: 'கணக்கு நீக்கம்',
+    menuLogout: 'வெளியேறு',
   },
 
   hi: {
@@ -555,6 +743,53 @@ export const translations = {
     footerTerms: 'नियम व शर्तें',
     footerRefunds: 'दान नीति',
     footerDataSafety: 'डेटा सुरक्षा',
+
+    // Contact Page
+    contactEyebrow: 'संपर्क',
+    contactTitle: 'भक्त सहायता केंद्र',
+    contactLead: 'मंदिर विवरण, जानकारी या किसी भी प्रश्न के लिए हमसे संपर्क करें।',
+    contactEmailTitle: 'ईमेल',
+    contactEmailDesc: 'सामान्य प्रश्नों और मंदिर सूची संशोधनों के लिए।',
+    contactHelpdeskTitle: 'भक्त सहायता डेस्क',
+    contactHelpdeskDesc: 'समय: सुबह 9:00 से शाम 7:00 बजे तक (भारतीय मानक समय)।',
+    contactLocationTitle: 'कार्यालय',
+    contactLocationDesc: 'शरणम् अय्यप्पा सेवा ट्रस्ट, हैदराबाद, भारत।',
+
+    // Temple Details & Listing
+    tabAbout: 'संपूर्ण परिचय',
+    tabTimings: 'दर्शन समय',
+    tabFestivals: 'मंदिर उत्सव',
+    tabGallery: 'चित्र दीर्घा',
+    tabContact: 'संपर्क करें',
+    btnGetDirections: 'दिशा-निर्देश (मानचित्र)',
+    btnSaveFavorite: 'पसंदीदा में सहेजें',
+    btnSavedFavorite: 'सहेजा गया',
+    templeOverview: 'तीर्थ परिचय & दर्शन',
+    sanctumTimings: 'गर्भगृह पूजा & दर्शन समय',
+    templeSpeciality: 'मंदिर की विशेषताएं & महिमा',
+    templeHistory: 'तीर्थ पुराण & इतिहास',
+    exploreTemple: 'मंदिर दर्शन करें',
+    allStates: 'सभी राज्य',
+    allTempleTypes: 'सभी मंदिर प्रकार',
+
+    // Pooja & Devotional Listings
+    searchPoojaPlaceholder: 'पूजा, व्रत, या मंत्र खोजें...',
+    badgeBeginner: 'प्रारंभिक',
+    badgeFestival: 'त्योहार विशेष',
+    filterAll: 'सभी',
+    exploreGuide: 'पूजा मार्गदर्शिका देखें',
+    procedureTitle: 'पूजा विधान & चरण',
+
+    // Profile & Sidebar
+    menuEditProfile: 'प्रोफाइल संपादन',
+    menuBookmarks: 'सहेजे गए (बुकमार्क)',
+    menuManageTemples: 'मंदिर प्रबंधन',
+    menuAddMandir: 'नया मंदिर जोड़ें',
+    menuEvents: 'कार्यक्रम / इवेंट्स',
+    menuRefundPolicy: 'रिफंड पॉलिसी',
+    menuSettings: 'सेटिंग्स & भाषा',
+    menuAccountDeletion: 'खाता हटाना',
+    menuLogout: 'लॉग आउट',
   },
 };
 

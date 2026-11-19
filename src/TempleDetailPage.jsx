@@ -3,6 +3,7 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import * as L from 'lucide-react';
 import { temples, image } from './data';
 import { API_BASE_URL } from './apiConfig';
+import { useLanguage } from './LanguageContext';
 import './templeDetailPage.css';
 
 const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
@@ -11,6 +12,7 @@ const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
 };
 
 export default function TempleDetailPage({ notify, favorites = [], toggleFav }) {
+  const { currentLanguage, t } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
   const [templeTab, setTempleTab] = useState('About');
@@ -26,7 +28,7 @@ export default function TempleDetailPage({ notify, favorites = [], toggleFav }) 
   // Fetch verified dynamic database record for this temple
   useEffect(() => {
     let isMounted = true;
-    fetch(`${API_BASE_URL}/dharma-kartha/public/temples/${encodeURIComponent(templeName)}/details`)
+    fetch(`${API_BASE_URL}/dharma-kartha/public/temples/${encodeURIComponent(templeName)}/details?lang=${currentLanguage}`)
       .then((res) => res.json())
       .then((data) => {
         if (isMounted && data?.success && data.temple) {
@@ -286,13 +288,15 @@ export default function TempleDetailPage({ notify, favorites = [], toggleFav }) 
   // Remaining temples list (excluding the current temple)
   const otherTemples = temples.filter((t) => t.name !== templeData.name);
 
+  const displayTempleName = templeData.localNames?.[currentLanguage] || templeData.localizedName || templeData.name;
+
   const tabs = [
-    { id: 'About', label: 'About / History', icon: 'Info' },
-    { id: 'Speciality', label: 'Speciality', icon: 'Sparkles' },
-    { id: 'Timings', label: 'Time & Aarti', icon: 'Clock' },
-    { id: 'Media', label: 'Media', icon: 'Image' },
-    { id: 'Festivals', label: 'Festivals', icon: 'CalendarDays' },
-    { id: 'Contact', label: 'Contact', icon: 'Phone' },
+    { id: 'About', label: t('tabAbout', 'About / History'), icon: 'Info' },
+    { id: 'Speciality', label: t('templeSpeciality', 'Speciality'), icon: 'Sparkles' },
+    { id: 'Timings', label: t('tabTimings', 'Time & Aarti'), icon: 'Clock' },
+    { id: 'Media', label: t('tabGallery', 'Media'), icon: 'Image' },
+    { id: 'Festivals', label: t('tabFestivals', 'Festivals'), icon: 'CalendarDays' },
+    { id: 'Contact', label: t('tabContact', 'Contact'), icon: 'Phone' },
   ];
 
   return (
@@ -301,9 +305,9 @@ export default function TempleDetailPage({ notify, favorites = [], toggleFav }) 
       <div className="breadcrumb">
         <Link to="/home">Home</Link>
         <Icon name="ChevronRight" size={13} />
-        <Link to="/temples">Temples</Link>
+        <Link to="/temples">{t('navTemples', 'Temples')}</Link>
         <Icon name="ChevronRight" size={13} />
-        <span>{templeData.name}</span>
+        <span>{displayTempleName}</span>
       </div>
 
       {/* Hero Banner — 3 Cards Section: Temple Image (70%), Timings (15%), Gopuram (15%) */}
@@ -312,7 +316,7 @@ export default function TempleDetailPage({ notify, favorites = [], toggleFav }) 
         <div className="sa-hero-card sa-hero-card-temple">
           <img
             src={templeHeroBanner}
-            alt={templeData.name}
+            alt={displayTempleName}
             className="sa-hero-card-img"
             onError={(e) => { e.target.src = '/images/temple-hero.jpg'; }}
           />
@@ -320,7 +324,7 @@ export default function TempleDetailPage({ notify, favorites = [], toggleFav }) 
             <span className="sa-hero-tag">
               {templeData.state.toUpperCase()} • INDIA
             </span>
-            <h1 className="sa-hero-title">{templeData.name}</h1>
+            <h1 className="sa-hero-title">{displayTempleName}</h1>
             <p className="sa-hero-subtitle">{templeData.special}</p>
           </div>
         </div>
@@ -334,11 +338,11 @@ export default function TempleDetailPage({ notify, favorites = [], toggleFav }) 
           <div className="sa-times-icon-wrap">
             <Icon name="Sunrise" size={26} />
           </div>
-          <h3 className="sa-times-title">Temple Timings</h3>
+          <h3 className="sa-times-title">{t('tabTimings', 'Temple Timings')}</h3>
           <div className="sa-times-hours">{darshanHoursStr}</div>
           <p className="sa-times-note">Morning &amp; Evening Aarti Sessions</p>
           <span className="sa-times-view-link">
-            View Schedule <Icon name="ArrowRight" size={13} />
+            {t('btnViewAll', 'View Schedule')} <Icon name="ArrowRight" size={13} />
           </span>
         </div>
 
@@ -346,7 +350,7 @@ export default function TempleDetailPage({ notify, favorites = [], toggleFav }) 
         <div className="sa-hero-card sa-hero-card-gopuram" onClick={() => setTempleTab('Media')} title="Click to view Media gallery">
           <img
             src={templeGopuramImg}
-            alt={`${templeData.name} Gopuram`}
+            alt={`${displayTempleName} Gopuram`}
             className="sa-hero-card-img"
             onError={(e) => { e.target.src = '/images/temple-steps.jpg'; }}
           />
@@ -367,7 +371,7 @@ export default function TempleDetailPage({ notify, favorites = [], toggleFav }) 
           type="button"
           onClick={handleToggleFavorite}
           className={`sa-devotee-pill-btn ${isFavorited ? 'favorited' : ''}`}
-          title={isFavorited ? 'Remove from Saved Temples' : 'Save this Temple'}
+          title={isFavorited ? t('btnSavedFavorite', 'Remove from Saved Temples') : t('btnSaveFavorite', 'Save this Temple')}
         >
           <Icon
             name={isFavorited ? 'HeartHandshake' : 'Heart'}
@@ -375,7 +379,7 @@ export default function TempleDetailPage({ notify, favorites = [], toggleFav }) 
             fill={isFavorited ? '#e11d48' : 'none'}
             color={isFavorited ? '#e11d48' : 'currentColor'}
           />
-          <span>{isFavorited ? 'Saved' : 'Save'}</span>
+          <span>{isFavorited ? t('btnSavedFavorite', 'Saved') : t('btnSaveFavorite', 'Save')}</span>
         </button>
 
         <button

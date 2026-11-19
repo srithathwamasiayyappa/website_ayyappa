@@ -19,16 +19,21 @@ export default function DharmaKarthaMyTemples({ notify, profile }) {
   const [claimModalOpen, setClaimModalOpen] = useState(false);
   const [claimData, setClaimData] = useState({ templeId: 1, reason: '' });
   const [isClaiming, setIsClaiming] = useState(false);
+  const [allKnownTemples, setAllKnownTemples] = useState([]);
 
-  // Available temples for ownership claim dropdown
-  const allKnownTemples = [
-    { id: 1, name: 'Sabarimala Sri Ayyappa Temple', city: 'Pathanamthitta', state: 'Kerala' },
-    { id: 2, name: 'Sri Venkateswara Temple', city: 'Tirumala', state: 'Andhra Pradesh' },
-    { id: 3, name: 'Kashi Vishwanath Temple', city: 'Varanasi', state: 'Uttar Pradesh' },
-    { id: 4, name: 'Meenakshi Amman Temple', city: 'Madurai', state: 'Tamil Nadu' },
-    { id: 5, name: 'Kedarnath Temple', city: 'Rudraprayag', state: 'Uttarakhand' },
-    { id: 6, name: 'Kanaka Durga Temple', city: 'Vijayawada', state: 'Andhra Pradesh' },
-  ];
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/dharma-kartha/public/temples`)
+      .then(res => res.json())
+      .then(data => {
+        if (data?.temples && Array.isArray(data.temples)) {
+          setAllKnownTemples(data.temples);
+          if (data.temples.length > 0) {
+            setClaimData(prev => ({ ...prev, templeId: data.temples[0].id }));
+          }
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const fetchTemples = async () => {
     try {

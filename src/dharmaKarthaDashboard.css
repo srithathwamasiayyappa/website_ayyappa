@@ -1044,3 +1044,117 @@
   border-color: #caa049;
 }
 
+/* Card Action Buttons (View, Edit, Delete) */
+.sa-dk-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid #edf4ef;
+  padding-top: 12px;
+  margin-top: 14px;
+}
+
+.sa-dk-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.sa-dk-action-btn.view {
+  color: #0b3d2b;
+  background: #f0f7f3;
+  border-color: #cce3d5;
+}
+.sa-dk-action-btn.view:hover {
+  background: #e1efe7;
+  color: #05261b;
+}
+
+.sa-dk-action-btn.edit {
+  color: #b8860b;
+  background: #fef9ee;
+  border-color: #f6e2b6;
+}
+.sa-dk-action-btn.edit:hover {
+  background: #faeed0;
+  color: #8c6508;
+}
+
+.sa-dk-action-btn.delete {
+  color: #c0392b;
+  background: #fdf2f2;
+  border-color: #fad2d2;
+}
+.sa-dk-action-btn.delete:hover {
+  background: #f9dcdc;
+  color: #962d22;
+}
+
+.sa-dk-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.sa-dk-search-wrap svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #889e93;
+}
+
+.sa-dk-search-input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 13.5px;
+  background: #ffffff;
+  color: #1e382b;
+  box-sizing: border-box;
+}
+
+.sa-dk-search-input:focus {
+  outline: none;
+  border-color: #0b3d2b;
+  box-shadow: 0 0 0 2px rgba(11, 61, 43, 0.12);
+}
+
+.sa-dk-detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f3ee;
+  font-size: 13.5px;
+}
+
+.sa-dk-detail-row:last-child {
+  border-bottom: none;
+}
+
+.sa-dk-detail-label {
+  color: #637a70;
+  font-weight: 600;
+  width: 130px;
+  flex-shrink: 0;
+}
+
+.sa-dk-detail-value {
+  color: #0b3d2b;
+  font-weight: 600;
+  flex: 1;
+  text-align: right;
+  word-break: break-word;
+}
+
+

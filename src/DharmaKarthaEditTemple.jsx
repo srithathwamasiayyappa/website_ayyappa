@@ -118,6 +118,16 @@ export default function DharmaKarthaEditTemple({ notify, profile }) {
 
   const handleAddTiming = async (e) => {
     e.preventDefault();
+    if (!id || id === 'new' || !formData.name) {
+      if (notify) {
+        notify({
+          title: 'Mandir Registration Required',
+          message: 'Without adding or saving a temple, you cannot configure Time & Aarti timings.',
+          type: 'warning',
+        });
+      }
+      return;
+    }
     if (!newTiming.title.trim() || !newTiming.timeWindow.trim()) {
       if (notify) notify('Title and time window are required.');
       return;
@@ -354,7 +364,19 @@ export default function DharmaKarthaEditTemple({ notify, profile }) {
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => {
+                  if (!formData.name && !loading) {
+                    if (notify) {
+                      notify({
+                        title: 'Mandir Registration Required',
+                        message: `Without adding a temple, you cannot configure ${tab.label}. Please add or register your Temple first.`,
+                        type: 'warning',
+                      });
+                    }
+                    return;
+                  }
+                  setActiveTab(tab.id);
+                }}
                 style={{
                   background: isTabActive ? '#0b3d2b' : 'transparent',
                   color: isTabActive ? '#fff' : '#444',
@@ -632,14 +654,63 @@ export default function DharmaKarthaEditTemple({ notify, profile }) {
               </p>
 
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#333', marginBottom: '16px' }}>
-                Primary Hero Banner Image URL
-                <input
-                  type="url"
-                  placeholder="https://example.com/images/temple-front.jpg"
-                  value={formData.heroImageUrl || ''}
-                  onChange={(e) => handleChange('heroImageUrl', e.target.value)}
-                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc', marginTop: '4px' }}
-                />
+                Primary Hero Banner Image (Upload File or Enter URL)
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginTop: '6px', flexWrap: 'wrap' }}>
+                  <label
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 16px',
+                      borderRadius: '8px',
+                      background: '#0b3d2b',
+                      color: '#fff',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Icon name="Upload" size={15} color="#caa049" />
+                    <span>Choose File</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        if (file.size > 5 * 1024 * 1024) {
+                          alert('Image size exceeds 5MB limit.');
+                          return;
+                        }
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          const base64 = event.target?.result;
+                          if (base64) {
+                            handleChange('heroImageUrl', base64);
+                          }
+                        };
+                        reader.readAsDataURL(file);
+                      }}
+                    />
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Or paste image URL (https://...)"
+                    value={formData.heroImageUrl || ''}
+                    onChange={(e) => handleChange('heroImageUrl', e.target.value)}
+                    style={{ flex: 1, minWidth: '220px', padding: '9px 12px', borderRadius: '8px', border: '1px solid #ccc' }}
+                  />
+                  {formData.heroImageUrl && (
+                    <button
+                      type="button"
+                      onClick={() => handleChange('heroImageUrl', '')}
+                      style={{ padding: '8px 12px', background: '#ffebee', color: '#c62828', border: '1px solid #ffcdd2', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
               </label>
 
               {formData.heroImageUrl && (

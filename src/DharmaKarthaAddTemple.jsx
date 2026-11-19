@@ -269,6 +269,97 @@ export default function DharmaKarthaAddTemple({ notify, profile }) {
             />
           </label>
 
+          {/* TEMPLE GOPURAM / BANNER IMAGE (FILE UPLOAD OPTION) */}
+          <div style={{ marginBottom: '24px', padding: '16px', background: '#fcf8f0', borderRadius: '12px', border: '1px solid #ebdcc5' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#0b3d2b', marginBottom: '6px' }}>
+              Temple Gopuram / Banner Image (File Upload)
+            </label>
+            <p style={{ fontSize: '12px', color: '#6d5a47', margin: '0 0 12px 0' }}>
+              Upload an authentic photograph of the mandir gopuram, entrance, or sanctum (JPG, PNG, WebP up to 5MB).
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {formData.heroImageUrl && formData.heroImageUrl !== '/images/temple-hero.jpg' && (
+                <div style={{ position: 'relative', width: '100%', maxHeight: '200px', borderRadius: '10px', overflow: 'hidden', border: '1px solid #dcd4c5' }}>
+                  <img
+                    src={formData.heroImageUrl}
+                    alt="Temple preview"
+                    style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleChange('heroImageUrl', '')}
+                    style={{
+                      position: 'absolute',
+                      top: '8px',
+                      right: '8px',
+                      background: 'rgba(0,0,0,0.75)',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '28px',
+                      height: '28px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '14px',
+                    }}
+                    title="Remove image"
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                <label
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '10px 18px',
+                    borderRadius: '8px',
+                    background: '#0b3d2b',
+                    color: '#fff',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 6px rgba(11,61,43,0.2)',
+                    transition: 'background 0.2s',
+                  }}
+                >
+                  <Icon name="Upload" size={16} color="#caa049" />
+                  <span>Choose Image File</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      if (file.size > 5 * 1024 * 1024) {
+                        alert('Image size exceeds 5MB limit.');
+                        return;
+                      }
+                      const reader = new FileReader();
+                      reader.onload = (event) => {
+                        const base64 = event.target?.result;
+                        if (base64) {
+                          handleChange('heroImageUrl', base64);
+                        }
+                      };
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                </label>
+                <span style={{ fontSize: '12px', color: '#777' }}>
+                  {formData.heroImageUrl && formData.heroImageUrl !== '/images/temple-hero.jpg' ? '✓ Image selected' : 'No file chosen'}
+                </span>
+              </div>
+            </div>
+          </div>
+
           <h3 style={{ color: '#0b3d2b', borderBottom: '2px solid #f0e6d6', paddingBottom: '10px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Icon name="ScrollText" size={20} color="#caa049" /> 2. Sacred Heritage &amp; Details
           </h3>
