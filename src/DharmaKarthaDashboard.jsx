@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as L from 'lucide-react';
 import { API_BASE_URL } from './apiConfig';
@@ -22,6 +22,18 @@ export default function DharmaKarthaDashboard({ notify, profile: initialProfile 
   const [deleteModalTemple, setDeleteModalTemple] = useState(null);
   const [deleteReason, setDeleteReason] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // Dynamic counts calculation from both stats API and loaded temple list
+  const dynamicPendingCount = useMemo(() => {
+    const pendingTemples = (temples || []).filter(
+      (t) => t.status === 'PENDING_APPROVAL' || t.status === 'PENDING'
+    ).length;
+    return Math.max(stats.pendingUpdates || 0, pendingTemples);
+  }, [stats.pendingUpdates, temples]);
+
+  const dynamicManagedCount = useMemo(() => {
+    return Math.max(stats.managedTemples || 0, (temples || []).length);
+  }, [stats.managedTemples, temples]);
 
   // Load Dashboard Data
   useEffect(() => {
@@ -182,7 +194,7 @@ export default function DharmaKarthaDashboard({ notify, profile: initialProfile 
               </div>
               <div className="sa-dk-kpi-content">
                 <span className="sa-dk-kpi-label">Managed Temples</span>
-                <span className="sa-dk-kpi-value">{loading ? '…' : stats.managedTemples}</span>
+                <span className="sa-dk-kpi-value">{loading ? '…' : dynamicManagedCount}</span>
               </div>
             </div>
 
@@ -192,7 +204,7 @@ export default function DharmaKarthaDashboard({ notify, profile: initialProfile 
               </div>
               <div className="sa-dk-kpi-content">
                 <span className="sa-dk-kpi-label">Pending Updates</span>
-                <span className="sa-dk-kpi-value">{loading ? '…' : stats.pendingUpdates}</span>
+                <span className="sa-dk-kpi-value">{loading ? '…' : dynamicPendingCount}</span>
               </div>
             </div>
 
