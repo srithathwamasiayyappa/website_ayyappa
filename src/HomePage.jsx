@@ -335,6 +335,101 @@ function HeroSection() {
   );
 }
 
+// Localized titles & subtitles across all 5 database languages for services
+const homeServiceI18n = {
+  pooja: {
+    te: { title: 'పూజా విధానం', sub: 'దశలవారీ పూజా పద్ధతులు & నియమాలు' },
+    kn: { title: 'ಪೂಜಾ ವಿಧಾನ', sub: 'ಹಂತ-ಹಂತದ ಪೂಜಾ ವಿಧಾನಗಳು' },
+    en: { title: 'Pooja Vidhanam', sub: 'Step-by-step sacred rituals' },
+    ta: { title: 'பூஜை முறை', sub: 'படி படியான பூஜை முறைகள்' },
+    hi: { title: 'पूजा विधान', sub: 'चरण-दर-चरण पूजा पद्धतियां' },
+  },
+  ashtothram: {
+    te: { title: 'అష్టోత్తరాలు', sub: '108 దివ్య నామావళులు' },
+    kn: { title: 'ಅಷ್ಟೋತ್ತರ', sub: '108 ದಿವ್ಯ ನಾಮಾವಳಿಗಳು' },
+    en: { title: 'Astothrams', sub: '108 divine names' },
+    ta: { title: 'அஷ்டோத்திரம்', sub: '108 திருநாமங்கள்' },
+    hi: { title: 'अष्टोत्तर', sub: '108 दिव्य नाम' },
+  },
+  stotras: {
+    te: { title: 'దివ్య స్తోత్రాలు', sub: 'శక్తివంతమైన భక్తి స్తోత్రాలు' },
+    kn: { title: 'ದಿವ್ಯ ಸ್ತೋತ್ರಗಳು', sub: 'ಶಕ್ತಿಶಾಲಿ ಭಕ್ತಿ ಸ್ತೋತ್ರಗಳು' },
+    en: { title: 'Divine Stotras', sub: 'Sacred Hymns & Chants' },
+    ta: { title: 'தெய்வீக ஸ்தோத்திரங்கள்', sub: 'சக்திவாய்ந்த பக்தி துதிகள்' },
+    hi: { title: 'दिव्य स्तोत्र', sub: 'पावन भक्ति स्तोत्र' },
+  },
+  slokas: {
+    te: { title: 'నిత్య శ్లోకాలు', sub: 'ధ్యాన శ్లోకాలు & అర్థాలు' },
+    kn: { title: 'ನಿತ್ಯ ಶ್ಲೋಕಗಳು', sub: 'ಧ್ಯಾನ ಶ್ಲೋಕಗಳು & ಅರ್ಥಗಳು' },
+    en: { title: 'Daily Slokas', sub: 'Verses for Meditation' },
+    ta: { title: 'தினசரி ஸ்லோகங்கள்', sub: 'தியான ஸ்லோகங்கள் & பொருள்' },
+    hi: { title: 'दैनिक श्लोक', sub: 'ध्यान श्लोक और अर्थ' },
+  },
+  songs: {
+    te: { title: 'భజనలు & కీర్తనలు', sub: 'భక్తి గీతాలు & హారతులు' },
+    kn: { title: 'ಭಜನೆಗಳು & ಕೀರ್ತನೆಗಳು', sub: 'ಭಕ್ತಿಗೀತೆಗಳು & ಆರತಿಗಳು' },
+    en: { title: 'Bhajans & Songs', sub: 'Devotional Melodies' },
+    ta: { title: 'பஜனைகள் & பாடல்கள்', sub: 'பக்திப் பாடல்கள் & ஆரத்திகள்' },
+    hi: { title: 'भजन और कीर्तन', sub: 'भक्ति गीत और आरतियां' },
+  },
+  bhajans: {
+    te: { title: 'భజనలు & కీర్తనలు', sub: 'భక్తి గీతాలు & హారతులు' },
+    kn: { title: 'ಭಜನೆಗಳು & ಕೀರ್ತನೆಗಳು', sub: 'ಭಕ್ತಿಗೀತೆಗಳು & ಆರತಿಗಳು' },
+    en: { title: 'Bhajans & Songs', sub: 'Devotional Melodies' },
+    ta: { title: 'பஜனைகள் & பாடல்கள்', sub: 'பக்திப் பாடல்கள் & ஆரத்திகள்' },
+    hi: { title: 'भजन और कीर्तन', sub: 'भक्ति गीत और आरतियां' },
+  },
+  'live-streams': {
+    te: { title: 'ప్రత్యక్ష దర్శనం', sub: 'ఆలయ ప్రత్యక్ష ప్రసారాలు' },
+    kn: { title: 'ನೇರ ದರ್ಶನ', sub: 'ದೇವಾಲಯ ನೇರ ಪ್ರಸಾರಗಳು' },
+    en: { title: 'Live Darshan', sub: 'Daily Temple Streams' },
+    ta: { title: 'நேரலை தரிசனம்', sub: 'கோயில் நேரலை ஒளிபரப்புகள்' },
+    hi: { title: 'लाइव दर्शन', sub: 'मंदिर सीधा प्रसारण' },
+  },
+  live: {
+    te: { title: 'ప్రత్యక్ష దర్శనం', sub: 'ఆలయ ప్రత్యక్ష ప్రసారాలు' },
+    kn: { title: 'ನೇರ ದರ್ಶನ', sub: 'ದೇವಾಲಯ ನೇರ ಪ್ರಸಾರಗಳು' },
+    en: { title: 'Live Darshan', sub: 'Daily Temple Streams' },
+    ta: { title: 'நேரலை தரிசனம்', sub: 'கோயில் நேரலை ஒளிபரப்புகள்' },
+    hi: { title: 'लाइव दर्शन', sub: 'मंदिर सीधा प्रसारण' },
+  },
+  panchangam: {
+    te: { title: 'నిత్య పంచాంగం', sub: 'తిథి, నక్షత్రం & శుభ ముహూర్తాలు' },
+    kn: { title: 'ದೈನಂದಿನ ಪಂಚಾಂಗ', sub: 'ತಿಥಿ, ನಕ್ಷತ್ರ & ಶುಭ ಮುಹೂರ್ತ' },
+    en: { title: 'Panchangam', sub: 'Auspicious Timings' },
+    ta: { title: 'தினசரி பஞ்சாங்கம்', sub: 'திதி, நட்சத்திரம் & சுப முகூர்த்தம்' },
+    hi: { title: 'दैनिक पंचांग', sub: 'तिथि, नक्षत्र और शुभ मुहूर्त' },
+  },
+  festivals: {
+    te: { title: 'ఆలయ పండుగలు', sub: 'వార్షిక ఉత్సవాలు & విశేషాలు' },
+    kn: { title: 'ದೇವಾಲಯ ಹಬ್ಬಗಳು', sub: 'ವಾರ್ಷಿಕ ಹಬ್ಬಗಳು & ವಿಶೇಷಗಳು' },
+    en: { title: 'Temple Festivals', sub: 'Annual Celebrations' },
+    ta: { title: 'கோயில் திருவிழாக்கள்', sub: 'ஆண்டு விழாக்கள் & சிறப்புகள்' },
+    hi: { title: 'मंदिर उत्सव', sub: 'वार्षिक उत्सव और व्रत' },
+  },
+  temples: {
+    te: { title: 'పవిత్ర దేవాలయాలు', sub: 'పుణ్యక్షేత్రాలు & తీర్థయాత్రలు' },
+    kn: { title: 'ಪವಿತ್ರ ದೇವಾಲಯಗಳು', sub: 'ಪುಣ್ಯಕ್ಷೇತ್ರಗಳು & ಯಾತ್ರೆಗಳು' },
+    en: { title: 'Sacred Temples', sub: 'Shrines & Pilgrimages' },
+    ta: { title: 'புனித திருக்கோயில்கள்', sub: 'திருத்தலங்கள் & யாத்திரைகள்' },
+    hi: { title: 'पवित्र मंदिर', sub: 'तीर्थ स्थल और देवालय' },
+  },
+  donations: {
+    te: { title: 'అన్నదాన సేవ', sub: 'నిత్యాన్నదానం & సేవా సహకారం' },
+    kn: { title: 'ಅನ್ನದಾನ ಸೇವೆ', sub: 'ನಿತ್ಯಾನ್ನದಾನ & ಸೇವಾ ಸಹಕಾರ' },
+    en: { title: 'Annadanam Seva', sub: 'Meal Offering & Seva' },
+    ta: { title: 'அன்னதான சேவை', sub: 'அன்னதானம் & சேவைப் பங்களிப்பு' },
+    hi: { title: 'अन्नदान सेवा', sub: 'महाप्रसाद एवं सेवा सहयोग' },
+  },
+  food: {
+    te: { title: 'నేటి అన్నదానం', sub: 'ఆహార వితరణ కేంద్రాలు' },
+    kn: { title: 'ಇಂದಿನ ಅನ್ನದಾನ', sub: 'ಆಹಾರ ವಿತರಣಾ ಕೇಂದ್ರಗಳು' },
+    en: { title: 'Food Donation Today', sub: 'Today’s annadanam locations' },
+    ta: { title: 'இன்றைய அன்னதானம்', sub: 'உணவு வழங்கும் இடங்கள்' },
+    hi: { title: 'आज का अन्नदान', sub: 'भोजन वितरण केंद्र' },
+  },
+};
+
 /* SECTION 4: Explore Devotional Services (Exact Redesign matching Reference 2) */
 function ServicesSection() {
   const { currentLanguage, t } = useLanguage();
@@ -497,25 +592,29 @@ function ServicesSection() {
           <div className="sa-services-grid-wrapper">
             <div className="sa-services-cards-grid">
               {filtered.map((service, index) => {
-                const isFoodCard = (service.id || service.serviceId) === "food";
+                const sKey = service.id || service.serviceId;
+                const isFoodCard = sKey === "food";
                 // Global index across all services
-                const globalIndex = servicesData.findIndex((s) => (s.id || s.serviceId) === (service.id || service.serviceId));
+                const globalIndex = servicesData.findIndex((s) => (s.id || s.serviceId) === sKey);
                 const cardNumber = String((globalIndex !== -1 ? globalIndex : index) + 1).padStart(2, "0");
+                const loc = homeServiceI18n[sKey]?.[currentLanguage] || homeServiceI18n[sKey]?.en;
+                const displayTitle = loc?.title || service.title;
+                const displaySub = loc?.sub || service.sub;
 
                 return (
                   <Link
                     to={service.url}
                     key={service.id || service.serviceId}
                     className={`sa-service-card-item ${isFoodCard ? "sa-service-card-highlight" : ""}`}
-                    aria-label={`${service.title} - ${service.sub}`}
+                    aria-label={`${displayTitle} - ${displaySub}`}
                   >
                     <div className="sa-service-card-icon-shape">
                       <Icon name={service.icon} size={20} />
                     </div>
 
                     <div className="sa-service-card-text">
-                      <h4 className="sa-service-card-title">{service.title}</h4>
-                      <p className="sa-service-card-sub">{service.sub}</p>
+                      <h4 className="sa-service-card-title">{displayTitle}</h4>
+                      <p className="sa-service-card-sub">{displaySub}</p>
                     </div>
 
                     <div className="sa-service-card-meta">
@@ -567,10 +666,29 @@ function PanchangamSection() {
   const { currentLanguage, t } = useLanguage();
   const [selectedCity, setSelectedCity] = useState("Hyderabad");
   const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().split("T")[0]);
+  const [apiData, setApiData] = useState(null);
+
+  // Sync with live public Panchangam API; fallback directly to high-precision local engine
+  useEffect(() => {
+    let isCurrent = true;
+    fetch(`${API_BASE_URL}/panchangam/day?date=${selectedDate}&city=${encodeURIComponent(selectedCity)}&lang=${currentLanguage}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (isCurrent && json && json.tithi) {
+          setApiData(json);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [selectedDate, selectedCity, currentLanguage]);
 
   const panchData = useMemo(() => {
+    if (apiData && apiData.city === selectedCity) return apiData;
     return PanchangamLocalEngine.calculate(new Date(selectedDate), selectedCity, currentLanguage);
-  }, [selectedDate, selectedCity, currentLanguage]);
+  }, [apiData, selectedDate, selectedCity, currentLanguage]);
 
   return (
     <section className="soft-section sa-home-panchangam-section">

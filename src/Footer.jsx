@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import * as L from 'lucide-react';
-import { API_BASE_URL } from './apiConfig';
+import { API_BASE_URL, API_ORIGIN } from './apiConfig';
 import { useLanguage } from './LanguageContext';
 import './footer.css';
 
@@ -47,14 +47,12 @@ export default function Footer({ notify, brand: propBrand }) {
       .then((res) => res.json())
       .then((data) => {
         if (data?.success) {
-          let resolvedLogo = prev.logoUrl;
+          let resolvedLogo = '';
           if (data.logoUrl) {
-            if (data.logoUrl.includes('backendapis.saranamayyappa.in/images/')) {
-              resolvedLogo = data.logoUrl.replace(/https?:\/\/backendapis\.saranamayyappa\.in/, '');
-            } else if (data.logoUrl.startsWith('http') || data.logoUrl.startsWith('data:') || data.logoUrl.startsWith('/images/')) {
+            if (data.logoUrl.startsWith('http://') || data.logoUrl.startsWith('https://') || data.logoUrl.startsWith('data:') || data.logoUrl.startsWith('/images/')) {
               resolvedLogo = data.logoUrl;
             } else {
-              resolvedLogo = `${API_BASE_URL.replace(/\/api\/v1\/?$/, '')}${data.logoUrl.startsWith('/') ? '' : '/'}${data.logoUrl}`;
+              resolvedLogo = `${API_ORIGIN}${data.logoUrl.startsWith('/') ? '' : '/'}${data.logoUrl}`;
             }
           }
 

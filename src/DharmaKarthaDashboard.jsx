@@ -105,6 +105,7 @@ export default function DharmaKarthaDashboard({ notify, profile: initialProfile 
     { id: 'gallery', label: 'Gallery', icon: 'Image', link: '/dharma-kartha/gallery' },
     { id: 'terms', label: 'Terms & Conditions', icon: 'FileText', link: '/terms' },
     { id: 'privacy', label: 'Privacy Policy', icon: 'ShieldCheck', link: '/privacy' },
+    { id: 'refund', label: 'Refund Policy', icon: 'RotateCcw', link: '/refund-policy' },
     { id: 'about', label: 'About', icon: 'Info', link: '/about' },
     { id: 'logout', label: 'Logout', icon: 'LogOut', link: '/logout' },
   ];
@@ -340,12 +341,18 @@ export default function DharmaKarthaDashboard({ notify, profile: initialProfile 
                     type="button"
                     className="sa-dk-quick-edit-btn"
                     onClick={() => {
-                      const tabParam = row.tab || row.id;
-                      if (selectedTempleId) {
-                        navigate(`/dharma-kartha/temples/${selectedTempleId}/edit?tab=${tabParam}`);
-                      } else {
-                        navigate('/dharma-kartha/temples');
+                      if (!temples || temples.length === 0 || !selectedTempleId) {
+                        if (notify) {
+                          notify({
+                            title: 'Mandir Registration Required',
+                            message: `Without adding a temple, you cannot configure ${row.title}. Please register or add your sacred Temple first.`,
+                            type: 'warning',
+                          });
+                        }
+                        return;
                       }
+                      const tabParam = row.tab || row.id;
+                      navigate(`/dharma-kartha/temples/${selectedTempleId}/edit?tab=${tabParam}`);
                     }}
                   >
                     <Icon name="Pencil" size={13} />

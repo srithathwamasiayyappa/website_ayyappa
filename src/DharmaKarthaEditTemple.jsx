@@ -158,6 +158,16 @@ export default function DharmaKarthaEditTemple({ notify, profile }) {
 
   const handleAddTiming = async (e) => {
     e.preventDefault();
+    if (!id || id === 'new' || !formData.name) {
+      if (notify) {
+        notify({
+          title: 'Mandir Registration Required',
+          message: 'Without adding or saving a temple, you cannot configure Time & Aarti timings.',
+          type: 'warning',
+        });
+      }
+      return;
+    }
     if (!newTiming.title.trim() || !newTiming.timeWindow.trim()) {
       if (notify) notify('Title and time window are required.');
       return;
@@ -394,7 +404,19 @@ export default function DharmaKarthaEditTemple({ notify, profile }) {
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => {
+                  if (!formData.name && !loading) {
+                    if (notify) {
+                      notify({
+                        title: 'Mandir Registration Required',
+                        message: `Without adding a temple, you cannot configure ${tab.label}. Please add or register your Temple first.`,
+                        type: 'warning',
+                      });
+                    }
+                    return;
+                  }
+                  setActiveTab(tab.id);
+                }}
                 style={{
                   background: isTabActive ? '#0b3d2b' : 'transparent',
                   color: isTabActive ? '#fff' : '#444',

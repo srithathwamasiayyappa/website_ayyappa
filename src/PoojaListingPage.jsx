@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as L from 'lucide-react';
+import { useLanguage } from './LanguageContext';
 import './poojaListing.css';
 import './devotionalCleanList.css';
 
@@ -408,6 +409,7 @@ export const subcategoryConfigs = {
 export const poojaListingData = subcategoryConfigs.pooja.items;
 
 export default function PoojaListingPage({ category: categoryProp }) {
+  const { currentLanguage, t } = useLanguage();
   const location = useLocation();
 
   // Detect category from prop or pathname

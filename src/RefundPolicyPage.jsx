@@ -39,10 +39,29 @@ export default function RefundPolicyPage() {
 
   const renderDbContent = () => {
     if (loading) {
-      return <p style={{ padding: '24px 0', textAlign: 'center' }}>Loading refund policy from database...</p>;
+      return <p style={{ padding: '24px 0', textAlign: 'center' }}>Loading refund policy...</p>;
     }
     if (!cmsData || !cmsData.value) {
-      return <p style={{ padding: '24px 0', color: '#c0392b' }}>No refund policy found in database.</p>;
+      return (
+        <div>
+          <h2>1. Voluntary Devotional Offerings and Sevas</h2>
+          <p>
+            All voluntary contributions, e-hundi donations, and seva booking amounts made through the Saranam Ayyappa portal are directed to the respective temple trusts for sacred activities, annadanam, and sanctum maintenance.
+          </p>
+          <h2>2. Cancellation and Refund Guidelines</h2>
+          <p>
+            General voluntary donations once completed are sacred offerings and non-refundable. In the event of a duplicate payment or transaction failure caused by network errors, devotees may contact our support team within 7 business days with transaction details. Verified duplicate deductions will be refunded to the original payment source within 5–7 banking days.
+          </p>
+          <h2>3. Seva Rescheduling</h2>
+          <p>
+            If a scheduled pooja or event cannot be conducted due to unforeseen temple sanctum circumstances or regulatory guidelines, the temple administration reserves the right to reschedule the seva to an alternate auspicious date in consultation with the devotee.
+          </p>
+          <h2>4. Contact for Payment and Refund Queries</h2>
+          <p>
+            For any billing, duplicate deduction, or donation receipt queries, please reach out via our contact page or email support@saranamayyappa.org with your transaction reference number.
+          </p>
+        </div>
+      );
     }
 
     const raw = cmsData.value;

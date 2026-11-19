@@ -341,9 +341,21 @@ function App() {
   const notify = (msg, type = 'success') => {
     if (typeof msg === 'string') {
       const isError = type === 'error' || /fail|invalid|incorrect|error|wrong|suspended|not registered|already registered/i.test(msg);
-      setToast({ text: msg, type: isError ? 'error' : 'success' });
+      const isWarning = type === 'warning' || /required|caution|without adding|must add|cannot create/i.test(msg);
+      const effectiveType = isError ? 'error' : isWarning ? 'warning' : type;
+      setToast({
+        title: isError ? 'Action Failed' : isWarning ? 'Mandir Required' : 'Success',
+        message: msg,
+        text: msg,
+        type: effectiveType,
+      });
     } else if (msg && typeof msg === 'object') {
-      setToast(msg);
+      setToast({
+        title: msg.title || (msg.type === 'warning' ? 'Mandir Required' : msg.type === 'error' ? 'Error' : 'Notice'),
+        message: msg.message || msg.text || '',
+        text: msg.message || msg.text || '',
+        type: msg.type || 'success',
+      });
     }
   };
   const toggleFav = (v) => { setFavorites(old => old.includes(v) ? old.filter(x => x !== v) : [...old, v]); notify('Saved items updated') };
@@ -572,7 +584,27 @@ function App() {
         </>
       )}
     </header>
-    {toast && <div className={`toast toast-${toast.type || 'success'}`} role="alert"><Icon name={toast.type === 'error' ? 'AlertCircle' : 'CheckCircle2'} size={20} /><span>{toast.text}</span></div>}
+    {toast && (
+      <div className={`toast toast-${toast.type || 'success'}`} role="alert">
+        <Icon
+          name={toast.type === 'error' ? 'AlertCircle' : toast.type === 'warning' ? 'AlertTriangle' : 'CheckCircle2'}
+          size={24}
+          className="toast-main-icon"
+        />
+        <div className="toast-content">
+          {toast.title && <strong className="toast-title">{toast.title}</strong>}
+          <span className="toast-msg">{toast.message || toast.text}</span>
+        </div>
+        <button
+          type="button"
+          className="toast-close-btn"
+          onClick={() => setToast(null)}
+          aria-label="Dismiss notification"
+        >
+          <Icon name="X" size={16} />
+        </button>
+      </div>
+    )}
     <main className={isRolePage ? 'role-fullscreen-page' : ['/auth-login', '/auth-register'].includes(path) ? 'auth-fullscreen-page' : onboarding ? 'onboarding-page' : 'main-page'} key={path}>
       {path === '/choose-god' && <section className="container wizard"><Progress step={1} /><div className="centered-heading"><Tag>PERSONALIZE YOUR DEVOTION</Tag><h1>Choose Your Divine Deity</h1><p>Select the deity you wish to follow to see devotional content personalized for you.</p></div><div className="deity-grid">{deities.map(([name, img]) => <button className={`deity-option ${god === name ? 'selected' : ''}`} key={name} onClick={() => setGod(name)}><img src={image(img)} alt="" /><span>{name}</span>{god === name && <Icon name="CheckCircle2" className="choice-check" size={23} />}</button>)}</div><div className="wizard-actions"><Button to="/" variant="outline">Back</Button><Button to="/choose-language">Continue <Icon name="ArrowRight" size={18} /></Button></div></section>}
       {path === '/choose-language' && <section className="container wizard narrow"><Progress step={2} /><div className="centered-heading"><Tag>FIND DEVOTION IN YOUR LANGUAGE</Tag><h1>Choose Your Language</h1><p>Explore prayers and sacred knowledge in the language closest to your heart.</p></div><div className="language-list">{languages.map(([name, script, code]) => <button key={code} className={`language-row ${language === code ? 'selected' : ''}`} onClick={() => setLanguage(code)}><span className="language-symbol"><Icon name="Languages" /></span><span><strong>{name}</strong><small>{script}</small></span><span className={`radio-dot ${language === code ? 'on' : ''}`} /></button>)}</div><div className="wizard-actions"><Button to="/choose-god" variant="outline">Back</Button><Button to="/login">Continue <Icon name="ArrowRight" size={18} /></Button></div></section>}
