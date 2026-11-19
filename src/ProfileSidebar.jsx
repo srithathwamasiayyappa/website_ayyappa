@@ -85,11 +85,6 @@ export default function ProfileSidebar({ profile: propProfile, god = 'Lord Ayyap
           />
         </div>
 
-        <div className="sa-dk-role-badge">
-          <span role="img" aria-label="role-badge" style={{ fontSize: '13px' }}>{isDharmaKartha ? '🛕' : '🙏'}</span>
-          <span>{isDharmaKartha ? 'DHARMA KARTHA' : 'CUSTOMER (DEVOTEE)'}</span>
-        </div>
-
         <h2 className="sa-dk-user-name">{userName}</h2>
         <p className="sa-dk-user-location">
           {userCity}, India • {god}
