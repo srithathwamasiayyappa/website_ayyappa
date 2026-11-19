@@ -31,6 +31,17 @@ export default function ProfileSidebar({ profile: propProfile, god = 'Lord Ayyap
   const userName = profile?.fullName || profile?.name || (isDharmaKartha ? 'Dharma Kartha' : 'Devotee');
   const userCity = profile?.city || profile?.templeCity || 'Hyderabad';
   const avatarSrc = profile?.profileImageUrl || profile?.avatarUrl || '/images/ayyappa-icon.jpg';
+  const hasDualRole = Boolean(profile?.hasDkAccount || profile?.templeName || isDharmaKartha);
+
+  const handleRoleSwitch = (newRole) => {
+    try {
+      const updated = { ...(profile || {}), role: newRole };
+      localStorage.setItem('sa-profile', JSON.stringify(updated));
+      setProfile(updated);
+      window.dispatchEvent(new Event('storage'));
+      window.location.reload();
+    } catch {}
+  };
 
   const [favCount, setFavCount] = React.useState(0);
 
@@ -91,6 +102,37 @@ export default function ProfileSidebar({ profile: propProfile, god = 'Lord Ayyap
             onError={(e) => { e.target.src = '/images/ayyappa-icon.jpg'; }}
           />
         </div>
+
+        <div className="sa-dk-role-badge">
+          <span role="img" aria-label="role-badge" style={{ fontSize: '13px' }}>{isDharmaKartha ? '🛕' : '🙏'}</span>
+          <span>{isDharmaKartha ? 'DHARMA KARTHA' : 'CUSTOMER (DEVOTEE)'}</span>
+        </div>
+
+        {hasDualRole && (
+          <div style={{ marginTop: '8px' }}>
+            <button
+              type="button"
+              onClick={() => handleRoleSwitch(isDharmaKartha ? 'CUSTOMER' : 'DHARMA_KARTHA')}
+              style={{
+                background: '#fcf8ec',
+                border: '1px solid #d4a753',
+                color: '#8c6b1b',
+                fontSize: '11px',
+                fontWeight: '600',
+                padding: '3px 10px',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                transition: 'all 0.2s ease',
+              }}
+              title={isDharmaKartha ? 'Switch to Customer (Devotee) View' : 'Switch to Dharma Kartha View'}
+            >
+              <span>{isDharmaKartha ? '🙏 Switch to Devotee' : '🛕 Switch to Dharma Kartha'}</span>
+            </button>
+          </div>
+        )}
 
         <h2 className="sa-dk-user-name">{userName}</h2>
         <p className="sa-dk-user-location">
