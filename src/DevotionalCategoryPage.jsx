@@ -272,26 +272,6 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
           json = await res.json().catch(() => null);
         }
 
-        // If in pooja tab, also fetch top-level pooja-related categories (e.g. Sri Devi Pooja, Sri Gomatha Pooja) if present in categories table
-        if (activeCategory === 'pooja') {
-          try {
-            const extraRes = await fetch(`${API_BASE_URL}/categories?lang=${currentLanguage}&limit=100`);
-            const extraJson = await extraRes.json().catch(() => null);
-            if (Array.isArray(extraJson) && extraJson.length > 0) {
-              const poojaSlugs = ['pooja-poorvaangamu', 'sri-devi-pooja', 'sri-gomatha-pooja', 'sri-vinayaka-pooja', 'varalakshmi-pooja-vidhanam', 'kedareswara-pooja', 'sri-satyanarayana-swamy-vratham'];
-              const existingSlugs = new Set((json?.data || []).map(d => d.slug));
-              const extras = extraJson.filter(c => poojaSlugs.includes(c.slug) && !existingSlugs.has(c.slug));
-              if (extras.length > 0) {
-                if (!json) json = { data: [] };
-                if (!Array.isArray(json.data)) json.data = [];
-                json.data.push(...extras);
-              }
-            }
-          } catch {
-            // graceful fallback
-          }
-        }
-
         if (!isCancelled && json && Array.isArray(json.data) && json.data.length > 0) {
           const mapped = json.data.map((item, idx) => {
             const rawSlug = item.slug || String(item.id);
@@ -321,7 +301,23 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
             };
           });
 
-          setDbItems(mapped);
+          // Strict unique filter by slug and normalized title
+          const seenSlugs = new Set();
+          const seenTitles = new Set();
+          const uniqueItems = [];
+
+          for (const item of mapped) {
+            const normTitle = (item.title || '').trim().toLowerCase().replace(/\s+/g, ' ');
+            const keySlug = (item.slug || '').trim().toLowerCase();
+            if (seenSlugs.has(keySlug) || (normTitle && seenTitles.has(normTitle))) {
+              continue;
+            }
+            if (keySlug) seenSlugs.add(keySlug);
+            if (normTitle) seenTitles.add(normTitle);
+            uniqueItems.push(item);
+          }
+
+          setDbItems(uniqueItems);
         } else if (!isCancelled) {
           setDbItems([]);
         }
