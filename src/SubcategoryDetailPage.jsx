@@ -918,10 +918,6 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
     }
   };
 
-  const handleDownloadPdf = () => {
-    window.print();
-  };
-
   const scrollToSection = (secId, tabKey) => {
     setActiveNavTab(tabKey);
     const el = document.getElementById(secId);
@@ -1312,7 +1308,7 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
             </div>
           </div>
 
-          {/* Reading Actions & PDF Card (Directly beneath Quick Info, audio completely removed!) */}
+          {/* Reading Actions Card (Directly beneath Quick Info: Bookmark & Share) */}
           <div className="sa-sidebar-actions-card">
             <div className="sa-actions-top-row">
               <button
@@ -1335,17 +1331,6 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
                 <span>{shareToast ? 'Link Copied!' : 'Share'}</span>
               </button>
             </div>
-
-            {/* Large Gold Download PDF Button */}
-            <button
-              type="button"
-              className="sa-btn-download-pdf"
-              onClick={handleDownloadPdf}
-              title="Download Pooja Guide as PDF"
-            >
-              <Icon name="Download" size={16} />
-              <span>Download PDF (Pooja Guide)</span>
-            </button>
           </div>
 
           {/* Related Pooja Vidhanams Card */}
