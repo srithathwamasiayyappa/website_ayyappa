@@ -8,6 +8,9 @@ import AppDownloadModal from './AppDownloadModal';
 import { DEFAULT_CHILDREN } from './defaultScriptures';
 import './devotionalCategoryPage.css';
 
+// Image CDN origin — webp thumbnails live on the main website domain
+const MEDIA_ORIGIN = 'https://saranamayyappa.in';
+
 const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
   const Component = L[name] || L.Sparkles;
   return <Component size={size} strokeWidth={1.9} {...props} />;
@@ -40,6 +43,7 @@ export function resolveCardArtwork(slug = '', title = '', deityId = '', index = 
 export const DEVOTIONAL_CATEGORIES = {
   pooja: {
     id: 'pooja',
+    dbParentId: '113',       // DB category id for Pooja Vidhanam
     route: '/subcategories',
     title: 'Pooja Vidhanam',
     breadcrumb: 'Pooja Vidhanam',
@@ -51,6 +55,7 @@ export const DEVOTIONAL_CATEGORIES = {
   },
   stotras: {
     id: 'stotras',
+    dbParentId: '114',       // DB category id for Divine Stotras
     route: '/stotras',
     title: 'Divine Stotras',
     breadcrumb: 'Divine Stotras',
@@ -62,6 +67,7 @@ export const DEVOTIONAL_CATEGORIES = {
   },
   slokas: {
     id: 'slokas',
+    dbParentId: '115',       // DB category id for Daily Slokas
     route: '/slokas',
     title: 'Daily Slokas',
     breadcrumb: 'Daily Slokas',
@@ -73,6 +79,7 @@ export const DEVOTIONAL_CATEGORIES = {
   },
   songs: {
     id: 'songs',
+    dbParentId: '116',       // DB category id for Bhajans & Songs
     route: '/songs',
     title: 'Bhajans & Songs',
     breadcrumb: 'Bhajans & Songs',
@@ -240,24 +247,28 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
 
     const fetchContent = async () => {
       try {
-        let endpoint = `${API_BASE_URL}/categories/subcategories?parent=${activeCategory}&lang=${currentLanguage}&limit=100`;
-        if (selectedDeity && selectedDeity !== 'all') {
-          endpoint += `&deity=${encodeURIComponent(selectedDeity)}`;
-        }
+        // Primary: use the confirmed-working numeric parentId from DB
+        const dbParentId = config.dbParentId || activeCategory;
+        let endpoint = `${API_BASE_URL}/admin/subcategories?parentId=${dbParentId}&lang=${currentLanguage}&limit=100`;
         if (debouncedSearch && debouncedSearch.trim()) {
           endpoint += `&search=${encodeURIComponent(debouncedSearch.trim())}`;
-        }
-        if (activeFilter && activeFilter !== 'All') {
-          endpoint += `&filter=${encodeURIComponent(activeFilter)}`;
         }
 
         let res = await fetch(endpoint);
         let json = await res.json().catch(() => null);
 
+        // Fallback: use slug-based parentId
         if (!json || !Array.isArray(json.data) || json.data.length === 0) {
           let fallbackEndpoint = `${API_BASE_URL}/admin/subcategories?parentId=${activeCategory}&lang=${currentLanguage}&limit=100`;
           if (debouncedSearch && debouncedSearch.trim()) fallbackEndpoint += `&search=${encodeURIComponent(debouncedSearch.trim())}`;
           res = await fetch(fallbackEndpoint);
+          json = await res.json().catch(() => null);
+        }
+
+        // Second fallback: legacy categories endpoint
+        if (!json || !Array.isArray(json.data) || json.data.length === 0) {
+          let legacyEndpoint = `${API_BASE_URL}/categories/subcategories?parent=${activeCategory}&lang=${currentLanguage}&limit=100`;
+          res = await fetch(legacyEndpoint);
           json = await res.json().catch(() => null);
         }
 
@@ -282,7 +293,9 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
               badgeClass: item.badgeClass || 'badge-daily',
               filterTag: item.filterTag || 'Daily',
               type: item.type || (activeCategory === 'pooja' ? 'Pooja' : 'Stotra'),
-              image: (item.imageUrl && !item.imageUrl.endsWith('.webp')) ? item.imageUrl : resolveCardArtwork(rawSlug, titleFormatted, deityResolved, idx),
+              image: item.imageUrl
+                ? (item.imageUrl.startsWith('http') ? item.imageUrl : `${MEDIA_ORIGIN}${item.imageUrl}`)
+                : resolveCardArtwork(rawSlug, titleFormatted, deityResolved, idx),
               deityId: deityResolved,
               deityName: item.deityName || (deityResolved === 'shiva' ? 'Lord Shiva' : deityResolved === 'ayyappa' ? 'Lord Ayyappa' : deityResolved === 'ganesha' ? 'Lord Ganesha' : deityResolved === 'devi' ? 'Goddess Lakshmi / Durga' : deityResolved === 'murugan' ? 'Lord Murugan' : deityResolved === 'venkateswara' ? 'Lord Venkateswara' : 'Lord Shiva'),
             };
