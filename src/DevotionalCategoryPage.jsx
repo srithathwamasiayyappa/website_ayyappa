@@ -11,6 +11,29 @@ const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
   return <Component size={size} strokeWidth={1.9} {...props} />;
 };
 
+const CARD_REFERENCE_ARTWORKS = [
+  '/images/pooja/pooja-card-1-ref.png',
+  '/images/pooja/pooja-card-2-ref.png',
+  '/images/pooja/pooja-card-3-ref.png',
+  '/images/pooja/pooja-card-4-ref.png',
+  '/images/pooja/pooja-card-5-ref.png',
+  '/images/pooja/pooja-card-6-ref.png',
+];
+
+export function resolveCardArtwork(slug = '', title = '', deityId = '', index = 0) {
+  const s = `${slug} ${title}`.toLowerCase();
+  if (s.includes('linga') || s.includes('simple') || s.includes('nithya-pooja')) return CARD_REFERENCE_ARTWORKS[0];
+  if (s.includes('subrahmanya') || s.includes('murugan') || s.includes('kartikeya')) return CARD_REFERENCE_ARTWORKS[1];
+  if (s.includes('mantrapushpam') || s.includes('sharanu') || s.includes('trishula')) return CARD_REFERENCE_ARTWORKS[2];
+  if (s.includes('harathi') || s.includes('deepa') || s.includes('diya')) return CARD_REFERENCE_ARTWORKS[3];
+  if (s.includes('ganapa') || s.includes('vinayak') || s.includes('gomatha')) return CARD_REFERENCE_ARTWORKS[4];
+  if (s.includes('abhisheka') || s.includes('kalasha') || s.includes('poorvaangamu')) return CARD_REFERENCE_ARTWORKS[5];
+  if (deityId === 'ayyappa') return '/images/pooja/card-banner-ayyappa-hd.png';
+  if (deityId === 'ganesha') return '/images/pooja/card-banner-ganapathi-hd.png';
+  if (deityId === 'devi') return '/images/pooja/card-banner-lakshmi-hd.png';
+  return CARD_REFERENCE_ARTWORKS[index % CARD_REFERENCE_ARTWORKS.length];
+}
+
 // Category Configurations for All 4 Devotional Sections
 export const DEVOTIONAL_CATEGORIES = {
   pooja: {
@@ -212,7 +235,7 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
               badgeClass: item.badgeClass || 'badge-daily',
               filterTag: item.filterTag || 'Daily',
               type: item.type || (activeCategory === 'pooja' ? 'Pooja' : 'Stotra'),
-              image: item.imageUrl || item.image || '/images/pooja/pooja-card-1-ref.png',
+              image: (item.imageUrl && !item.imageUrl.endsWith('.webp')) ? item.imageUrl : resolveCardArtwork(rawSlug, titleFormatted, deityResolved, idx),
               deityId: deityResolved,
               deityName: item.deityName || (deityResolved === 'shiva' ? 'Lord Shiva' : deityResolved === 'ayyappa' ? 'Lord Ayyappa' : deityResolved === 'ganesha' ? 'Lord Ganesha' : deityResolved === 'devi' ? 'Goddess Lakshmi / Durga' : deityResolved === 'murugan' ? 'Lord Murugan' : deityResolved === 'venkateswara' ? 'Lord Venkateswara' : 'Lord Shiva'),
             };
@@ -525,7 +548,7 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
 
           {!loading && filteredCards.length > 0 && (
             <div className="sa-dev-cards-grid">
-              {filteredCards.map((item) => (
+              {filteredCards.map((item, idx) => (
                 <article
                   key={item.id}
                   className="sa-dev-card"
@@ -547,7 +570,7 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
                       className="sa-dev-card-image"
                       loading="lazy"
                       onError={(e) => {
-                        e.target.src = '/images/pooja/pooja-card-1-ref.png';
+                        e.target.src = CARD_REFERENCE_ARTWORKS[idx % CARD_REFERENCE_ARTWORKS.length];
                       }}
                     />
                   </div>
