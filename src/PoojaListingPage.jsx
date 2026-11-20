@@ -11,14 +11,14 @@ const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
 };
 
 export const DEITIES = [
-  { id: 'all', name: 'All Deities', te: 'అన్ని దైవాలు', emblem: '🕉️' },
-  { id: 'ayyappa', name: 'Lord Ayyappa', te: 'శ్రీ అయ్యప్ప స్వామి', emblem: '🛕' },
-  { id: 'shiva', name: 'Lord Shiva', te: 'పరమశివుడు', emblem: '🔱' },
-  { id: 'venkateswara', name: 'Lord Venkateswara', te: 'శ్రీ వేంకటేశ్వర స్వామి', emblem: '☀️' },
-  { id: 'ganesha', name: 'Lord Ganesha', te: 'శ్రీ మహాగణపతి', emblem: '🐘' },
-  { id: 'devi', name: 'Goddess Lakshmi / Durga', te: 'శ్రీ దుర్గా / లక్ష్మీ దేవి', emblem: '🌸' },
-  { id: 'hanuman', name: 'Lord Hanuman', te: 'శ్రీ ఆంజనేయ స్వామి', emblem: '🐒' },
-  { id: 'murugan', name: 'Lord Murugan', te: 'శ్రీ సుబ్రహ్మణ్య స్వామి', emblem: '🦚' },
+  { id: 'all', name: 'All Deities', te: 'అన్ని దైవాలు', kn: 'ಎಲ್ಲಾ ದೇವತೆಗಳು', ta: 'அனைத்து தெய்வங்கள்', hi: 'सभी देवी-देवता', emblem: '🕉️' },
+  { id: 'ayyappa', name: 'Lord Ayyappa', te: 'శ్రీ అయ్యప్ప స్వామి', kn: 'ಶ್ರೀ ಅಯ್ಯಪ್ಪ ಸ್ವಾಮಿ', ta: 'ஸ்ரீ ஐயப்ப சுவாமி', hi: 'भगवान अय्यप्पा', emblem: '🛕' },
+  { id: 'shiva', name: 'Lord Shiva', te: 'పరమశివుడు', kn: 'ಪರಮಶಿವ', ta: 'பரமசிவன்', hi: 'भगवान शिव', emblem: '🔱' },
+  { id: 'venkateswara', name: 'Lord Venkateswara', te: 'శ్రీ వేంకటేశ్వర స్వామి', kn: 'ಶ್ರೀ ವೆಂಕಟೇಶ್ವರ ಸ್ವಾಮಿ', ta: 'ஸ்ரீ வெங்கடேஸ்வர சுவாமி', hi: 'भगवान वेंकटेश्वर', emblem: '☀️' },
+  { id: 'ganesha', name: 'Lord Ganesha', te: 'శ్రీ మహాగణపతి', kn: 'ಶ್ರೀ ಮಹಾಗಣಪತಿ', ta: 'ஸ்ரீ மகாகணபதி', hi: 'भगवान गणेश', emblem: '🐘' },
+  { id: 'devi', name: 'Goddess Lakshmi / Durga', te: 'శ్రీ దుర్గా / లక్ష్మీ దేవి', kn: 'ಶ್ರೀ ದುರ್ಗಾ / ಲಕ್ಷ್ಮೀ ದೇವಿ', ta: 'ஸ்ரீ துர்கா / லட்சுமி தேவி', hi: 'देवी दुर्गा / लक्ष्मी', emblem: '🌸' },
+  { id: 'hanuman', name: 'Lord Hanuman', te: 'శ్రీ ఆంజనేయ స్వామి', kn: 'ಶ್ರೀ ಆಂಜನೇಯ ಸ್ವಾಮಿ', ta: 'ஸ்ரீ ஆஞ்சநேய சுவாமி', hi: 'भगवान हनुमान', emblem: '🐒' },
+  { id: 'murugan', name: 'Lord Murugan', te: 'శ్రీ సుబ్రహ్మణ్య స్వామి', kn: 'ಶ್ರೀ ಸುಬ್ರಹ್ಮಣ್ಯ ಸ್ವಾಮಿ', ta: 'ஸ்ரீ சுப்பிரமணிய சுவாமி', hi: 'भगवान मुरुगन', emblem: '🦚' },
 ];
 
 // Comprehensive subcategory configurations for each devotional domain filtered by Deity
@@ -833,7 +833,7 @@ export default function PoojaListingPage({ category: categoryProp }) {
               <strong>{t('filterByGod', 'Which God do you want to select?')}</strong>
               {selectedGod !== 'all' && (
                 <span className="god-active-tag">
-                  Showing subcategories for: <strong>{currentLanguage === 'te' ? currentGodObj?.te : currentGodObj?.name}</strong>
+                  {t('showingSubcategoriesFor', 'Showing subcategories for:')} <strong>{(currentLanguage !== 'en' && currentGodObj?.[currentLanguage]) ? currentGodObj[currentLanguage] : currentGodObj?.name}</strong>
                 </span>
               )}
             </div>
@@ -852,7 +852,7 @@ export default function PoojaListingPage({ category: categoryProp }) {
           <div className="sa-pooja-god-chips">
             {DEITIES.map((deity) => {
               const isSelected = selectedGod === deity.id;
-              const deityLabel = currentLanguage === 'te' ? deity.te : deity.name;
+              const deityLabel = (currentLanguage !== 'en' && deity[currentLanguage]) ? deity[currentLanguage] : deity.name;
               return (
                 <button
                   key={deity.id}

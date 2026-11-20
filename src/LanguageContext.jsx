@@ -35,6 +35,36 @@ export function LanguageProvider({ children }) {
   const [currentLanguage, setCurrentLanguageState] = useState(getInitialLanguage);
   const [languagesList, setLanguagesList] = useState(SUPPORTED_LANGUAGES);
   const [loadingLanguages, setLoadingLanguages] = useState(false);
+  const [dbTranslations, setDbTranslations] = useState(translations);
+
+  // Fetch complete UI translations dynamically from Database via API on language change
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchTranslationsFromDb() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/master/ui-translations?lang=${currentLanguage}`).catch(() => null);
+        if (res && res.ok) {
+          const json = await res.json();
+          if (json?.data && isMounted) {
+            setDbTranslations((prev) => ({
+              ...prev,
+              [currentLanguage]: {
+                ...(prev[currentLanguage] || {}),
+                ...json.data,
+              },
+            }));
+          }
+        }
+      } catch (e) {
+        console.warn('[LanguageProvider] DB translations sync notice:', e);
+      }
+    }
+
+    fetchTranslationsFromDb();
+    return () => {
+      isMounted = false;
+    };
+  }, [currentLanguage]);
 
   // Fetch languages dynamically from Database via Public Master API
   useEffect(() => {
@@ -119,15 +149,15 @@ export function LanguageProvider({ children }) {
     setCurrentLanguageState(target);
   }, []);
 
-  // Translation helper function
+  // Translation helper function backed by DB translations
   const t = useCallback(
     (key, fallback = '') => {
       if (!key) return fallback;
-      const langPack = translations[currentLanguage] || translations[DEFAULT_LANGUAGE] || {};
-      const enPack = translations.en || {};
+      const langPack = dbTranslations[currentLanguage] || dbTranslations[DEFAULT_LANGUAGE] || {};
+      const enPack = dbTranslations.en || translations.en || {};
       return langPack[key] ?? enPack[key] ?? fallback ?? key;
     },
-    [currentLanguage]
+    [currentLanguage, dbTranslations]
   );
 
   const activeMeta = languagesList.find((l) => l.code === currentLanguage) || languagesList[0];
