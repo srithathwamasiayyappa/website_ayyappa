@@ -272,6 +272,26 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
           json = await res.json().catch(() => null);
         }
 
+        // If in pooja tab, also fetch top-level pooja-related categories (e.g. Sri Devi Pooja, Sri Gomatha Pooja) if present in categories table
+        if (activeCategory === 'pooja') {
+          try {
+            const extraRes = await fetch(`${API_BASE_URL}/categories?lang=${currentLanguage}&limit=100`);
+            const extraJson = await extraRes.json().catch(() => null);
+            if (Array.isArray(extraJson) && extraJson.length > 0) {
+              const poojaSlugs = ['pooja-poorvaangamu', 'sri-devi-pooja', 'sri-gomatha-pooja', 'sri-vinayaka-pooja', 'varalakshmi-pooja-vidhanam', 'kedareswara-pooja', 'sri-satyanarayana-swamy-vratham'];
+              const existingSlugs = new Set((json?.data || []).map(d => d.slug));
+              const extras = extraJson.filter(c => poojaSlugs.includes(c.slug) && !existingSlugs.has(c.slug));
+              if (extras.length > 0) {
+                if (!json) json = { data: [] };
+                if (!Array.isArray(json.data)) json.data = [];
+                json.data.push(...extras);
+              }
+            }
+          } catch {
+            // graceful fallback
+          }
+        }
+
         if (!isCancelled && json && Array.isArray(json.data) && json.data.length > 0) {
           const mapped = json.data.map((item, idx) => {
             const rawSlug = item.slug || String(item.id);
