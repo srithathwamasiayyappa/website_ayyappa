@@ -513,72 +513,100 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
   const subcategoryId = searchParams.get('id') || 'ayyappa-pooja';
   const godParam = searchParams.get('god');
 
-  // Load subcategory fallback data from catalog or find best match
+  // Load subcategory fallback data from catalog or generate clean dynamic structure
   const fallbackData = useMemo(() => {
     if (SUBCATEGORY_DETAILS[subcategoryId]) {
       return SUBCATEGORY_DETAILS[subcategoryId];
     }
-    // Match by deity
-    if (godParam && godParam !== 'all') {
-      const match = Object.values(SUBCATEGORY_DETAILS).find((item) => item.deityId === godParam);
-      if (match) return match;
-    }
+
     // Dynamic fallback for any DB-driven subcategory
     const formattedTitle = subcategoryId.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+    const isAyyappa = /ayyap|sastha|harivarasanam|shabarimala|irumudi|sharanu/.test(subcategoryId.toLowerCase());
+    const isShiva = /shiv|linga|rudra|bilva|mrityunjaya/.test(subcategoryId.toLowerCase());
+    const isGanesh = /ganesh|vinayak|ganapath/.test(subcategoryId.toLowerCase());
+    const isMurugan = /subrahmanya|murugan|kartikeya/.test(subcategoryId.toLowerCase());
+    const isDevi = /devi|durga|lakshmi|gomatha/.test(subcategoryId.toLowerCase());
+    const isVishnu = /vishnu|venkates|koodalmanikya/.test(subcategoryId.toLowerCase());
+
+    const dName = isAyyappa ? 'Lord Ayyappa' : isShiva ? 'Lord Shiva' : isGanesh ? 'Lord Ganesha' : isMurugan ? 'Lord Murugan' : isDevi ? 'Goddess Lakshmi / Durga' : isVishnu ? 'Lord Venkateswara' : 'Lord Shiva & All Deities';
+    const dTelugu = isAyyappa ? 'శ్రీ అయ్యప్ప స్వామి' : isShiva ? 'పరమశివుడు' : isGanesh ? 'శ్రీ మహాగణపతి' : isMurugan ? 'శ్రీ సుబ్రహ్మణ్యేశ్వర స్వామి' : isDevi ? 'శ్రీ దేవి అమ్మవారు' : isVishnu ? 'శ్రీ వేంకటేశ్వర స్వామి' : 'సర్వ దేవతలు';
+
     return {
       id: subcategoryId,
-      deityId: godParam || 'all',
-      deityName: 'Lord Ayyappa & All Deities',
-      deityTelugu: 'శ్రీ అయ్యప్ప స్వామి & సర్వ దేవతలు',
-      category: 'slokas',
+      deityId: godParam || (isAyyappa ? 'ayyappa' : isShiva ? 'shiva' : isGanesh ? 'ganesha' : isMurugan ? 'murugan' : isDevi ? 'devi' : isVishnu ? 'venkateswara' : 'all'),
+      deityName: dName,
+      deityTelugu: dTelugu,
+      category: 'pooja',
       title: formattedTitle,
       titleTelugu: formattedTitle,
       subtitle: `Sacred vidhanam, procedure and verses for ${formattedTitle}.`,
-      heroImage: '/images/pooja/card-banner-ayyappa-hd.png',
+      heroImage: '/images/pooja/pooja-card-1-ref.png',
       badge: 'Daily Devotion',
       badgeClass: 'badge-daily',
-      duration: '10 mins',
+      duration: '15 mins',
       difficulty: 'All Devotees',
       bestTime: 'Morning (Pratah Kalam) or Evening (Sandhya)',
       overview: `${formattedTitle} brings peace of mind, removes obstacles, and bestows divine blessings and protective spiritual vibrations upon devotees and their families.`,
       procedure: [
-        { step: 1, title: 'Prarthana & Invocation', desc: 'Light a deepam, sit facing East with a calm and pure mind, and offer prostrations.' },
-        { step: 2, title: 'Sacred Sloka Chanting', desc: 'Chant the holy verses with heartfelt devotion and clear pronunciation.' },
-        { step: 3, title: 'Samarpanam & Blessings', desc: 'Surrender all fruits of the prayer to Lord Ayyappa and receive divine peace.' }
+        { step: 1, title: 'Prarthana & Invocation', desc: 'Light a deepam, sit facing East with a calm and pure mind, and offer prostrations.', mantra: 'ఓం దీపజ్యోతిః పరబ్రహ్మ దీపజ్యోతిర్జనార్దనః | దీపో హరతు మే పాపం సంధ్యాదీప నమోస్తుతే ||' },
+        { step: 2, title: 'Sacred Sloka Chanting', desc: 'Chant the holy verses with heartfelt devotion and clear pronunciation.', mantra: 'శుక్లాంబరధరం విష్ణుం శశివర్ణం చతుర్భుజం | ప్రసన్నవదనం ధ్యాయేత్ సర్వవిఘ్నోపశాంతయే ||' },
+        { step: 3, title: 'Samarpanam & Blessings', desc: 'Surrender all fruits of the prayer to the deity and receive divine peace and blessings.', mantra: 'స్వామియే శరణం అయ్యప్ప | శ్రీ గురుభ్యో నమః' }
       ],
       materials: [
-        { name: 'Pure Water / Achamanam', qty: '1 Vessel', icon: 'Flame' },
-        { name: 'Deepam & Vibhuti', qty: 'Altar Space', icon: 'Sparkles' }
+        { name: 'Pure Cow Ghee / Sesame Oil for Deepam', qty: '100 ml', icon: 'Flame' },
+        { name: 'Fresh Cotton Wicks (Vattulu)', qty: '1 Packet', icon: 'Sparkles' },
+        { name: 'Pure Vibhuti, Kumkum & Sandalwood (Gandham)', qty: '50g each', icon: 'Flower2' },
+        { name: 'Fresh Fragrant Flowers & Thulasi / Bilva Leaves', qty: '1 Basket', icon: 'Flower2' },
+        { name: 'Raw Coconuts & Betel Leaves with Supari', qty: '2 Coconuts, 5 Betel Leaves', icon: 'Layers' },
+        { name: 'Raw Rice with Turmeric (Akshintalu)', qty: '1 Bowl', icon: 'Sparkles' },
+        { name: 'Fresh Fruits or Naivedyam Prasad', qty: '1 Bowl', icon: 'Soup' },
+        { name: 'Pure Camphor (Karpooram) & Dhoop Sticks', qty: '1 Box', icon: 'Flame' }
       ],
       mantras: [
         {
-          title: `${formattedTitle} Maha Mantra`,
+          title: `${formattedTitle} Sacred Chants`,
           script: 'స్వామియే శరణం అయ్యప్ప | శ్రీ గురుభ్యో నమః',
           transliteration: 'Swamiye Saranam Ayyappa | Sri Gurubhyo Namah',
-          meaning: 'I surrender completely to Lord Manikanta, the protector of the universe.'
+          meaning: 'I surrender completely to the divine Lord, the protector and guide.'
         }
       ],
       benefits: [
-        'Destroys mental restlessness and brings calmness and focus.',
-        'Bestows spiritual strength, good health, and family prosperity.'
-      ]
+        'Destroys mental restlessness and brings calmness and spiritual focus.',
+        'Bestows divine protection, good health, and family prosperity.',
+        'Removes obstacles and paves the path for peace and fulfillment.'
+      ],
+      audioTrack: {
+        title: `${formattedTitle} Sacred Chants`,
+        duration: '05:30',
+        ragam: 'Madhyamavathi'
+      }
     };
   }, [subcategoryId, godParam]);
 
-  // Dynamically fetch stotra and verses from DB via API
+  // Dynamically fetch detail from DB via API
   const [apiDetail, setApiDetail] = useState(null);
 
   useEffect(() => {
     let isCancelled = false;
     const fetchApiDetail = async () => {
       try {
-        let res = await fetch(`${API_BASE_URL}/categories/stotras/${subcategoryId}?lang=${currentLanguage}`);
+        // 1. Primary: Subcategory detail endpoint
+        let res = await fetch(`${API_BASE_URL}/categories/subcategories/${encodeURIComponent(subcategoryId)}?lang=${currentLanguage}&god=${encodeURIComponent(godParam || '')}`);
         let json = await res.json().catch(() => null);
+
+        // 2. Fallback: Stotras detail endpoint
         if (!json || !json.success || !json.data) {
-          res = await fetch(`${API_BASE_URL}/categories/${subcategoryId}?lang=${currentLanguage}`);
+          res = await fetch(`${API_BASE_URL}/categories/stotras/${encodeURIComponent(subcategoryId)}?lang=${currentLanguage}`);
           json = await res.json().catch(() => null);
         }
-        if (!isCancelled && json && (json.data || json.contents)) {
+
+        // 3. Fallback: Generic category detail endpoint
+        if (!json || (!json.data && !json.contents && !json.title)) {
+          res = await fetch(`${API_BASE_URL}/categories/${encodeURIComponent(subcategoryId)}?lang=${currentLanguage}`);
+          json = await res.json().catch(() => null);
+        }
+
+        if (!isCancelled && json && (json.data || json.contents || json.title)) {
           const d = json.data || json;
           setApiDetail(d);
         }
@@ -588,14 +616,20 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
     };
     fetchApiDetail();
     return () => { isCancelled = true; };
-  }, [subcategoryId, currentLanguage]);
+  }, [subcategoryId, currentLanguage, godParam]);
 
   // Combine DB data with UI defaults
   const data = useMemo(() => {
     if (!apiDetail) return fallbackData;
 
     const formattedMantras = [];
-    if (apiDetail.sacredText) {
+
+    // Case A: API returns structured mantras array
+    if (Array.isArray(apiDetail.mantras) && apiDetail.mantras.length > 0) {
+      formattedMantras.push(...apiDetail.mantras);
+    }
+    // Case B: API returns sacredText string
+    else if (apiDetail.sacredText) {
       const verses = apiDetail.sacredText.split(/\n\s*\n/).filter(Boolean);
       const meanings = (apiDetail.meaning || '').split(/\n\s*\n/).filter(Boolean);
       verses.forEach((v, idx) => {
@@ -607,14 +641,49 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
         });
       });
     }
+    // Case C: API returns contents array from DB
+    else if (Array.isArray(apiDetail.contents) && apiDetail.contents.length > 0) {
+      apiDetail.contents.forEach((item, idx) => {
+        if (item.sacredText) {
+          formattedMantras.push({
+            title: item.title || `Verse #${idx + 1}`,
+            script: item.sacredText,
+            transliteration: '',
+            meaning: item.meaning || 'Sacred verse from scriptures.'
+          });
+        }
+      });
+    }
+
+    const procedureSteps = (Array.isArray(apiDetail.procedure) && apiDetail.procedure.length > 0)
+      ? apiDetail.procedure
+      : fallbackData.procedure;
+
+    const materialsList = (Array.isArray(apiDetail.materials) && apiDetail.materials.length > 0)
+      ? apiDetail.materials
+      : fallbackData.materials;
+
+    const benefitsList = (Array.isArray(apiDetail.benefits) && apiDetail.benefits.length > 0)
+      ? apiDetail.benefits
+      : fallbackData.benefits;
 
     return {
       ...fallbackData,
       title: apiDetail.title || fallbackData.title,
-      titleTelugu: apiDetail.title || fallbackData.titleTelugu,
-      overview: apiDetail.introduction || apiDetail.description || fallbackData.overview,
+      titleTelugu: apiDetail.titleTelugu || apiDetail.title || fallbackData.titleTelugu,
+      subtitle: apiDetail.subtitle || apiDetail.description || fallbackData.subtitle,
+      overview: apiDetail.overview || apiDetail.introduction || apiDetail.description || fallbackData.overview,
+      heroImage: apiDetail.heroImage || apiDetail.imageUrl || fallbackData.heroImage,
+      deityName: apiDetail.deityName || fallbackData.deityName,
+      deityTelugu: apiDetail.deityTelugu || fallbackData.deityTelugu,
+      duration: apiDetail.duration || fallbackData.duration,
+      badge: apiDetail.badge || fallbackData.badge,
+      badgeClass: apiDetail.badgeClass || fallbackData.badgeClass,
+      procedure: procedureSteps,
+      materials: materialsList,
       mantras: formattedMantras.length > 0 ? formattedMantras : fallbackData.mantras,
-      heroImage: apiDetail.imageUrl || fallbackData.heroImage
+      benefits: benefitsList,
+      audioTrack: apiDetail.audioTrack || fallbackData.audioTrack
     };
   }, [fallbackData, apiDetail]);
 
