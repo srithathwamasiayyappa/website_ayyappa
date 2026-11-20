@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import * as L from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import { API_BASE_URL } from './apiConfig';
+import DeitySelectionModal from './DeitySelectionModal';
 import './poojaListing.css';
 import './devotionalCleanList.css';
 
@@ -10,6 +11,29 @@ const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
   const Component = L[name] || L.Sparkles;
   return <Component size={size} strokeWidth={1.9} {...props} />;
 };
+
+export function resolveDeityId(slug = '', title = '', serverDeityId = '') {
+  if (serverDeityId && serverDeityId !== 'all' && serverDeityId !== '') {
+    const s = serverDeityId.toLowerCase().replace(/^(lord-|goddess-)/, '');
+    if (s.includes('ayyap') || s.includes('sastha')) return 'ayyappa';
+    if (s.includes('shiv') || s.includes('linga') || s.includes('bilva')) return 'shiva';
+    if (s.includes('venkat') || s.includes('vishnu') || s.includes('achyuta') || s.includes('koodalmanikya')) return 'venkateswara';
+    if (s.includes('ganesh') || s.includes('vignesh') || s.includes('vinayak') || s.includes('ganapath')) return 'ganesha';
+    if (s.includes('devi') || s.includes('durga') || s.includes('lakshmi') || s.includes('lalitha') || s.includes('kanaka')) return 'devi';
+    if (s.includes('hanuman') || s.includes('anjaneya')) return 'hanuman';
+    if (s.includes('subrahmanya') || s.includes('murugan') || s.includes('kartikeya') || s.includes('saravana')) return 'murugan';
+    return s;
+  }
+  const str = `${slug} ${title}`.toLowerCase();
+  if (/ayyap|sastha|harivarasanam|shabarimala|uthara|sannidhanam|padi|maaladharan|sharanu/.test(str)) return 'ayyappa';
+  if (/shiva|linga|bilva|rudra|natara|mrityunjaya/.test(str)) return 'shiva';
+  if (/venkates|vishnu|koodalmanikya|achyuta|govinda|narayana|perumal/.test(str)) return 'venkateswara';
+  if (/ganesh|vignesh|vinayak|ganapath|modak/.test(str)) return 'ganesha';
+  if (/devi|durga|lakshmi|lalitha|kanakadhara|mahalakshmi|meenakshi|kamakshi|saraswathi|gomatha/.test(str)) return 'devi';
+  if (/hanuman|anjaneya|maruti|bajrang|sundarakanda/.test(str)) return 'hanuman';
+  if (/subrahmanya|murugan|kartikeya|saravana|shanmukha|vel|skanda/.test(str)) return 'murugan';
+  return 'all';
+}
 
 export const DEITIES = [
   { id: 'all', name: 'All Deities', te: 'అన్ని దైవాలు', kn: 'ಎಲ್ಲಾ ದೇವತೆಗಳು', ta: 'அனைத்து தெய்வங்கள்', hi: 'सभी देवी-देवता', emblem: '🕉️' },
@@ -732,12 +756,13 @@ export default function PoojaListingPage({ category: categoryProp }) {
             const titleFormatted = item.title && item.title !== rawSlug
               ? item.title
               : rawSlug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+            const resolvedDeity = resolveDeityId(rawSlug, titleFormatted, item.deityId);
 
             return {
               id: rawSlug,
               rawId: item.id,
-              deityId: item.deityId || 'all',
-              deityName: item.deityName || (item.parentTitle || 'All Deities'),
+              deityId: resolvedDeity,
+              deityName: item.deityName || resolvedDeity,
               title: titleFormatted,
               desc: item.description || item.desc || `Complete sacred verses, meaning and guidance for ${titleFormatted}.`,
               duration: item.duration || '10 minutes',
@@ -765,10 +790,29 @@ export default function PoojaListingPage({ category: categoryProp }) {
     return () => { isCancelled = true; };
   }, [activeCategory, currentLanguage]);
 
-  // Read deity from URL search parameter (default to 'all' so all subcategories show by default)
+  // Auto-open modal on first visit if deity preference has not been set yet
+  const [isDeityModalOpen, setIsDeityModalOpen] = useState(() => {
+    try {
+      const stored = localStorage.getItem('sa_selected_deity') || localStorage.getItem('selected_deity');
+      const fromUrl = new URLSearchParams(location.search).get('god');
+      if (fromUrl || stored) {
+        return false;
+      }
+      return true; // Auto open on first visit!
+    } catch {
+      return false;
+    }
+  });
+
+  // Read deity from URL search parameter (default to saved deity or 'all')
   const [selectedGod, setSelectedGod] = useState(() => {
     const fromUrl = new URLSearchParams(location.search).get('god');
-    return fromUrl || 'all';
+    if (fromUrl) return fromUrl;
+    try {
+      return localStorage.getItem('sa_selected_deity') || localStorage.getItem('sa-selected-god') || 'all';
+    } catch {
+      return 'all';
+    }
   });
 
   // Keep selected god in sync if URL changes
@@ -782,7 +826,9 @@ export default function PoojaListingPage({ category: categoryProp }) {
   const handleSelectGod = (godId) => {
     setSelectedGod(godId);
     try {
+      localStorage.setItem('sa_selected_deity', godId);
       localStorage.setItem('sa-selected-god', godId);
+      localStorage.setItem('selected_deity', godId);
     } catch {}
   };
 
@@ -896,19 +942,43 @@ export default function PoojaListingPage({ category: categoryProp }) {
               )}
             </div>
 
-            {selectedGod !== 'all' && (
+            <div className="god-actions-row">
               <button
                 type="button"
-                className="god-reset-btn"
-                onClick={() => handleSelectGod('all')}
+                className="god-change-modal-btn"
+                onClick={() => setIsDeityModalOpen(true)}
+                title="Open God / Goddess Selection Popup"
               >
-                Reset to All Gods
+                <Icon name="Sparkles" size={14} />
+                <span>Change Deity</span>
               </button>
-            )}
+
+              {selectedGod !== 'all' && (
+                <button
+                  type="button"
+                  className="god-reset-btn"
+                  onClick={() => handleSelectGod('all')}
+                >
+                  Reset to All Gods
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="sa-pooja-god-chips">
-            {DEITIES.map((deity) => {
+            {/* All Deities dropdown chip matching reference image */}
+            <button
+              type="button"
+              onClick={() => setIsDeityModalOpen(true)}
+              className={`sa-pooja-god-chip sa-pooja-god-chip-dropdown ${selectedGod === 'all' ? 'active' : ''}`}
+              title="Click to choose a God / Goddess"
+            >
+              <span className="deity-emblem">🕉️</span>
+              <span className="deity-name">{selectedGod === 'all' ? 'All Deities' : (currentGodObj?.name || 'Change Deity')}</span>
+              <Icon name="ChevronDown" size={14} className="deity-chevron" />
+            </button>
+
+            {DEITIES.filter((d) => d.id !== 'all').map((deity) => {
               const isSelected = selectedGod === deity.id;
               const deityLabel = (currentLanguage !== 'en' && deity[currentLanguage]) ? deity[currentLanguage] : deity.name;
               return (
@@ -1064,21 +1134,41 @@ export default function PoojaListingPage({ category: categoryProp }) {
               {filteredList.length === 0 && (
                 <div className="sa-pooja-empty-filter">
                   <span className="empty-icon">🕉️</span>
-                  <h3>No subcategories found for {currentGodObj?.name || 'this God'}</h3>
-                  <p>Try switching to another deity or clearing the search filter.</p>
-                  <button
-                    type="button"
-                    className="btn-reset-filters"
-                    onClick={() => { handleSelectGod('all'); setSearch(''); setFilter('All'); }}
-                  >
-                    View All Deities
-                  </button>
+                  <h3>No content available for {currentGodObj?.name || 'this Deity'} in this section right now.</h3>
+                  <p>You can choose another God or view content for all Deities.</p>
+                  <div className="sa-empty-actions-row">
+                    <button
+                      type="button"
+                      className="btn-reset-filters"
+                      onClick={() => { handleSelectGod('all'); setSearch(''); setFilter('All'); }}
+                    >
+                      View All Deities
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-change-deity-modal"
+                      onClick={() => setIsDeityModalOpen(true)}
+                    >
+                      Choose Another Deity
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
           </div>
         </section>
       </div>
+
+      {/* ── GOD / GODDESS SELECTION POPUP MODAL ── */}
+      <DeitySelectionModal
+        isOpen={isDeityModalOpen}
+        onClose={() => setIsDeityModalOpen(false)}
+        currentDeityId={selectedGod}
+        targetPageTitle={config.title}
+        onSelectDeity={(deity) => {
+          handleSelectGod(deity.id);
+        }}
+      />
     </main>
   );
 }

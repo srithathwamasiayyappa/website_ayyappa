@@ -675,13 +675,13 @@ function App() {
       {path === '/complete-profile' && <section className="container profile-form-wrap"><div className="page-header"><Tag>YOUR DEVOTIONAL IDENTITY</Tag><h1>Complete Your Profile</h1><p>Help us personalize your sacred devotional experience.</p></div><ProfileForm profile={profile} setProfile={setProfile} onSave={() => { if (!profile.name.trim()) return notify('Full name is required'); notify('Profile saved successfully'); navigate('/home') }} action="Save & Continue" /></section>}
       {path === '/home' && <HomePage />}
       {path === '/categories' && <CategoriesPage />}
-      {path === '/subcategories' && <PoojaListingPage />}
+      {(path === '/subcategories' || path === '/pooja' || path === '/pooja-vidhanam') && <PoojaListingPage category="pooja" />}
       {path === '/subcategory-detail' && <SubcategoryDetailPage />}
       {path === '/pooja-detail' && <SubcategoryDetailPage defaultCategory="pooja" />}
       {path === '/stotras' && <PoojaListingPage category="stotras" />}
       {path === '/slokas' && <PoojaListingPage category="slokas" />}
       {path === '/sloka-detail' && <SubcategoryDetailPage defaultCategory="slokas" />}
-      {path === '/songs' && <PoojaListingPage category="songs" />}
+      {(path === '/songs' || path === '/bhajans') && <PoojaListingPage category="songs" />}
       {path === '/songs-detail' && <SubcategoryDetailPage defaultCategory="songs" />}
       {path === '/live-streams' && <LiveStreamsPage notify={notify} />}
       {path === '/panchangam' && <PanchangamPage notify={notify} language={language} />}
