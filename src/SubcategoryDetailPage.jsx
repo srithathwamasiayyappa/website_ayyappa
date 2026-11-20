@@ -882,9 +882,6 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
               </span>
             </nav>
 
-            <div className="sa-types-hero-badge">
-              <span>🕉️ {resolvedChildren.length} Sacred Types & Stotras</span>
-            </div>
 
             <h1 className="sa-types-hero-title">
               {currentLanguage === 'te' ? data.titleTelugu : data.title}
@@ -894,14 +891,6 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
               {data.subtitle || 'Explore all sacred types, divine namavalis and stotras. Tap any card to read in the official mobile app.'}
             </p>
 
-            <button
-              type="button"
-              className="sa-types-back-link"
-              onClick={() => navigate(-1)}
-            >
-              <Icon name="ArrowLeft" size={16} />
-              <span>Back to Devotional Services</span>
-            </button>
           </div>
         </section>
 
@@ -914,9 +903,6 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
                 {currentLanguage === 'te' ? `${data.titleTelugu} రకములు` : `${data.title} Types & Stotras`}
               </h2>
             </div>
-            <span className="sa-types-count-badge">
-              {resolvedChildren.length} Cards
-            </span>
           </div>
 
           <div className="sa-types-cards-grid">
@@ -1080,22 +1066,6 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
             onClick={() => setDownloadModalItem(data.title)}
           >
             <span>📱 Download Saranam Ayyappa App</span>
-          </button>
-          <button
-            type="button"
-            style={{
-              marginTop: '14px',
-              background: 'none',
-              border: 'none',
-              color: '#0c3823',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: 600,
-            }}
-            onClick={() => navigate(-1)}
-          >
-            ← Back to Devotional Services
           </button>
         </div>
       </div>
