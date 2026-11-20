@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as L from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import { API_BASE_URL } from './apiConfig';
-import { DEFAULT_SCRIPTURES } from './defaultScriptures';
+import { DEFAULT_SCRIPTURES, DEFAULT_CHILDREN } from './defaultScriptures';
 import './devotionalCleanList.css';
 import './subcategoryDetail.css';
 
@@ -754,29 +754,117 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
     };
   }, [fallbackData, apiDetail, subcategoryId]);
 
+  const [selectedChild, setSelectedChild] = useState(null);
   const [fontSize, setFontSize] = useState(17);
   const [showSamagri, setShowSamagri] = useState(false);
 
-  const parsedScripture = useMemo(() => {
-    return parseScriptureContent(data.fullScriptureText);
-  }, [data.fullScriptureText]);
+  // Check if this subcategory has child types (like Mahaganapathi 4 types)
+  const resolvedChildren = useMemo(() => {
+    if (Array.isArray(apiDetail?.children) && apiDetail.children.length > 0) {
+      return apiDetail.children;
+    }
+    const matchKey = subcategoryId || fallbackData.id;
+    if (DEFAULT_CHILDREN[matchKey]) {
+      return DEFAULT_CHILDREN[matchKey];
+    }
+    if (
+      matchKey.includes('ganapa') ||
+      matchKey.includes('vignesh') ||
+      matchKey.includes('mahaganapati') ||
+      matchKey.includes('ashtottara')
+    ) {
+      return DEFAULT_CHILDREN['ganapathi-pooja'];
+    }
+    return [];
+  }, [apiDetail, subcategoryId, fallbackData.id]);
 
+  // Active scripture text (from selected child or main subcategory)
+  const activeScriptureText = useMemo(() => {
+    if (selectedChild) {
+      return (
+        DEFAULT_SCRIPTURES[selectedChild.slug] ||
+        DEFAULT_SCRIPTURES[selectedChild.id] ||
+        selectedChild.description ||
+        selectedChild.sacredText ||
+        data.fullScriptureText
+      );
+    }
+    return data.fullScriptureText;
+  }, [selectedChild, data.fullScriptureText]);
+
+  const parsedScripture = useMemo(() => {
+    return parseScriptureContent(activeScriptureText);
+  }, [activeScriptureText]);
+
+  // ── VIEW 1: 4-TYPES SUBCATEGORY LIST VIEW (EXACT MATCH TO REFERENCE IMAGE 1) ──
+  if (resolvedChildren.length > 0 && !selectedChild) {
+    return (
+      <div className="sa-types-list-page">
+        {/* Saffron Sticky Top Bar */}
+        <div className="sa-scripture-top-bar">
+          <button
+            type="button"
+            className="scripture-back-btn"
+            onClick={() => navigate(-1)}
+            aria-label="Back to Categories"
+            title="Back"
+          >
+            <Icon name="ArrowLeft" size={24} />
+          </button>
+          <h1 className="scripture-top-title">
+            {currentLanguage === 'te' ? data.titleTelugu : data.title}
+          </h1>
+        </div>
+
+        {/* 4 Types Vertical List matching Reference Screenshot */}
+        <div className="sa-types-list-wrap">
+          <div className="sa-types-list-container">
+            {resolvedChildren.map((item, idx) => (
+              <div
+                key={item.id || idx}
+                className="sa-type-item-row"
+                onClick={() => setSelectedChild(item)}
+              >
+                <div className="sa-type-avatar-wrap">
+                  <img
+                    src={item.imageUrl || '/images/deities/card_ganesha.jpg'}
+                    alt={item.title}
+                    className="sa-type-avatar-img"
+                  />
+                </div>
+                <span className="sa-type-title">{item.title}</span>
+                <Icon name="ChevronRight" size={18} className="sa-type-chevron" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── VIEW 2: SACRED SCRIPTURE PARCHMENT READER (EXACT MATCH TO REFERENCE IMAGE 2) ──
   return (
     <div className="sa-subcat-detail-page sa-scripture-view-mode">
-      {/* 1. Saffron Sticky Top Bar (Matching Reference Screenshot) */}
+      {/* 1. Saffron Sticky Top Bar */}
       <div className="sa-scripture-top-bar">
         <button
           type="button"
           className="scripture-back-btn"
-          onClick={() => navigate(-1)}
-          aria-label="Back to Subcategories"
+          onClick={() => {
+            if (selectedChild) {
+              setSelectedChild(null);
+            } else {
+              navigate(-1);
+            }
+          }}
+          aria-label="Back"
           title="Back"
         >
           <Icon name="ArrowLeft" size={24} />
         </button>
 
         <h1 className="scripture-top-title">
-          {currentLanguage === 'te' ? data.titleTelugu : data.title}
+          {selectedChild ? selectedChild.title : (currentLanguage === 'te' ? data.titleTelugu : data.title)}
         </h1>
 
         <div className="scripture-top-actions">
@@ -801,7 +889,7 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
         </div>
       </div>
 
-      {/* 2. Scripture Parchment Sheet (Exact match to reference layout) */}
+      {/* 2. Scripture Parchment Sheet */}
       <div className="sa-scripture-reader-wrap">
         <article className="sa-scripture-parchment-sheet">
           {/* Temple Crown Arch Ornament */}
@@ -826,6 +914,19 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
               <circle cx="120" cy="24" r="2.5" fill="#f59e0b" />
             </svg>
           </div>
+
+          {/* Title Header inside Sheet */}
+          <h2
+            className="scripture-sec-heading"
+            style={{
+              fontSize: `${fontSize + 3}px`,
+              color: '#8b0000',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}
+          >
+            {selectedChild ? selectedChild.title : (currentLanguage === 'te' ? data.titleTelugu : data.title)}
+          </h2>
 
           {/* Introductory Instruction Box (సూచన) */}
           {parsedScripture.instruction && (
@@ -879,7 +980,7 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
             })}
           </div>
 
-          {/* Bottom Actions: Samagri Checklist Toggle & Back to Subcategories */}
+          {/* Bottom Actions */}
           <div className="sa-scripture-bottom-tabs">
             {data.materials && data.materials.length > 0 && (
               <button
@@ -895,10 +996,16 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
             <button
               type="button"
               className="bottom-tab-pill"
-              onClick={() => navigate(-1)}
+              onClick={() => {
+                if (selectedChild) {
+                  setSelectedChild(null);
+                } else {
+                  navigate(-1);
+                }
+              }}
             >
               <Icon name="ArrowLeft" size={16} />
-              <span>Back to Subcategories</span>
+              <span>{selectedChild ? 'Back to Pooja List' : 'Back to Subcategories'}</span>
             </button>
           </div>
 
