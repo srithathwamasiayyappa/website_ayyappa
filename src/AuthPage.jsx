@@ -181,7 +181,7 @@ export default function AuthPage({
             mobile: data.user?.phoneNumber || prev.mobile,
           }));
           notify(data.message || 'Successfully signed in with Google!');
-          navigate('/home');
+          navigate('/choose-language');
         } else {
           notify(data.message || 'Google authentication failed on server');
         }
@@ -228,7 +228,7 @@ export default function AuthPage({
             email: data.user?.email || user.email || prev.email,
           }));
           notify(data.message || 'Successfully signed in with Apple!');
-          navigate('/home');
+          navigate('/choose-language');
         } else {
           notify(data.message || 'Apple authentication failed');
         }
@@ -252,7 +252,7 @@ export default function AuthPage({
               email: data.user?.email || prev.email,
             }));
             notify('Apple Sign In successful');
-            navigate('/home');
+            navigate('/choose-language');
           } else {
             notify(data.message || 'Apple authentication failed');
           }

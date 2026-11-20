@@ -1,0 +1,745 @@
+/* =========================================================
+   SARANAM AYYAPPA — SUBCATEGORY DETAIL PAGE CSS
+   Matches official Devotional Palette & Typography
+========================================================= */
+
+.sa-subcat-detail-page {
+  position: relative;
+  min-height: calc(100vh - 70px);
+  background-color: #faf6ec;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, #fbf8f0 0%, #f7f2e4 55%, #f2eae0 100%),
+    radial-gradient(circle at 10% 12%, rgba(212, 174, 98, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 90% 12%, rgba(212, 174, 98, 0.12) 0%, transparent 45%);
+  padding: 30px 0 80px;
+  overflow: hidden;
+}
+
+.sa-subcat-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(750px, 85vw);
+  max-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.1;
+  mix-blend-mode: multiply;
+}
+
+.sa-subcat-watermark img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.sa-subcat-container {
+  position: relative;
+  z-index: 2;
+  width: min(calc(100% - 48px), 1200px);
+  margin: 0 auto;
+}
+
+/* Breadcrumb */
+.sa-subcat-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #57746b;
+  margin-bottom: 24px;
+}
+
+.sa-subcat-nav a {
+  color: #2e7561;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.sa-subcat-nav a:hover {
+  color: #173d32;
+  text-decoration: underline;
+}
+
+.sa-subcat-nav .sep {
+  color: #c9a84e;
+}
+
+.sa-subcat-nav .curr {
+  color: #173d32;
+  font-weight: 700;
+}
+
+/* Hero Banner */
+.sa-subcat-hero {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 32px;
+  background: #ffffff;
+  border: 1px solid #cce3d8;
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 8px 30px rgba(18, 49, 40, 0.07);
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.sa-subcat-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.sa-subcat-pill {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.badge-festival {
+  background: #faecc5;
+  color: #8c6b1b;
+  border: 1px solid #e5b955;
+}
+
+.badge-popular {
+  background: #ffebe6;
+  color: #bf360c;
+  border: 1px solid #ffab91;
+}
+
+.badge-daily {
+  background: #eaf4ef;
+  color: #173d32;
+  border: 1px solid #2e7561;
+}
+
+.sa-subcat-pill-deity {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  background: #173d32;
+  color: #e5b955;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.sa-subcat-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #173d32;
+  margin: 0 0 10px;
+  line-height: 1.25;
+}
+
+.sa-subcat-subtitle {
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+  color: #57746b;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.sa-subcat-meta-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: #f4f9f6;
+  border-radius: 12px;
+  border: 1px solid #d9ebe2;
+  margin-bottom: 24px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #112620;
+}
+
+.meta-item strong {
+  color: #173d32;
+}
+
+.sa-subcat-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sa-btn-fav {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #173d32;
+  color: #ffffff;
+  border: 1px solid #2e7561;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sa-btn-fav:hover {
+  background: #215344;
+}
+
+.sa-btn-fav.active {
+  background: #faecc5;
+  color: #8c6b1b;
+  border-color: #c9a84e;
+}
+
+.sa-btn-print {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fdfcf7;
+  color: #173d32;
+  border: 1px solid #cce3d8;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sa-btn-print:hover {
+  background: #f4f9f6;
+  border-color: #2e7561;
+}
+
+.hero-img-card {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid #c9a84e;
+  box-shadow: 0 8px 24px rgba(23, 61, 50, 0.15);
+}
+
+.hero-img-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-img-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(7, 25, 20, 0.85);
+  color: #e5b955;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+
+/* Audio Player Bar */
+.sa-subcat-audio-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #173d32 0%, #0c251e 100%);
+  border: 1px solid #c9a84e;
+  border-radius: 16px;
+  padding: 16px 24px;
+  color: #ffffff;
+  margin-bottom: 28px;
+  box-shadow: 0 6px 20px rgba(12, 37, 30, 0.2);
+}
+
+.audio-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.audio-play-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e5b955 0%, #c9a84e 100%);
+  color: #112620;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.audio-play-btn:hover {
+  transform: scale(1.08);
+}
+
+.audio-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.audio-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #faecc5;
+}
+
+.audio-sub {
+  font-size: 12px;
+  color: #a4c2b7;
+}
+
+.audio-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #faecc5;
+}
+
+/* Tabs */
+.sa-subcat-tabs-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 20px;
+}
+
+.sa-subcat-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid #cce3d8;
+  background: #ffffff;
+  color: #57746b;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.sa-subcat-tab-btn:hover {
+  background: #f4f9f6;
+  color: #173d32;
+}
+
+.sa-subcat-tab-btn.active {
+  background: #173d32;
+  color: #ffffff;
+  border-color: #173d32;
+  box-shadow: 0 4px 14px rgba(23, 61, 50, 0.15);
+}
+
+/* Tab Panel Content Card */
+.sa-subcat-content-card {
+  background: #ffffff;
+  border: 1px solid #cce3d8;
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 8px 30px rgba(18, 49, 40, 0.05);
+  margin-bottom: 32px;
+}
+
+.pane-heading {
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #173d32;
+  margin: 0 0 10px;
+}
+
+.pane-lead {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #2e3e38;
+  margin-bottom: 28px;
+}
+
+.pane-desc {
+  font-size: 14px;
+  color: #57746b;
+  margin-bottom: 24px;
+}
+
+/* Overview Highlights */
+.overview-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.highlight-box {
+  background: #f4f9f6;
+  border: 1px solid #d9ebe2;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.highlight-box .box-icon {
+  font-size: 26px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.highlight-box h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #173d32;
+  margin: 0 0 4px;
+}
+
+.highlight-box p {
+  font-size: 13px;
+  color: #57746b;
+  margin: 0;
+}
+
+/* Procedure Steps */
+.procedure-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.procedure-step-card {
+  display: flex;
+  gap: 20px;
+}
+
+.step-num-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #173d32;
+  color: #faecc5;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #c9a84e;
+}
+
+.step-connector {
+  flex: 1;
+  width: 2px;
+  background: #d9ebe2;
+  margin-top: 8px;
+}
+
+.step-detail-col {
+  flex: 1;
+  background: #fbfdfc;
+  border: 1px solid #d9ebe2;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.step-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #173d32;
+  margin: 0 0 6px;
+}
+
+.step-desc {
+  font-size: 14px;
+  color: #3b5049;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.step-mantra-box {
+  background: #f7f2e4;
+  border-left: 3px solid #c9a84e;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.mantra-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8c6b1b;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.mantra-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #173d32;
+  margin: 0;
+}
+
+/* Samagri Grid */
+.samagri-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.samagri-item-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f4f9f6;
+  border: 1px solid #d9ebe2;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+
+.samagri-icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #eaf4ef;
+  color: #2e7561;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cce3d8;
+}
+
+.samagri-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.samagri-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #173d32;
+}
+
+.samagri-qty {
+  font-size: 12px;
+  color: #57746b;
+  margin-top: 2px;
+}
+
+.samagri-qty strong {
+  color: #8c6b1b;
+}
+
+/* Mantras Stack */
+.pane-header-with-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.copy-toast {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2b825c;
+  background: #eaf4ef;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid #cce3d8;
+}
+
+.mantras-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mantra-card {
+  background: #fdfcf7;
+  border: 1px solid #e2dac5;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.mantra-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.mantra-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #173d32;
+  margin: 0;
+}
+
+.btn-copy-mantra {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f4f9f6;
+  border: 1px solid #cce3d8;
+  color: #2e7561;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-copy-mantra:hover {
+  background: #173d32;
+  color: #ffffff;
+}
+
+.mantra-sacred-script {
+  font-family: 'Poppins', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #173d32;
+  background: #ffffff;
+  border: 1px solid #eedec0;
+  border-left: 4px solid #c9a84e;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 0 0 14px;
+  line-height: 1.7;
+}
+
+.mantra-translit-box {
+  margin-bottom: 12px;
+}
+
+.translit-label,
+.meaning-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8c6b1b;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.translit-text {
+  font-size: 13px;
+  font-style: italic;
+  color: #2e7561;
+  margin: 0;
+}
+
+.meaning-text {
+  font-size: 13.5px;
+  color: #3b5049;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Benefits List */
+.benefits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.benefit-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f4f9f6;
+  border: 1px solid #d9ebe2;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+
+.benefit-gold-bullet {
+  color: #c9a84e;
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+.benefit-text {
+  font-size: 14px;
+  color: #173d32;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Footer Nav */
+.sa-subcat-footer-nav {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.sa-btn-back-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #173d32;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sa-btn-back-cat:hover {
+  background: #215344;
+}
+
+@media (max-width: 900px) {
+  .sa-subcat-hero {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+  .hero-img-card {
+    height: 220px;
+  }
+}

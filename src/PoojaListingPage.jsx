@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as L from 'lucide-react';
 import { useLanguage } from './LanguageContext';
@@ -10,43 +10,58 @@ const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
   return <Component size={size} strokeWidth={1.9} {...props} />;
 };
 
-// Subcategory configurations for each devotional domain
+export const DEITIES = [
+  { id: 'all', name: 'All Deities', te: 'అన్ని దైవాలు', emblem: '🕉️' },
+  { id: 'ayyappa', name: 'Lord Ayyappa', te: 'శ్రీ అయ్యప్ప స్వామి', emblem: '🛕' },
+  { id: 'shiva', name: 'Lord Shiva', te: 'పరమశివుడు', emblem: '🔱' },
+  { id: 'venkateswara', name: 'Lord Venkateswara', te: 'శ్రీ వేంకటేశ్వర స్వామి', emblem: '☀️' },
+  { id: 'ganesha', name: 'Lord Ganesha', te: 'శ్రీ మహాగణపతి', emblem: '🐘' },
+  { id: 'devi', name: 'Goddess Lakshmi / Durga', te: 'శ్రీ దుర్గా / లక్ష్మీ దేవి', emblem: '🌸' },
+  { id: 'hanuman', name: 'Lord Hanuman', te: 'శ్రీ ఆంజనేయ స్వామి', emblem: '🐒' },
+  { id: 'murugan', name: 'Lord Murugan', te: 'శ్రీ సుబ్రహ్మణ్య స్వామి', emblem: '🦚' },
+];
+
+// Comprehensive subcategory configurations for each devotional domain filtered by Deity
 export const subcategoryConfigs = {
   pooja: {
     title: 'Pooja Vidhanam',
     subtitle: 'Traditional worship procedures, required materials and sacred chants.',
     breadcrumb: 'POOJA VIDHANAM',
-    badgeCount: '6 Sacred Guides',
+    badgeCount: 'Sacred Guides',
     searchPlaceholder: 'Search poojas, vrathams, or rituals...',
     filterChips: [
       { label: 'All', icon: 'Sparkles' },
       { label: 'Beginner', icon: 'UserCheck' },
       { label: 'Festival', icon: 'CalendarDays' },
-      { label: 'Ayyappa', icon: 'Mountain' },
       { label: 'Daily', icon: 'Sun' },
       { label: 'Popular', icon: 'Flame' },
     ],
     infoLeft: 'Choose a pooja to view materials, steps, chants and timing.',
     infoRight: 'Includes: materials, procedure, mantrā, benefits',
-    detailBase: '/pooja-detail',
+    detailBase: '/subcategory-detail',
     items: [
+      // Ayyappa Poojas
       {
         id: 'ayyappa-pooja',
+        deityId: 'ayyappa',
+        deityName: 'Lord Ayyappa',
         title: 'Ayyappa Pooja Vidhanam',
-        desc: 'Complete step-by-step worship procedure',
+        desc: 'Complete step-by-step worship procedure for Sastha',
         duration: '25 minutes',
         badge: 'Beginner',
         badgeClass: 'badge-beginner',
         type: 'Pooja',
         image: '/images/pooja/card-banner-ayyappa-hd.png',
-        filterTag: 'Ayyappa',
+        filterTag: 'Beginner',
         popularity: 100,
         durationMinutes: 25,
       },
       {
         id: 'mandala-pooja',
+        deityId: 'ayyappa',
+        deityName: 'Lord Ayyappa',
         title: 'Mandala Pooja',
-        desc: 'Daily devotion during Mandala season',
+        desc: 'Daily devotion during the holy 41-day Mandala season',
         duration: '40 minutes',
         badge: 'Festival',
         badgeClass: 'badge-festival',
@@ -58,8 +73,10 @@ export const subcategoryConfigs = {
       },
       {
         id: 'makaravilakku-pooja',
-        title: 'Makaravilakku Pooja',
-        desc: 'Special festival rituals and offerings',
+        deityId: 'ayyappa',
+        deityName: 'Lord Ayyappa',
+        title: 'Makaravilakku Special Pooja',
+        desc: 'Special festival rituals and sacred ghee abhishekams',
         duration: '35 minutes',
         badge: 'Festival',
         badgeClass: 'badge-festival',
@@ -71,33 +88,137 @@ export const subcategoryConfigs = {
       },
       {
         id: 'vratham-vidhanam',
-        title: 'Vratham Vidhanam',
-        desc: 'Preparation, observance and practices',
+        deityId: 'ayyappa',
+        deityName: 'Lord Ayyappa',
+        title: 'Ayyappa Vratham Vidhanam',
+        desc: 'Preparation, deeksha observance and ritual practices',
         duration: '15 minutes',
         badge: 'Beginner',
         badgeClass: 'badge-beginner',
         type: 'Vratham',
-        image: '/images/pooja/card-banner-ganapathi-hd.png',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
         filterTag: 'Beginner',
         popularity: 85,
         durationMinutes: 15,
       },
+
+      // Shiva Poojas
+      {
+        id: 'rudrabhishekam',
+        deityId: 'shiva',
+        deityName: 'Lord Shiva',
+        title: 'Maha Rudrabhishekam',
+        desc: 'Sacred bath with Panchamrita & Vedic Sri Rudram recitation',
+        duration: '45 minutes',
+        badge: 'Popular',
+        badgeClass: 'badge-popular',
+        type: 'Abhishekam',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        filterTag: 'Popular',
+        popularity: 98,
+        durationMinutes: 45,
+      },
+      {
+        id: 'bilvashtaka-pooja',
+        deityId: 'shiva',
+        deityName: 'Lord Shiva',
+        title: 'Bilvarchana Pooja',
+        desc: 'Offering of 108 sacred trifoliate Bilva leaves to Shiva Linga',
+        duration: '20 minutes',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Pooja',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        filterTag: 'Daily',
+        popularity: 92,
+        durationMinutes: 20,
+      },
+      {
+        id: 'pradosha-pooja',
+        deityId: 'shiva',
+        deityName: 'Lord Shiva',
+        title: 'Pradosha Pooja Vidhanam',
+        desc: 'Twilight worship dissolving deep karmas on Trayodashi',
+        duration: '35 minutes',
+        badge: 'Festival',
+        badgeClass: 'badge-festival',
+        type: 'Pooja',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        filterTag: 'Festival',
+        popularity: 94,
+        durationMinutes: 35,
+      },
+
+      // Ganesha Poojas
       {
         id: 'ganapathi-pooja',
-        title: 'Ganapathi Pooja',
+        deityId: 'ganesha',
+        deityName: 'Lord Ganesha',
+        title: 'Ganapathi Pooja & Homam',
         desc: 'Traditional prayers before auspicious beginnings',
-        duration: '20 minutes',
+        duration: '25 minutes',
         badge: 'Daily',
         badgeClass: 'badge-daily',
         type: 'Pooja',
         image: '/images/pooja/card-banner-ganapathi-hd.png',
         filterTag: 'Daily',
-        popularity: 88,
-        durationMinutes: 20,
+        popularity: 96,
+        durationMinutes: 25,
       },
       {
+        id: 'sankashtahara-pooja',
+        deityId: 'ganesha',
+        deityName: 'Lord Ganesha',
+        title: 'Sankashti Chaturthi Vratham',
+        desc: 'Observance for elimination of life difficulties & obstacles',
+        duration: '30 minutes',
+        badge: 'Festival',
+        badgeClass: 'badge-festival',
+        type: 'Vratham',
+        image: '/images/pooja/card-banner-ganapathi-hd.png',
+        filterTag: 'Festival',
+        popularity: 91,
+        durationMinutes: 30,
+      },
+
+      // Venkateswara Poojas
+      {
+        id: 'satyanarayana-vratham',
+        deityId: 'venkateswara',
+        deityName: 'Lord Venkateswara',
+        title: 'Satyanarayana Swamy Vratham',
+        desc: 'The sacred narrative vrata for abundant wealth & joy',
+        duration: '50 minutes',
+        badge: 'Popular',
+        badgeClass: 'badge-popular',
+        type: 'Vratham',
+        image: '/images/pooja/card-banner-ganapathi-hd.png',
+        filterTag: 'Popular',
+        popularity: 99,
+        durationMinutes: 50,
+      },
+      {
+        id: 'venkateswara-kalyanam',
+        deityId: 'venkateswara',
+        deityName: 'Lord Venkateswara',
+        title: 'Srinivasa Kalyana Utsavam',
+        desc: 'Divine celestial wedding ritual of Lord Venkateswara & Padmavathi',
+        duration: '45 minutes',
+        badge: 'Festival',
+        badgeClass: 'badge-festival',
+        type: 'Pooja',
+        image: '/images/pooja/card-banner-ganapathi-hd.png',
+        filterTag: 'Festival',
+        popularity: 95,
+        durationMinutes: 45,
+      },
+
+      // Devi Poojas
+      {
         id: 'lakshmi-pooja',
-        title: 'Lakshmi Pooja',
+        deityId: 'devi',
+        deityName: 'Goddess Devi / Lakshmi',
+        title: 'Sri Mahalakshmi Pooja',
         desc: 'Worship procedure for wealth, prosperity and harmony',
         duration: '30 minutes',
         badge: 'Popular',
@@ -108,28 +229,80 @@ export const subcategoryConfigs = {
         popularity: 98,
         durationMinutes: 30,
       },
+      {
+        id: 'varalakshmi-vratham',
+        deityId: 'devi',
+        deityName: 'Goddess Devi / Lakshmi',
+        title: 'Varalakshmi Vratham',
+        desc: 'Sacred Friday vratham observed by married women for family welfare',
+        duration: '40 minutes',
+        badge: 'Festival',
+        badgeClass: 'badge-festival',
+        type: 'Vratham',
+        image: '/images/pooja/card-banner-lakshmi-hd.png',
+        filterTag: 'Festival',
+        popularity: 97,
+        durationMinutes: 40,
+      },
+
+      // Hanuman Poojas
+      {
+        id: 'hanuman-pooja',
+        deityId: 'hanuman',
+        deityName: 'Lord Hanuman',
+        title: 'Hanuman Vadamala Pooja',
+        desc: 'Sindhoora and Vadamala offering for courage and protection',
+        duration: '25 minutes',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Pooja',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        filterTag: 'Daily',
+        popularity: 93,
+        durationMinutes: 25,
+      },
+
+      // Murugan Poojas
+      {
+        id: 'skanda-sashti-pooja',
+        deityId: 'murugan',
+        deityName: 'Lord Murugan',
+        title: 'Skanda Sashti Vratham',
+        desc: 'Observance commemorating victory of Lord Kartikeya over Surapadman',
+        duration: '35 minutes',
+        badge: 'Festival',
+        badgeClass: 'badge-festival',
+        type: 'Vratham',
+        image: '/images/pooja/card-banner-ganapathi-hd.png',
+        filterTag: 'Festival',
+        popularity: 90,
+        durationMinutes: 35,
+      },
     ],
   },
+
   stotras: {
     title: 'Astothrams & Stotras',
     subtitle: 'Sacred 108 names, thousand divine praises and timeless devotional hymns.',
     breadcrumb: 'ASTOTHRAMS & STOTRAS',
-    badgeCount: '6 Sacred Hymns',
+    badgeCount: 'Sacred Hymns',
     searchPlaceholder: 'Search astothrams, sahasranamam, or stotras...',
     filterChips: [
       { label: 'All', icon: 'Sparkles' },
       { label: 'Astothram', icon: 'Flower2' },
       { label: 'Sahasranamam', icon: 'BookOpen' },
-      { label: 'Ayyappa', icon: 'Mountain' },
       { label: 'Daily', icon: 'Sun' },
       { label: 'Popular', icon: 'Flame' },
     ],
     infoLeft: 'Choose an astothram or stotra to view sacred verses and chanting guidance.',
     infoRight: 'Includes: sanskrit slokas, transliteration, audio, spiritual benefits',
-    detailBase: '/sloka-detail',
+    detailBase: '/subcategory-detail',
     items: [
+      // Ayyappa
       {
         id: 'ayyappa-ashtothram',
+        deityId: 'ayyappa',
+        deityName: 'Lord Ayyappa',
         title: 'Sri Ayyappa Ashtothram',
         desc: '108 sacred names chanted during daily pooja and vratham',
         duration: '15 minutes',
@@ -143,6 +316,8 @@ export const subcategoryConfigs = {
       },
       {
         id: 'ayyappa-sahasranamam',
+        deityId: 'ayyappa',
+        deityName: 'Lord Ayyappa',
         title: 'Sri Ayyappa Sahasranamam',
         desc: '1,000 divine names reciting the glory and virtues of Lord Sastha',
         duration: '45 minutes',
@@ -154,178 +329,274 @@ export const subcategoryConfigs = {
         popularity: 95,
         durationMinutes: 45,
       },
+
+      // Shiva
       {
-        id: 'ayyappa-stotram',
-        title: 'Sri Ayyappa Stotram',
-        desc: 'Powerful daily hymn for protection, spiritual strength and grace',
+        id: 'shiva-tandava',
+        deityId: 'shiva',
+        deityName: 'Lord Shiva',
+        title: 'Shiva Tandava Stotram',
+        desc: 'Rhythmic cosmic hymn sung by Ravana celebrating Shiva’s dance',
         duration: '12 minutes',
-        badge: 'Daily',
-        badgeClass: 'badge-daily',
-        type: 'Stotram',
+        badge: 'Popular',
+        badgeClass: 'badge-popular',
+        type: 'Stotras',
         image: '/images/pooja/card-banner-ayyappa-hd.png',
-        filterTag: 'Daily',
-        popularity: 92,
+        filterTag: 'Popular',
+        popularity: 98,
         durationMinutes: 12,
       },
       {
-        id: 'harivarasanam-stotra',
-        title: 'Harivarasanam Viswamohanam',
-        desc: 'The eternal bedtime lullaby and sacred hymn of Sabarimala',
+        id: 'lingashtakam',
+        deityId: 'shiva',
+        deityName: 'Lord Shiva',
+        title: 'Sri Lingashtakam',
+        desc: 'Eight divine verses honoring the eternal cosmic Linga',
         duration: '8 minutes',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Stotras',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        filterTag: 'Daily',
+        popularity: 94,
+        durationMinutes: 8,
+      },
+
+      // Ganesha
+      {
+        id: 'ganesha-pancharatnam',
+        deityId: 'ganesha',
+        deityName: 'Lord Ganesha',
+        title: 'Ganesha Pancharatnam',
+        desc: 'Five divine jewels composed by Adi Shankaracharya',
+        duration: '7 minutes',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Stotras',
+        image: '/images/pooja/card-banner-ganapathi-hd.png',
+        filterTag: 'Daily',
+        popularity: 96,
+        durationMinutes: 7,
+      },
+
+      // Venkateswara
+      {
+        id: 'venkateswara-suprabhatam',
+        deityId: 'venkateswara',
+        deityName: 'Lord Venkateswara',
+        title: 'Sri Venkateswara Suprabhatam',
+        desc: 'Awakening hymns chanted daily at Tirumala Tirupati Devasthanam',
+        duration: '22 minutes',
         badge: 'Popular',
         badgeClass: 'badge-popular',
-        type: 'Stotram',
-        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        type: 'Stotras',
+        image: '/images/pooja/card-banner-ganapathi-hd.png',
         filterTag: 'Popular',
         popularity: 99,
-        durationMinutes: 8,
+        durationMinutes: 22,
       },
       {
         id: 'vishnu-sahasranamam',
+        deityId: 'venkateswara',
+        deityName: 'Lord Venkateswara',
         title: 'Vishnu Sahasranamam',
-        desc: 'Traditional thousand sacred names of Maha Vishnu for peace and health',
+        desc: '1,000 supreme names of Lord Mahavishnu revealed by Bhishma',
         duration: '35 minutes',
         badge: 'Popular',
         badgeClass: 'badge-popular',
         type: 'Sahasranamam',
         image: '/images/pooja/card-banner-ganapathi-hd.png',
         filterTag: 'Sahasranamam',
-        popularity: 96,
+        popularity: 97,
         durationMinutes: 35,
       },
+
+      // Devi
       {
-        id: 'lalitha-sahasranamam',
-        title: 'Sri Lalitha Sahasranamam',
-        desc: 'Sacred hymn praising the divine mother Lalitha Tripura Sundari',
-        duration: '40 minutes',
-        badge: 'Daily',
-        badgeClass: 'badge-daily',
-        type: 'Sahasranamam',
-        image: '/images/pooja/card-banner-lakshmi-hd.png',
-        filterTag: 'Sahasranamam',
-        popularity: 94,
-        durationMinutes: 40,
-      },
-    ],
-  },
-  slokas: {
-    title: 'Sacred Slokas',
-    subtitle: 'Daily invocations, powerful mantras and spiritual verses with meanings.',
-    breadcrumb: 'SACRED SLOKAS',
-    badgeCount: '6 Divine Slokas',
-    searchPlaceholder: 'Search slokas, mantras, or divine verses...',
-    filterChips: [
-      { label: 'All', icon: 'Sparkles' },
-      { label: 'Daily', icon: 'Sun' },
-      { label: 'Ayyappa', icon: 'Mountain' },
-      { label: 'Mantra', icon: 'Sparkles' },
-      { label: 'Protection', icon: 'ShieldCheck' },
-      { label: 'Popular', icon: 'Flame' },
-    ],
-    infoLeft: 'Select a sloka to read traditional script, pronunciation and sacred meaning.',
-    infoRight: 'Includes: telugu script, english transliteration, word meaning, audio',
-    detailBase: '/sloka-detail',
-    items: [
-      {
-        id: 'ayyappa-slokas',
-        title: 'Sri Ayyappa Slokas',
-        desc: 'Swamiye Saranam Ayyappa — daily invocation and surrender verses',
-        duration: '10 minutes',
-        badge: 'Daily',
-        badgeClass: 'badge-daily',
-        type: 'Slokas',
-        image: '/images/pooja/card-banner-ayyappa-hd.png',
-        filterTag: 'Ayyappa',
-        popularity: 100,
-        durationMinutes: 10,
-      },
-      {
-        id: 'ganesha-prarthana',
-        title: 'Ganesha Prarthana Sloka',
-        desc: 'Shuklambaradharam Vishnum — auspicious prayer before beginnings',
-        duration: '5 minutes',
-        badge: 'Beginner',
-        badgeClass: 'badge-beginner',
-        type: 'Slokas',
-        image: '/images/pooja/card-banner-ganapathi-hd.png',
-        filterTag: 'Daily',
-        popularity: 95,
-        durationMinutes: 5,
-      },
-      {
-        id: 'gayatri-mantra',
-        title: 'Gayatri Maha Mantra',
-        desc: 'Om Bhur Bhuva Swaha — universal Vedic prayer for spiritual light',
+        id: 'mahishasura-mardini',
+        deityId: 'devi',
+        deityName: 'Goddess Devi / Lakshmi',
+        title: 'Mahishasura Mardini Stotram',
+        desc: 'Ayigiri Nandini rhythmic celebration of Goddess Durga’s victory',
         duration: '15 minutes',
-        badge: 'Daily',
-        badgeClass: 'badge-daily',
-        type: 'Mantra',
+        badge: 'Popular',
+        badgeClass: 'badge-popular',
+        type: 'Stotras',
         image: '/images/pooja/card-banner-lakshmi-hd.png',
-        filterTag: 'Mantra',
+        filterTag: 'Popular',
         popularity: 98,
         durationMinutes: 15,
       },
       {
-        id: 'mrityunjaya-mantra',
-        title: 'Maha Mrityunjaya Mantra',
-        desc: 'Tryambakam Yajamahe — life-giving healing chant of Lord Shiva',
-        duration: '12 minutes',
-        badge: 'Popular',
-        badgeClass: 'badge-popular',
-        type: 'Mantra',
-        image: '/images/pooja/card-banner-ayyappa-hd.png',
-        filterTag: 'Mantra',
-        popularity: 94,
-        durationMinutes: 12,
-      },
-      {
-        id: 'rama-raksha-sloka',
-        title: 'Sri Rama Raksha Stotra Slokas',
-        desc: 'Sacred armor prayer for protection, health and peace of mind',
-        duration: '20 minutes',
+        id: 'sri-suktam',
+        deityId: 'devi',
+        deityName: 'Goddess Devi / Lakshmi',
+        title: 'Sri Suktam',
+        desc: 'Vedic hymn for wealth, divine mother’s grace and abundance',
+        duration: '14 minutes',
         badge: 'Daily',
         badgeClass: 'badge-daily',
-        type: 'Protection',
-        image: '/images/pooja/card-banner-ganapathi-hd.png',
-        filterTag: 'Protection',
-        popularity: 91,
-        durationMinutes: 20,
+        type: 'Stotras',
+        image: '/images/pooja/card-banner-lakshmi-hd.png',
+        filterTag: 'Daily',
+        popularity: 96,
+        durationMinutes: 14,
       },
+
+      // Hanuman
       {
-        id: 'navagraha-slokas',
-        title: 'Navagraha Mangala Slokas',
-        desc: 'Chants for nine planetary deities bringing balance and harmony',
-        duration: '18 minutes',
+        id: 'hanuman-chalisa',
+        deityId: 'hanuman',
+        deityName: 'Lord Hanuman',
+        title: 'Sri Hanuman Chalisa',
+        desc: 'Forty devotional chaupais composed by Goswami Tulsidas',
+        duration: '10 minutes',
         badge: 'Popular',
         badgeClass: 'badge-popular',
-        type: 'Slokas',
-        image: '/images/pooja/card-banner-lakshmi-hd.png',
+        type: 'Stotras',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
         filterTag: 'Popular',
-        popularity: 89,
-        durationMinutes: 18,
+        popularity: 100,
+        durationMinutes: 10,
       },
     ],
   },
+
+  slokas: {
+    title: 'Daily Slokas',
+    subtitle: 'Sacred verses, powerful mantras and daily meditative chants.',
+    breadcrumb: 'DAILY SLOKAS',
+    badgeCount: 'Sacred Verses',
+    searchPlaceholder: 'Search slokas, gayathri, or mantras...',
+    filterChips: [
+      { label: 'All', icon: 'Sparkles' },
+      { label: 'Daily', icon: 'Sun' },
+      { label: 'Popular', icon: 'Flame' },
+    ],
+    infoLeft: 'Select a sloka to read sanskrit lyrics, meaning and listen to audio.',
+    infoRight: 'Includes: devanagari, telugu, english transliteration, audio player',
+    detailBase: '/subcategory-detail',
+    items: [
+      // Ayyappa
+      {
+        id: 'ayyappa-gayathri',
+        deityId: 'ayyappa',
+        deityName: 'Lord Ayyappa',
+        title: 'Sri Ayyappa Gayathri Mantra',
+        desc: 'Om Bhootanaathaya Vidmahe sacred illumination chant',
+        duration: '5 minutes',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Slokas',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        filterTag: 'Daily',
+        popularity: 95,
+        durationMinutes: 5,
+      },
+      // Shiva
+      {
+        id: 'maha-mrityunjaya',
+        deityId: 'shiva',
+        deityName: 'Lord Shiva',
+        title: 'Maha Mrityunjaya Mantra',
+        desc: 'Supreme healing & immortality mantra from the Rigveda',
+        duration: '8 minutes',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Slokas',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        filterTag: 'Daily',
+        popularity: 98,
+        durationMinutes: 8,
+      },
+      // Ganesha
+      {
+        id: 'vakratunda-sloka',
+        deityId: 'ganesha',
+        deityName: 'Lord Ganesha',
+        title: 'Vakratunda Mahakaya Sloka',
+        desc: 'Universal obstacle-remover sloka chanted before start of day',
+        duration: '3 minutes',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Slokas',
+        image: '/images/pooja/card-banner-ganapathi-hd.png',
+        filterTag: 'Daily',
+        popularity: 99,
+        durationMinutes: 3,
+      },
+      // Venkateswara
+      {
+        id: 'namo-narayanaya',
+        deityId: 'venkateswara',
+        deityName: 'Lord Venkateswara',
+        title: 'Om Namo Narayanaya Ashtakshari',
+        desc: 'Sacred eight-syllable Mahamantra of Lord Narayana',
+        duration: '6 minutes',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Slokas',
+        image: '/images/pooja/card-banner-ganapathi-hd.png',
+        filterTag: 'Daily',
+        popularity: 96,
+        durationMinutes: 6,
+      },
+      // Devi
+      {
+        id: 'sarva-mangala',
+        deityId: 'devi',
+        deityName: 'Goddess Devi / Lakshmi',
+        title: 'Sarva Mangala Mangalye',
+        desc: 'Auspicious protective verse invoking Goddess Narayani',
+        duration: '4 minutes',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Slokas',
+        image: '/images/pooja/card-banner-lakshmi-hd.png',
+        filterTag: 'Daily',
+        popularity: 97,
+        durationMinutes: 4,
+      },
+      // Hanuman
+      {
+        id: 'manojava-sloka',
+        deityId: 'hanuman',
+        deityName: 'Lord Hanuman',
+        title: 'Manojavam Maruta Tulya Vegam',
+        desc: 'Speed-of-mind and wind invocation to Lord Anjaneya',
+        duration: '3 minutes',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Slokas',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        filterTag: 'Daily',
+        popularity: 94,
+        durationMinutes: 3,
+      },
+    ],
+  },
+
   songs: {
     title: 'Bhajans & Songs',
     subtitle: 'Soulful devotional melodies, traditional harathis and sacred kirtans.',
     breadcrumb: 'BHAJANS & SONGS',
-    badgeCount: '6 Sacred Melodies',
+    badgeCount: 'Sacred Melodies',
     searchPlaceholder: 'Search bhajans, harathis, kirtans, or songs...',
     filterChips: [
       { label: 'All', icon: 'Sparkles' },
       { label: 'Bhajans', icon: 'Music2' },
       { label: 'Harathis', icon: 'Flame' },
-      { label: 'Songs', icon: 'Headphones' },
-      { label: 'Ayyappa', icon: 'Mountain' },
       { label: 'Popular', icon: 'Flame' },
     ],
     infoLeft: 'Choose a devotional song or harathi to stream audio and read lyrical chants.',
     infoRight: 'Includes: audio player, synchronized lyrics, ragam, devotional meaning',
-    detailBase: '/songs-detail',
+    detailBase: '/subcategory-detail',
     items: [
+      // Ayyappa
       {
         id: 'ayyappa-bhajan',
+        deityId: 'ayyappa',
+        deityName: 'Lord Ayyappa',
         title: 'Ayyappa Bhajan — Swamiye Saranam',
         desc: 'Heartfelt chorus invoking the divine grace of Lord Ayyappa',
         duration: '04:38',
@@ -338,75 +609,87 @@ export const subcategoryConfigs = {
         durationMinutes: 5,
       },
       {
-        id: 'ayyappa-harathi',
-        title: 'Harathi — Sri Ayyappa Swamy',
-        desc: 'Traditional camphor harathi hymn for evening deeparadhana',
-        duration: '05:12',
-        badge: 'Festival',
-        badgeClass: 'badge-festival',
-        type: 'Harathis',
+        id: 'harivarasanam-song',
+        deityId: 'ayyappa',
+        deityName: 'Lord Ayyappa',
+        title: 'Harivarasanam Viswamohanam',
+        desc: 'Sacred bedtime lullaby sung during temple closure at Sabarimala',
+        duration: '06:10',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Songs',
         image: '/images/pooja/card-banner-ayyappa-hd.png',
-        filterTag: 'Harathis',
+        filterTag: 'Songs',
+        popularity: 100,
+        durationMinutes: 6,
+      },
+      // Shiva
+      {
+        id: 'om-namah-shivaya',
+        deityId: 'shiva',
+        deityName: 'Lord Shiva',
+        title: 'Om Namah Shivaya Dhun',
+        desc: 'Continuous meditative chanting of the holy Panchakshari',
+        duration: '08:15',
+        badge: 'Daily',
+        badgeClass: 'badge-daily',
+        type: 'Bhajans',
+        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        filterTag: 'Bhajans',
+        popularity: 98,
+        durationMinutes: 8,
+      },
+      // Ganesha
+      {
+        id: 'ganesha-sharanam',
+        deityId: 'ganesha',
+        deityName: 'Lord Ganesha',
+        title: 'Ganesha Sharanam Sharanam Ganesha',
+        desc: 'Upbeat chorus chant seeking refuge at the elephant Lord’s feet',
+        duration: '05:22',
+        badge: 'Popular',
+        badgeClass: 'badge-popular',
+        type: 'Bhajans',
+        image: '/images/pooja/card-banner-ganapathi-hd.png',
+        filterTag: 'Bhajans',
         popularity: 96,
         durationMinutes: 5,
       },
+      // Venkateswara
       {
-        id: 'manasa-smarami',
-        title: 'Manasa Smarami — Devotional Song',
-        desc: 'Meditative melody for contemplation and spiritual surrender',
-        duration: '03:54',
-        badge: 'Daily',
-        badgeClass: 'badge-daily',
-        type: 'Songs',
-        image: '/images/pooja/card-banner-ganapathi-hd.png',
-        filterTag: 'Songs',
-        popularity: 90,
-        durationMinutes: 4,
-      },
-      {
-        id: 'ayyappa-suprabhatam',
-        title: 'Ayyappa Suprabhatam',
-        desc: 'Auspicious dawn awakening chants for Lord Sastha at Sannidhanam',
-        duration: '07:18',
-        badge: 'Daily',
-        badgeClass: 'badge-daily',
+        id: 'govinda-hari-govinda',
+        deityId: 'venkateswara',
+        deityName: 'Lord Venkateswara',
+        title: 'Govinda Hari Govinda Venkataramana',
+        desc: 'Soulful Tirumala sankirtan echoing the holy Seven Hills',
+        duration: '07:40',
+        badge: 'Popular',
+        badgeClass: 'badge-popular',
         type: 'Bhajans',
-        image: '/images/pooja/card-banner-ayyappa-hd.png',
+        image: '/images/pooja/card-banner-ganapathi-hd.png',
         filterTag: 'Bhajans',
-        popularity: 94,
-        durationMinutes: 7,
+        popularity: 99,
+        durationMinutes: 8,
       },
+      // Devi
       {
-        id: 'harivarasanam-song',
-        title: 'Harivarasanam Viswamohanam Song',
-        desc: 'The peaceful lullaby sung during the sanctum closure at night',
-        duration: '06:10',
+        id: 'bhagyada-lakshmi',
+        deityId: 'devi',
+        deityName: 'Goddess Devi / Lakshmi',
+        title: 'Bhagyada Lakshmi Baramma',
+        desc: 'Celebrated Purandara Dasa devaranama inviting Goddess of fortune',
+        duration: '05:45',
         badge: 'Popular',
         badgeClass: 'badge-popular',
         type: 'Songs',
-        image: '/images/pooja/card-banner-ayyappa-hd.png',
-        filterTag: 'Songs',
-        popularity: 99,
-        durationMinutes: 6,
-      },
-      {
-        id: 'pallikattu-sabarimalaikku',
-        title: 'Pallikattu Sabarimalaikku',
-        desc: 'Legendary energetic kirtan celebrating the sacred irumudi journey',
-        duration: '05:45',
-        badge: 'Festival',
-        badgeClass: 'badge-festival',
-        type: 'Bhajans',
         image: '/images/pooja/card-banner-lakshmi-hd.png',
-        filterTag: 'Bhajans',
+        filterTag: 'Songs',
         popularity: 98,
         durationMinutes: 6,
       },
     ],
   },
 };
-
-export const poojaListingData = subcategoryConfigs.pooja.items;
 
 export default function PoojaListingPage({ category: categoryProp }) {
   const { currentLanguage, t } = useLanguage();
@@ -416,39 +699,66 @@ export default function PoojaListingPage({ category: categoryProp }) {
   const activeCategory = useMemo(() => {
     if (categoryProp) return categoryProp;
     const p = location.pathname.toLowerCase();
-    if (p.includes('/stotras')) return 'stotras';
+    const q = new URLSearchParams(location.search).get('category');
+    if (q) return q;
+    if (p.includes('/stotras') || p.includes('/astothram')) return 'stotras';
     if (p.includes('/slokas')) return 'slokas';
-    if (p.includes('/songs')) return 'songs';
+    if (p.includes('/songs') || p.includes('/bhajans')) return 'songs';
     return 'pooja';
-  }, [categoryProp, location.pathname]);
+  }, [categoryProp, location.pathname, location.search]);
 
   const config = subcategoryConfigs[activeCategory] || subcategoryConfigs.pooja;
+
+  // Read deity from URL search parameter (default to 'all' so all subcategories show by default)
+  const [selectedGod, setSelectedGod] = useState(() => {
+    const fromUrl = new URLSearchParams(location.search).get('god');
+    return fromUrl || 'all';
+  });
+
+  // Keep selected god in sync if URL changes
+  useEffect(() => {
+    const fromUrl = new URLSearchParams(location.search).get('god');
+    if (fromUrl && fromUrl !== selectedGod) {
+      setSelectedGod(fromUrl);
+    }
+  }, [location.search]);
+
+  const handleSelectGod = (godId) => {
+    setSelectedGod(godId);
+    try {
+      localStorage.setItem('sa-selected-god', godId);
+    } catch {}
+  };
 
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('All');
   const [sort, setSort] = useState('Popular');
 
-  // Filtering & Sorting
+  // Filtering & Sorting (STRICTLY FILTERED BASED ON SELECTED GOD)
   const filteredList = useMemo(() => {
     let list = config.items.filter((item) => {
+      // 1. GOD / DEITY FILTER: If a specific God is selected, show only that God's subcategories
+      if (selectedGod !== 'all' && item.deityId !== selectedGod && item.deityId !== 'all') {
+        return false;
+      }
+
+      // 2. Search query filter
       const q = search.trim().toLowerCase();
       const matchesSearch =
         !q ||
         item.title.toLowerCase().includes(q) ||
         item.desc.toLowerCase().includes(q) ||
         item.type.toLowerCase().includes(q) ||
-        item.badge.toLowerCase().includes(q);
+        item.badge.toLowerCase().includes(q) ||
+        (item.deityName && item.deityName.toLowerCase().includes(q));
 
+      // 3. Subcategory tag filter
       const matchesFilter =
         filter === 'All' ||
         item.filterTag === filter ||
         item.badge === filter ||
         item.type === filter ||
-        (filter === 'Popular' && item.popularity >= 90) ||
-        (filter === 'Ayyappa' &&
-          (item.id.includes('ayyappa') ||
-            item.title.toLowerCase().includes('ayyappa') ||
-            item.desc.toLowerCase().includes('ayyappa')));
+        (filter === 'Popular' && item.popularity >= 90);
 
       return matchesSearch && matchesFilter;
     });
@@ -462,7 +772,9 @@ export default function PoojaListingPage({ category: categoryProp }) {
     }
 
     return list;
-  }, [config.items, search, filter, sort]);
+  }, [config.items, selectedGod, search, filter, sort]);
+
+  const currentGodObj = DEITIES.find((d) => d.id === selectedGod);
 
   return (
     <main className="sa-pooja-page">
@@ -506,77 +818,96 @@ export default function PoojaListingPage({ category: categoryProp }) {
             <p className="sa-pooja-subtitle">{config.subtitle}</p>
           </div>
 
-          {/* Sacred Guides Counter Badge (top-right) */}
-          <div className="sa-pooja-sacred-badge-wrap">
-            {activeCategory === 'pooja' ? (
-              <img
-                src="/images/pooja/sacred-guides-badge-hd.png"
-                alt="6 Sacred Guides"
-                className="sa-pooja-sacred-badge-img"
-              />
-            ) : (
-              <div className="sa-pooja-sacred-badge-styled">
-                <span className="sa-pooja-badge-lotus">❀</span>
-                <span>{config.badgeCount}</span>
-              </div>
-            )}
+          <div className="sa-pooja-badge-wrap">
+            <span className="sa-pooja-guides-badge">
+              {filteredList.length} {config.badgeCount}
+            </span>
           </div>
         </header>
 
-        {/* Two-Column Main Composition */}
-        <div className="sa-pooja-main-grid">
-          {/* Left Column: Promotional Devotional Card */}
-          <aside
-            className="sa-pooja-promo-card"
-            aria-label="Devotional Guide Overview"
-          >
-            <img
-              src="/images/pooja/promo-card-complete-hd.png"
-              alt="Ayyappa Pooja - Begin with Devotion"
-              className="sa-pooja-promo-full-img"
-            />
-          </aside>
+        {/* ── STEP 2 & 3: SELECT GOD / DEITY FILTER BAR ── */}
+        <div className="sa-pooja-god-bar" role="region" aria-label="Select God to Filter Subcategories">
+          <div className="sa-pooja-god-bar-header">
+            <div className="god-prompt-title">
+              <span className="god-sparkle">✨</span>
+              <strong>{t('filterByGod', 'Which God do you want to select?')}</strong>
+              {selectedGod !== 'all' && (
+                <span className="god-active-tag">
+                  Showing subcategories for: <strong>{currentLanguage === 'te' ? currentGodObj?.te : currentGodObj?.name}</strong>
+                </span>
+              )}
+            </div>
 
-          {/* Right Column: Search Toolbar, Filters, Info Strip & Listing Cards */}
-          <section
-            className="sa-pooja-right-col"
-            aria-label={`${config.title} Listing`}
-          >
-            {/* Search and Sort Toolbar */}
+            {selectedGod !== 'all' && (
+              <button
+                type="button"
+                className="god-reset-btn"
+                onClick={() => handleSelectGod('all')}
+              >
+                Reset to All Gods
+              </button>
+            )}
+          </div>
+
+          <div className="sa-pooja-god-chips">
+            {DEITIES.map((deity) => {
+              const isSelected = selectedGod === deity.id;
+              const deityLabel = currentLanguage === 'te' ? deity.te : deity.name;
+              return (
+                <button
+                  key={deity.id}
+                  type="button"
+                  onClick={() => handleSelectGod(deity.id)}
+                  className={`sa-pooja-god-chip ${isSelected ? 'active' : ''}`}
+                >
+                  <span className="deity-emblem">{deity.emblem}</span>
+                  <span className="deity-name">{deityLabel}</span>
+                  {isSelected && <span className="deity-check">✓</span>}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Main Card Frame with Controls, Informational Strip & Devotional Clean List */}
+        <section className="sa-pooja-card-frame">
+          <div className="sa-pooja-inner-board">
+            {/* Top Toolbar: Search & Sort */}
             <div className="sa-pooja-toolbar">
               <div className="sa-pooja-search-box">
                 <Icon
                   name="Search"
-                  size={19}
+                  size={18}
                   className="sa-pooja-search-icon"
                 />
                 <input
-                  type="search"
+                  type="text"
+                  placeholder={config.searchPlaceholder}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder={config.searchPlaceholder}
-                  aria-label={config.searchPlaceholder}
+                  aria-label="Search devotional guides"
                 />
                 {search && (
                   <button
                     type="button"
-                    className="sa-pooja-search-clear"
+                    className="sa-pooja-clear-btn"
                     onClick={() => setSearch('')}
-                    aria-label="Clear search"
                   >
-                    <Icon name="X" size={16} />
+                    <Icon name="X" size={15} />
                   </button>
                 )}
               </div>
 
               <div className="sa-pooja-sort-box">
+                <span className="sa-pooja-sort-label">Sort By:</span>
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  aria-label="Sort options"
+                  className="sa-pooja-sort-select"
+                  aria-label="Sort guides"
                 >
-                  <option value="Popular">Sort by: Popular</option>
-                  <option value="Name">Sort by: Name (A-Z)</option>
+                  <option value="Popular">Most Popular</option>
+                  <option value="Name">Alphabetical (A-Z)</option>
                   <option value="Shortest">Duration: Shortest</option>
                   <option value="Longest">Duration: Longest</option>
                 </select>
@@ -621,12 +952,12 @@ export default function PoojaListingPage({ category: categoryProp }) {
               </div>
             </div>
 
-            {/* Clean Devotional Listing (Replacing Boxy Cards with Flowers, God Avatar, & Timers) */}
+            {/* Clean Devotional Subcategories Listing */}
             <div className="sa-pooja-clean-list">
               {filteredList.map((item) => (
                 <Link
                   key={item.id}
-                  to={`${config.detailBase}?id=${item.id}`}
+                  to={`/subcategory-detail?id=${item.id}&god=${item.deityId}&category=${activeCategory}`}
                   className="sa-pooja-list-item"
                 >
                   <div className="sa-pooja-list-main">
@@ -640,54 +971,55 @@ export default function PoojaListingPage({ category: categoryProp }) {
                       />
                     </div>
 
-                    {/* Center: Title with flower accent & description */}
-                    <div className="sa-pooja-list-info">
-                      <div className="sa-pooja-list-title-row">
-                        <span className="sa-pooja-list-flower" role="img" aria-label="flower">🪷</span>
-                        <h3 className="sa-pooja-list-title">{item.title}</h3>
+                    {/* Middle: Title, Subtitle, Deity Tag, Duration & Difficulty Badge */}
+                    <div className="sa-pooja-item-info">
+                      <div className="sa-pooja-item-title-row">
+                        <h2 className="sa-pooja-item-title">{item.title}</h2>
+                        {item.deityName && (
+                          <span className="sa-pooja-item-deity-pill">
+                            {item.deityName}
+                          </span>
+                        )}
+                        <span className={`sa-pooja-item-badge ${item.badgeClass}`}>
+                          {item.badge}
+                        </span>
                       </div>
-                      <p className="sa-pooja-list-desc">{item.desc}</p>
+                      <p className="sa-pooja-item-desc">{item.desc}</p>
                     </div>
                   </div>
 
-                  {/* Right: Duration Timer, Badge & Action Arrow */}
-                  <div className="sa-pooja-list-meta">
-                    <div className="sa-pooja-list-timer">
-                      <Icon name="Clock3" size={14} />
+                  {/* Right: Duration & View Complete Details Button */}
+                  <div className="sa-pooja-list-side">
+                    <div className="sa-pooja-item-time">
+                      <Icon name="Clock" size={14} className="sa-pooja-time-icon" />
                       <span>{item.duration}</span>
                     </div>
 
-                    <div className={`sa-pooja-badge ${item.badgeClass}`}>
-                      <Icon name="BarChart2" size={12} />
-                      <span>{item.badge}</span>
-                    </div>
-
-                    <div className="sa-row-arrow-circle" aria-hidden="true">
-                      <Icon name="ChevronRight" size={16} />
-                    </div>
+                    <span className="sa-pooja-btn-view">
+                      <span>View Details</span>
+                      <Icon name="ArrowRight" size={14} />
+                    </span>
                   </div>
                 </Link>
               ))}
 
               {filteredList.length === 0 && (
-                <div className="sa-pooja-empty-state">
-                  <Icon name="Search" size={32} />
-                  <p>No items found matching "{search}".</p>
+                <div className="sa-pooja-empty-filter">
+                  <span className="empty-icon">🕉️</span>
+                  <h3>No subcategories found for {currentGodObj?.name || 'this God'}</h3>
+                  <p>Try switching to another deity or clearing the search filter.</p>
                   <button
                     type="button"
-                    className="sa-pooja-reset-btn"
-                    onClick={() => {
-                      setSearch('');
-                      setFilter('All');
-                    }}
+                    className="btn-reset-filters"
+                    onClick={() => { handleSelectGod('all'); setSearch(''); setFilter('All'); }}
                   >
-                    Reset Filters
+                    View All Deities
                   </button>
                 </div>
               )}
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </div>
     </main>
   );

@@ -256,9 +256,11 @@ export default function CategoriesPage() {
             const displayTitle = loc?.title || service.title;
             const displaySub = loc?.sub || service.sub;
 
+            const targetUrl = service.url;
+
             return (
               <Link
-                to={service.url}
+                to={targetUrl}
                 key={service.id || service.serviceId}
                 className={`sa-cat-card ${isFoodCard ? 'sa-cat-card-food' : ''}`}
                 aria-label={`${displayTitle} - ${displaySub}`}
