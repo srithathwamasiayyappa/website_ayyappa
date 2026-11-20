@@ -842,6 +842,14 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
     if (matchKey.includes('devi') || matchKey === '19') {
       return DEFAULT_CHILDREN['19'] || DEFAULT_CHILDREN['sri-devi-pooja'];
     }
+    if (
+      matchKey.includes('bhajan') ||
+      matchKey.includes('keerthan') ||
+      matchKey === '248' ||
+      matchKey === '22'
+    ) {
+      return DEFAULT_CHILDREN['248'] || DEFAULT_CHILDREN['bhajana-keerthanalu'];
+    }
     if (matchKey.includes('satyanarayana') || matchKey === '25') {
       return DEFAULT_CHILDREN['25'] || DEFAULT_CHILDREN['sri-satyanarayana-swamy-vratham'];
     }

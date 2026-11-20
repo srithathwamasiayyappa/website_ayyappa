@@ -186,7 +186,7 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
     const hasMultipleTypes = Boolean(
       DEFAULT_CHILDREN[s] ||
       DEFAULT_CHILDREN[rawId] ||
-      /ganapa|vignesh|subramanya|subrahmanya|ashtottara|ashtothram|satyanarayana|varalakshmi|kedareswara|vinayaka|dharma-sastha|ayyappa-pooja|harathi|gomatha|devi/.test(s)
+      /ganapa|vignesh|subramanya|subrahmanya|ashtottara|ashtothram|satyanarayana|varalakshmi|kedareswara|vinayaka|dharma-sastha|ayyappa-pooja|harathi|gomatha|devi|bhajan|keerthan/.test(s)
     );
 
     if (hasMultipleTypes) {
