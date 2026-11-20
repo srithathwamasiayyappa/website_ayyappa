@@ -370,6 +370,128 @@ export const DEFAULT_CHILDREN = {
       "imageUrl": "/images/deities/card_ayyappa.jpg"
     }
   ],
+  "21": [
+    {
+      "id": "70",
+      "slug": "sri-vigneshwara-ashtottara-shatanamavali",
+      "title": "శ్రీ విఘ్నేశ్వర అష్టోత్తర శతనామావళి",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "71",
+      "slug": "sri-subrahmanya-ashtottara-shatanamavali",
+      "title": "శ్రీ సుబ్రహ్మణ్య అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "72",
+      "slug": "sri-ayyappa-ashtottara-shatanamavali",
+      "title": "శ్రీ అయ్యప్ప అష్టోత్తర శతనామావళి",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "73",
+      "slug": "sri-poorna-devi-ashtottara-shatanamavali",
+      "title": "శ్రీ పూర్ణా దేవ్యష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "74",
+      "slug": "sri-pushkala-devi-ashtottara-shatanamavali",
+      "title": "శ్రీ పుష్కలా దేవ్యష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "75",
+      "slug": "sri-shiva-ashtottara-shatanamavali",
+      "title": "శ్రీ శివ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "76",
+      "slug": "sri-medha-dakshinamurthy-ashtottara-shatanamavali",
+      "title": "శ్రీ మేధా దక్షిణామూర్తి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "77",
+      "slug": "sri-veerabhadra-ashtottara-shatanamavali",
+      "title": "శ్రీ వీరభద్ర స్తోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "78",
+      "slug": "sri-vishvaksena-ashtottara-shatanamavali",
+      "title": "శ్రీ విష్వక్సేన అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "79",
+      "slug": "sri-mahavishnu-ashtottara-shatanamavali",
+      "title": "శ్రీ మహావిష్ణు అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "80",
+      "slug": "sri-venkateshwara-ashtottara-shatanamavali",
+      "title": "శ్రీ వేంకటేశ్వర అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "81",
+      "slug": "sri-gomatha-ashtottara-shatanamavali",
+      "title": "శ్రీ గోమాత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/pooja/pooja-card-5-ref.png"
+    },
+    {
+      "id": "82",
+      "slug": "sri-lalitha-ashtottara-shatanamavali",
+      "title": "శ్రీ లలిత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "83",
+      "slug": "sri-lakshmi-ashtottara-shatanamavali",
+      "title": "శ్రీ లక్ష్మి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "84",
+      "slug": "sri-saraswathi-ashtottara-shatanamavali",
+      "title": "శ్రీ సరస్వతీ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "85",
+      "slug": "sri-durga-ashtottara-shatanamavali",
+      "title": "శ్రీ దుర్గ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "86",
+      "slug": "sri-vasavi-kanyakaparameshwari-ashtottaram",
+      "title": "శ్రీ వాసవీ కన్యకాపరమేశ్వరీ అష్టోత్తరము",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "87",
+      "slug": "sri-anjaneya-ashtottara-shatanamavali",
+      "title": "శ్రీ ఆంజనేయ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/hanuman.jpg"
+    },
+    {
+      "id": "88",
+      "slug": "sri-dattatreya-ashtottara-shatanamavali",
+      "title": "శ్రీ దత్తాత్రేయ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "89",
+      "slug": "sri-raghavendra-ashtottara-shatanamavali",
+      "title": "శ్రీ రాఘవేంద్ర అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    }
+  ],
   "25": [
     {
       "id": "29",
@@ -784,6 +906,494 @@ export const DEFAULT_CHILDREN = {
       "slug": "sri-kedareswara-vratha-katha",
       "title": "శ్రీ కేదారేశ్వర వ్రత కథ",
       "imageUrl": "/images/deities/card_ayyappa.jpg"
+    }
+  ],
+  "ashtottaramulu": [
+    {
+      "id": "70",
+      "slug": "sri-vigneshwara-ashtottara-shatanamavali",
+      "title": "శ్రీ విఘ్నేశ్వర అష్టోత్తర శతనామావళి",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "71",
+      "slug": "sri-subrahmanya-ashtottara-shatanamavali",
+      "title": "శ్రీ సుబ్రహ్మణ్య అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "72",
+      "slug": "sri-ayyappa-ashtottara-shatanamavali",
+      "title": "శ్రీ అయ్యప్ప అష్టోత్తర శతనామావళి",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "73",
+      "slug": "sri-poorna-devi-ashtottara-shatanamavali",
+      "title": "శ్రీ పూర్ణా దేవ్యష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "74",
+      "slug": "sri-pushkala-devi-ashtottara-shatanamavali",
+      "title": "శ్రీ పుష్కలా దేవ్యష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "75",
+      "slug": "sri-shiva-ashtottara-shatanamavali",
+      "title": "శ్రీ శివ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "76",
+      "slug": "sri-medha-dakshinamurthy-ashtottara-shatanamavali",
+      "title": "శ్రీ మేధా దక్షిణామూర్తి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "77",
+      "slug": "sri-veerabhadra-ashtottara-shatanamavali",
+      "title": "శ్రీ వీరభద్ర స్తోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "78",
+      "slug": "sri-vishvaksena-ashtottara-shatanamavali",
+      "title": "శ్రీ విష్వక్సేన అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "79",
+      "slug": "sri-mahavishnu-ashtottara-shatanamavali",
+      "title": "శ్రీ మహావిష్ణు అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "80",
+      "slug": "sri-venkateshwara-ashtottara-shatanamavali",
+      "title": "శ్రీ వేంకటేశ్వర అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "81",
+      "slug": "sri-gomatha-ashtottara-shatanamavali",
+      "title": "శ్రీ గోమాత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/pooja/pooja-card-5-ref.png"
+    },
+    {
+      "id": "82",
+      "slug": "sri-lalitha-ashtottara-shatanamavali",
+      "title": "శ్రీ లలిత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "83",
+      "slug": "sri-lakshmi-ashtottara-shatanamavali",
+      "title": "శ్రీ లక్ష్మి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "84",
+      "slug": "sri-saraswathi-ashtottara-shatanamavali",
+      "title": "శ్రీ సరస్వతీ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "85",
+      "slug": "sri-durga-ashtottara-shatanamavali",
+      "title": "శ్రీ దుర్గ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "86",
+      "slug": "sri-vasavi-kanyakaparameshwari-ashtottaram",
+      "title": "శ్రీ వాసవీ కన్యకాపరమేశ్వరీ అష్టోత్తరము",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "87",
+      "slug": "sri-anjaneya-ashtottara-shatanamavali",
+      "title": "శ్రీ ఆంజనేయ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/hanuman.jpg"
+    },
+    {
+      "id": "88",
+      "slug": "sri-dattatreya-ashtottara-shatanamavali",
+      "title": "శ్రీ దత్తాత్రేయ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "89",
+      "slug": "sri-raghavendra-ashtottara-shatanamavali",
+      "title": "శ్రీ రాఘవేంద్ర అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    }
+  ],
+  "ashtothramulu": [
+    {
+      "id": "70",
+      "slug": "sri-vigneshwara-ashtottara-shatanamavali",
+      "title": "శ్రీ విఘ్నేశ్వర అష్టోత్తర శతనామావళి",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "71",
+      "slug": "sri-subrahmanya-ashtottara-shatanamavali",
+      "title": "శ్రీ సుబ్రహ్మణ్య అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "72",
+      "slug": "sri-ayyappa-ashtottara-shatanamavali",
+      "title": "శ్రీ అయ్యప్ప అష్టోత్తర శతనామావళి",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "73",
+      "slug": "sri-poorna-devi-ashtottara-shatanamavali",
+      "title": "శ్రీ పూర్ణా దేవ్యష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "74",
+      "slug": "sri-pushkala-devi-ashtottara-shatanamavali",
+      "title": "శ్రీ పుష్కలా దేవ్యష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "75",
+      "slug": "sri-shiva-ashtottara-shatanamavali",
+      "title": "శ్రీ శివ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "76",
+      "slug": "sri-medha-dakshinamurthy-ashtottara-shatanamavali",
+      "title": "శ్రీ మేధా దక్షిణామూర్తి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "77",
+      "slug": "sri-veerabhadra-ashtottara-shatanamavali",
+      "title": "శ్రీ వీరభద్ర స్తోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "78",
+      "slug": "sri-vishvaksena-ashtottara-shatanamavali",
+      "title": "శ్రీ విష్వక్సేన అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "79",
+      "slug": "sri-mahavishnu-ashtottara-shatanamavali",
+      "title": "శ్రీ మహావిష్ణు అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "80",
+      "slug": "sri-venkateshwara-ashtottara-shatanamavali",
+      "title": "శ్రీ వేంకటేశ్వర అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "81",
+      "slug": "sri-gomatha-ashtottara-shatanamavali",
+      "title": "శ్రీ గోమాత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/pooja/pooja-card-5-ref.png"
+    },
+    {
+      "id": "82",
+      "slug": "sri-lalitha-ashtottara-shatanamavali",
+      "title": "శ్రీ లలిత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "83",
+      "slug": "sri-lakshmi-ashtottara-shatanamavali",
+      "title": "శ్రీ లక్ష్మి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "84",
+      "slug": "sri-saraswathi-ashtottara-shatanamavali",
+      "title": "శ్రీ సరస్వతీ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "85",
+      "slug": "sri-durga-ashtottara-shatanamavali",
+      "title": "శ్రీ దుర్గ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "86",
+      "slug": "sri-vasavi-kanyakaparameshwari-ashtottaram",
+      "title": "శ్రీ వాసవీ కన్యకాపరమేశ్వరీ అష్టోత్తరము",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "87",
+      "slug": "sri-anjaneya-ashtottara-shatanamavali",
+      "title": "శ్రీ ఆంజనేయ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/hanuman.jpg"
+    },
+    {
+      "id": "88",
+      "slug": "sri-dattatreya-ashtottara-shatanamavali",
+      "title": "శ్రీ దత్తాత్రేయ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "89",
+      "slug": "sri-raghavendra-ashtottara-shatanamavali",
+      "title": "శ్రీ రాఘవేంద్ర అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    }
+  ],
+  "ashtothram": [
+    {
+      "id": "70",
+      "slug": "sri-vigneshwara-ashtottara-shatanamavali",
+      "title": "శ్రీ విఘ్నేశ్వర అష్టోత్తర శతనామావళి",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "71",
+      "slug": "sri-subrahmanya-ashtottara-shatanamavali",
+      "title": "శ్రీ సుబ్రహ్మణ్య అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "72",
+      "slug": "sri-ayyappa-ashtottara-shatanamavali",
+      "title": "శ్రీ అయ్యప్ప అష్టోత్తర శతనామావళి",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "73",
+      "slug": "sri-poorna-devi-ashtottara-shatanamavali",
+      "title": "శ్రీ పూర్ణా దేవ్యష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "74",
+      "slug": "sri-pushkala-devi-ashtottara-shatanamavali",
+      "title": "శ్రీ పుష్కలా దేవ్యష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "75",
+      "slug": "sri-shiva-ashtottara-shatanamavali",
+      "title": "శ్రీ శివ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "76",
+      "slug": "sri-medha-dakshinamurthy-ashtottara-shatanamavali",
+      "title": "శ్రీ మేధా దక్షిణామూర్తి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "77",
+      "slug": "sri-veerabhadra-ashtottara-shatanamavali",
+      "title": "శ్రీ వీరభద్ర స్తోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "78",
+      "slug": "sri-vishvaksena-ashtottara-shatanamavali",
+      "title": "శ్రీ విష్వక్సేన అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "79",
+      "slug": "sri-mahavishnu-ashtottara-shatanamavali",
+      "title": "శ్రీ మహావిష్ణు అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "80",
+      "slug": "sri-venkateshwara-ashtottara-shatanamavali",
+      "title": "శ్రీ వేంకటేశ్వర అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "81",
+      "slug": "sri-gomatha-ashtottara-shatanamavali",
+      "title": "శ్రీ గోమాత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/pooja/pooja-card-5-ref.png"
+    },
+    {
+      "id": "82",
+      "slug": "sri-lalitha-ashtottara-shatanamavali",
+      "title": "శ్రీ లలిత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "83",
+      "slug": "sri-lakshmi-ashtottara-shatanamavali",
+      "title": "శ్రీ లక్ష్మి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "84",
+      "slug": "sri-saraswathi-ashtottara-shatanamavali",
+      "title": "శ్రీ సరస్వతీ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "85",
+      "slug": "sri-durga-ashtottara-shatanamavali",
+      "title": "శ్రీ దుర్గ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "86",
+      "slug": "sri-vasavi-kanyakaparameshwari-ashtottaram",
+      "title": "శ్రీ వాసవీ కన్యకాపరమేశ్వరీ అష్టోత్తరము",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "87",
+      "slug": "sri-anjaneya-ashtottara-shatanamavali",
+      "title": "శ్రీ ఆంజనేయ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/hanuman.jpg"
+    },
+    {
+      "id": "88",
+      "slug": "sri-dattatreya-ashtottara-shatanamavali",
+      "title": "శ్రీ దత్తాత్రేయ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "89",
+      "slug": "sri-raghavendra-ashtottara-shatanamavali",
+      "title": "శ్రీ రాఘవేంద్ర అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    }
+  ],
+  "ashtottara-shatanamavali": [
+    {
+      "id": "70",
+      "slug": "sri-vigneshwara-ashtottara-shatanamavali",
+      "title": "శ్రీ విఘ్నేశ్వర అష్టోత్తర శతనామావళి",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "71",
+      "slug": "sri-subrahmanya-ashtottara-shatanamavali",
+      "title": "శ్రీ సుబ్రహ్మణ్య అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "72",
+      "slug": "sri-ayyappa-ashtottara-shatanamavali",
+      "title": "శ్రీ అయ్యప్ప అష్టోత్తర శతనామావళి",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "73",
+      "slug": "sri-poorna-devi-ashtottara-shatanamavali",
+      "title": "శ్రీ పూర్ణా దేవ్యష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "74",
+      "slug": "sri-pushkala-devi-ashtottara-shatanamavali",
+      "title": "శ్రీ పుష్కలా దేవ్యష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "75",
+      "slug": "sri-shiva-ashtottara-shatanamavali",
+      "title": "శ్రీ శివ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "76",
+      "slug": "sri-medha-dakshinamurthy-ashtottara-shatanamavali",
+      "title": "శ్రీ మేధా దక్షిణామూర్తి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "77",
+      "slug": "sri-veerabhadra-ashtottara-shatanamavali",
+      "title": "శ్రీ వీరభద్ర స్తోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "78",
+      "slug": "sri-vishvaksena-ashtottara-shatanamavali",
+      "title": "శ్రీ విష్వక్సేన అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "79",
+      "slug": "sri-mahavishnu-ashtottara-shatanamavali",
+      "title": "శ్రీ మహావిష్ణు అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "80",
+      "slug": "sri-venkateshwara-ashtottara-shatanamavali",
+      "title": "శ్రీ వేంకటేశ్వర అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_vishnu.jpg"
+    },
+    {
+      "id": "81",
+      "slug": "sri-gomatha-ashtottara-shatanamavali",
+      "title": "శ్రీ గోమాత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/pooja/pooja-card-5-ref.png"
+    },
+    {
+      "id": "82",
+      "slug": "sri-lalitha-ashtottara-shatanamavali",
+      "title": "శ్రీ లలిత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "83",
+      "slug": "sri-lakshmi-ashtottara-shatanamavali",
+      "title": "శ్రీ లక్ష్మి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "84",
+      "slug": "sri-saraswathi-ashtottara-shatanamavali",
+      "title": "శ్రీ సరస్వతీ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "85",
+      "slug": "sri-durga-ashtottara-shatanamavali",
+      "title": "శ్రీ దుర్గ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "86",
+      "slug": "sri-vasavi-kanyakaparameshwari-ashtottaram",
+      "title": "శ్రీ వాసవీ కన్యకాపరమేశ్వరీ అష్టోత్తరము",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "87",
+      "slug": "sri-anjaneya-ashtottara-shatanamavali",
+      "title": "శ్రీ ఆంజనేయ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/hanuman.jpg"
+    },
+    {
+      "id": "88",
+      "slug": "sri-dattatreya-ashtottara-shatanamavali",
+      "title": "శ్రీ దత్తాత్రేయ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
+    },
+    {
+      "id": "89",
+      "slug": "sri-raghavendra-ashtottara-shatanamavali",
+      "title": "శ్రీ రాఘవేంద్ర అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_shiva.jpg"
     }
   ]
 };

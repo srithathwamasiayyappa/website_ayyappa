@@ -784,6 +784,13 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
     ) {
       return DEFAULT_CHILDREN['ganapathi-pooja'];
     }
+    if (
+      matchKey.includes('ashtottara') ||
+      matchKey.includes('ashtothram') ||
+      matchKey === '21'
+    ) {
+      return DEFAULT_CHILDREN['21'] || DEFAULT_CHILDREN['ashtottaramulu'];
+    }
     if (matchKey.includes('sharanu') || matchKey === '3') {
       return DEFAULT_CHILDREN['3'] || DEFAULT_CHILDREN['sri-ayyappa-sharanu-gosha'];
     }
