@@ -670,6 +670,7 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
 
   // Dynamically fetch detail from DB via API
   const [apiDetail, setApiDetail] = useState(null);
+  const [dbChildren, setDbChildren] = useState([]);
 
   useEffect(() => {
     let isCancelled = false;
@@ -691,9 +692,35 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
           json = await res.json().catch(() => null);
         }
 
+        let d = null;
         if (!isCancelled && json && (json.data || json.contents || json.title)) {
-          const d = json.data || json;
+          d = json.data || json;
           setApiDetail(d);
+        }
+
+        // 4. Dynamically fetch child subcategory types from DB by parentId
+        const numericParentId = d?.id || (!isNaN(Number(subcategoryId)) ? Number(subcategoryId) : null);
+        const queryParents = [];
+        if (numericParentId) queryParents.push(numericParentId);
+        if (subcategoryId && !queryParents.includes(subcategoryId)) queryParents.push(subcategoryId);
+
+        for (const pId of queryParents) {
+          try {
+            const childRes = await fetch(`${API_BASE_URL}/admin/subcategories?parentId=${pId}&lang=${currentLanguage}&limit=100`);
+            const childJson = await childRes.json().catch(() => null);
+            if (!isCancelled && childJson && Array.isArray(childJson.data) && childJson.data.length > 0) {
+              const mappedChildren = childJson.data.map((c) => ({
+                id: String(c.id),
+                rawId: c.id,
+                slug: c.slug || String(c.id),
+                title: c.title || c.slug,
+                description: c.description || '',
+                imageUrl: c.imageUrl || ''
+              }));
+              setDbChildren(mappedChildren);
+              break;
+            }
+          } catch (_) {}
         }
       } catch (err) {
         console.warn('API fetch error for subcategory detail:', err);
@@ -789,6 +816,11 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
 
   // Check if this subcategory has child types (e.g. Mahaganapathi 4 types, Sri Subrahmanyeswara 4 types)
   const resolvedChildren = useMemo(() => {
+    // 1. Live dynamic child types directly from DB
+    if (Array.isArray(dbChildren) && dbChildren.length > 0) {
+      return dbChildren;
+    }
+    // 2. Child types attached to apiDetail
     if (Array.isArray(apiDetail?.children) && apiDetail.children.length > 0) {
       return apiDetail.children;
     }
@@ -1087,11 +1119,11 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
           <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#0c3823', margin: '0 0 10px' }}>
             {data.titleTelugu || data.title}
           </h2>
-          <p style={{ fontSize: '14px', color: '#2c4436', fontWeight: 600, margin: '0 0 8px' }}>
-            సంపూర్ణ పూజా విధానం, దివ్య శ్లోకములు మరియు మంత్రాల పఠనం మా అఫీషియల్ మొబైల్ యాప్‌లో అందుబాటులో ఉన్నాయి.
+          <p style={{ fontSize: '14px', color: '#2c4436', fontWeight: 600, margin: '0 0 8px', lineHeight: 1.6 }}>
+            సంపూర్ణ పూజా విధానం, దివ్య స్తోత్రములు, భజనల సాహిత్యం మరియు మంత్రాల పఠనం మా అఫీషియల్ మొబైల్ యాప్‌లో అందుబాటులో ఉన్నాయి.
           </p>
-          <p style={{ fontSize: '13px', color: '#5d6d63', margin: '0 0 20px' }}>
-            To view and read the complete sacred procedure and slokas, please download the free Saranam Ayyappa App.
+          <p style={{ fontSize: '13px', color: '#5d6d63', margin: '0 0 20px', lineHeight: 1.5 }}>
+            To view and read the complete sacred procedure, slokas, lyrics and mantras, please download the free Saranam Ayyappa App.
           </p>
           <button
             type="button"
