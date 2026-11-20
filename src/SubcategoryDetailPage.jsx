@@ -560,6 +560,34 @@ export const SUBCATEGORY_DETAILS = {
   },
 };
 
+export function resolveTypeCardArtwork(item, subcategorySlug = '', idx = 0) {
+  const t = (item.title || item.slug || '').toLowerCase();
+  const sub = (subcategorySlug || '').toLowerCase();
+
+  if (item.imageUrl && !item.imageUrl.endsWith('.webp') && !item.imageUrl.includes('undefined')) {
+    return item.imageUrl;
+  }
+  if (t.includes('ganapa') || t.includes('vignesh') || t.includes('ekadanta') || sub.includes('ganapa')) {
+    return '/images/deities/card_ganesha.jpg';
+  }
+  if (t.includes('subramanya') || t.includes('subrahmanya') || t.includes('murugan') || sub.includes('subramanya')) {
+    return '/images/deities/card_murugan.jpg';
+  }
+  if (t.includes('ayyappa') || t.includes('sharanu') || t.includes('harivarasanam') || t.includes('sastha') || sub.includes('ayyappa')) {
+    return '/images/deities/card_ayyappa.jpg';
+  }
+  if (t.includes('shiva') || t.includes('dakshinamurti') || t.includes('veerabhadra') || t.includes('rudra')) {
+    return '/images/deities/card_shiva.jpg';
+  }
+  if (t.includes('vishnu') || t.includes('venkates') || t.includes('vishwaksena')) {
+    return '/images/deities/card_vishnu.jpg';
+  }
+  if (t.includes('lalita') || t.includes('lakshmi') || t.includes('saraswati') || t.includes('durga') || t.includes('vasavi') || t.includes('poorna') || t.includes('pushkala') || t.includes('gomatha')) {
+    return '/images/deities/card_devi.jpg';
+  }
+  return `/images/pooja/pooja-card-${(idx % 6) + 1}-ref.png`;
+}
+
 export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
   const { currentLanguage, t } = useLanguage();
   const location = useLocation();
@@ -835,50 +863,126 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
     return resolvedChildren.length === 0 ? data.title : null;
   });
 
-  // ── VIEW 1: 4-TYPES SUBCATEGORY LIST VIEW (EXACT MATCH TO REFERENCE IMAGE 1) ──
+  // ── VIEW 1: 4-CARDS PER ROW SUBCATEGORY TYPES GRID ──
   if (resolvedChildren.length > 0) {
     return (
-      <div className="sa-types-list-page">
-        {/* Saffron Sticky Top Bar */}
-        <div className="sa-scripture-top-bar">
-          <button
-            type="button"
-            className="scripture-back-btn"
-            onClick={() => navigate(-1)}
-            aria-label="Back to Categories"
-            title="Back"
-          >
-            <Icon name="ArrowLeft" size={24} />
-          </button>
-          <h1 className="scripture-top-title">
-            {currentLanguage === 'te' ? data.titleTelugu : data.title}
-          </h1>
-        </div>
+      <div className="sa-types-page">
+        {/* Devotional Hero Header */}
+        <section className="sa-types-hero" aria-label="Devotional Types Header">
+          <div className="sa-types-hero-inner">
+            <nav className="sa-types-breadcrumb" aria-label="Breadcrumb">
+              <Link to="/home">Home</Link>
+              <span className="breadcrumb-sep">&gt;</span>
+              <Link to={`/categories/${data.category || 'stotras'}`}>
+                {data.category === 'pooja' ? 'Pooja Vidhanam' : data.category === 'slokas' ? 'Daily Slokas' : 'Divine Stotras'}
+              </Link>
+              <span className="breadcrumb-sep">&gt;</span>
+              <span className="breadcrumb-current">
+                {currentLanguage === 'te' ? data.titleTelugu : data.title}
+              </span>
+            </nav>
 
-        {/* 4-5 Types Vertical List matching Reference Screenshot */}
-        <div className="sa-types-list-wrap">
-          <div className="sa-types-list-container">
+            <div className="sa-types-hero-badge">
+              <span>🕉️ {resolvedChildren.length} Sacred Types & Stotras</span>
+            </div>
+
+            <h1 className="sa-types-hero-title">
+              {currentLanguage === 'te' ? data.titleTelugu : data.title}
+            </h1>
+
+            <p className="sa-types-hero-sub">
+              {data.subtitle || 'Explore all sacred types, divine namavalis and stotras. Tap any card to read in the official mobile app.'}
+            </p>
+
+            <button
+              type="button"
+              className="sa-types-back-link"
+              onClick={() => navigate(-1)}
+            >
+              <Icon name="ArrowLeft" size={16} />
+              <span>Back to Devotional Services</span>
+            </button>
+          </div>
+        </section>
+
+        {/* 4-Cards Grid Container */}
+        <div className="sa-types-grid-wrap">
+          <div className="sa-types-grid-header">
+            <div className="sa-types-grid-title-row">
+              <Icon name="Sparkles" size={20} style={{ color: '#d4af37' }} />
+              <h2 className="sa-types-grid-heading">
+                {currentLanguage === 'te' ? `${data.titleTelugu} రకములు` : `${data.title} Types & Stotras`}
+              </h2>
+            </div>
+            <span className="sa-types-count-badge">
+              {resolvedChildren.length} Cards
+            </span>
+          </div>
+
+          <div className="sa-types-cards-grid">
             {resolvedChildren.map((item, idx) => (
-              <div
+              <article
                 key={item.id || idx}
-                className="sa-type-item-row"
+                className="sa-type-card"
                 onClick={() => setDownloadModalItem(item.title)}
+                role="button"
+                tabIndex={0}
               >
-                <div className="sa-type-avatar-wrap">
+                <div className="sa-type-card-img-wrap">
                   <img
-                    src={item.imageUrl || '/images/deities/card_ganesha.jpg'}
+                    src={resolveTypeCardArtwork(item, subcategoryId, idx)}
                     alt={item.title}
-                    className="sa-type-avatar-img"
+                    className="sa-type-card-img"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.src = '/images/deities/card_ganesha.jpg';
+                    }}
                   />
+                  <div className="sa-type-card-badge">
+                    <span>{`#${idx + 1}`}</span>
+                  </div>
                 </div>
-                <span className="sa-type-title">{item.title}</span>
-                <Icon name="ChevronRight" size={18} className="sa-type-chevron" />
-              </div>
+
+                <div className="sa-type-card-body">
+                  <div className="sa-type-card-chips">
+                    <span className="sa-type-chip">
+                      <span>🔱</span>
+                      <span>
+                        {item.title.includes('విఘ్నే') || item.title.includes('గణే') || item.title.includes('ఏకదంత')
+                          ? 'Lord Ganesha'
+                          : item.title.includes('సుబ్ర')
+                          ? 'Lord Murugan'
+                          : item.title.includes('అయ్య') || item.title.includes('శాస్త')
+                          ? 'Lord Ayyappa'
+                          : item.title.includes('శివ') || item.title.includes('దక్షిణామూర్తి') || item.title.includes('వీరభద్ర')
+                          ? 'Lord Shiva'
+                          : item.title.includes('విష్ణు') || item.title.includes('వేంకటేశ్వర') || item.title.includes('విష్వక్సేన')
+                          ? 'Lord Vishnu'
+                          : 'Divine Deity'}
+                      </span>
+                    </span>
+                  </div>
+
+                  <h3 className="sa-type-card-title">{item.title}</h3>
+                  <p className="sa-type-card-desc">
+                    {item.description || 'Complete sacred namavali and procedure available in mobile app.'}
+                  </p>
+
+                  <div className="sa-type-card-footer">
+                    <span className="sa-type-read-pill">
+                      <span>📱 Read in App</span>
+                    </span>
+                    <div className="sa-type-action-btn" aria-label={`Read ${item.title} in app`}>
+                      <Icon name="ArrowRight" size={16} />
+                    </div>
+                  </div>
+                </div>
+              </article>
             ))}
           </div>
         </div>
 
-        {/* App Download Modal for the selected type */}
+        {/* App Download Modal for the selected card */}
         <AppDownloadModal
           isOpen={Boolean(downloadModalItem)}
           onClose={() => setDownloadModalItem(null)}
