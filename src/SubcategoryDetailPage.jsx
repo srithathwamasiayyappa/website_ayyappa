@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as L from 'lucide-react';
 import { useLanguage } from './LanguageContext';
+import { API_BASE_URL } from './apiConfig';
 import './devotionalCleanList.css';
 import './subcategoryDetail.css';
 
@@ -385,6 +386,121 @@ export const SUBCATEGORY_DETAILS = {
       ragam: 'Vedic Melodic Chants',
     },
   },
+
+  'morning-prayers': {
+    id: 'morning-prayers',
+    deityId: 'all',
+    deityName: 'All Deities',
+    deityTelugu: 'సకల దేవతలు',
+    category: 'slokas',
+    title: 'Morning Prayers',
+    titleTelugu: 'ప్రాతఃకాల ప్రార్థనలు',
+    subtitle: 'Sacred morning verses, Karadarshanam & Bhumi Vandanam chanted upon awakening.',
+    heroImage: '/images/subcategories/slokas/morning-prayers.webp',
+    badge: 'Daily Essential',
+    badgeClass: 'badge-daily',
+    duration: '10 mins',
+    difficulty: 'All Devotees',
+    bestTime: 'Immediately upon awakening (Brahma Muhurtham)',
+    overview: `Pratah Smaranam slokas invoked immediately upon waking up set a positive, pure, and spiritually vibrant foundation for the entire day. Chanting Karadarshanam and Bhumi Prarthana aligns the mind with cosmic divinity.`,
+    procedure: [
+      { step: 1, title: 'Karadarshanam', desc: 'Look at the palms of your hands upon waking and invoke Lakshmi, Saraswati and Gouri.', mantra: 'కరాగ్రే వసతే లక్ష్మీః కరమధ్యే సరస్వతీ | కరమూలే స్థితా గౌరీ ప్రభాతే కరదర్శనమ్ ||' },
+      { step: 2, title: 'Bhumi Vandanam', desc: 'Touch the mother earth seeking forgiveness before placing feet on the ground.', mantra: 'సముద్రవసనే దేవి పర్వతస్తనమండలే | విష్ణుపత్ని నమస్తుభ్యం పాదస్పర్శం క్షమస్వ మే ||' },
+      { step: 3, title: 'Pratah Smaranam', desc: 'Remember Lord Ganesha, Shiva, Vishnu and Ayyappa for auspicious guidance.', mantra: 'ప్రాఃతస్మరామి భవభీతిహరం సురేశం | వందారులోకసులభం కరుణాకటాక్షం ||' }
+    ],
+    materials: [
+      { name: 'Pure Water for Achamanam', qty: '1 Vessel', icon: 'Flame' },
+      { name: 'Vibhuti / Kumkum / Chandanam', qty: 'For Tilakam', icon: 'Sparkles' }
+    ],
+    mantras: [
+      {
+        title: 'Karadarshana Sloka',
+        script: 'కరాగ్రే వసతే లక్ష్మీః కరమధ్యే సరస్వతీ | కరమూలే స్థితా గౌరీ ప్రభాతే కరదర్శనమ్ ||',
+        transliteration: 'Karagre Vasate Lakshmih Kara-Madhye Saraswati | Kara-Moole Sthita Gouri Prabhate Kara-Darshanam ||',
+        meaning: 'At the tips of the fingers resides Goddess Lakshmi; in the middle resides Goddess Saraswati; at the base resides Goddess Gouri. Thus, look at your palms in the morning.'
+      }
+    ],
+    benefits: [
+      'Removes laziness, dullness and negative morning thoughts.',
+      'Blesses with wisdom, prosperity and divine protection throughout the day.'
+    ]
+  },
+
+  'meal-prayers': {
+    id: 'meal-prayers',
+    deityId: 'all',
+    deityName: 'All Deities',
+    deityTelugu: 'సకల దేవతలు',
+    category: 'slokas',
+    title: 'Meal Prayers',
+    titleTelugu: 'భోజన ప్రార్థనలు',
+    subtitle: 'Sacred verses and gratitude prayers recited before taking sanctified food (Prasadam).',
+    heroImage: '/images/subcategories/slokas/meal-prayers.webp',
+    badge: 'Annadanam & Daily',
+    badgeClass: 'badge-daily',
+    duration: '5 mins',
+    difficulty: 'All Devotees',
+    bestTime: 'Before lunch and dinner',
+    overview: `Sanctifying food before eating transforms physical sustenance into sacred medicine and divine energy. Chanting Annapoorna Stotram and Brahmarpanam invokes Goddess Annapoorna and offers the meal to the indwelling Lord.`,
+    procedure: [
+      { step: 1, title: 'Shuddhi & Achamanam', desc: 'Cleanse hands, sit calmly facing East or North with the meal served.' },
+      { step: 2, title: 'Annapoorna Vandanam', desc: 'Chant Annapoorna Stotram with gratitude to the provider of food.', mantra: 'అన్నపూర్ణే సదాపూర్ణే శంకరప్రాణవల్లభే | జ్ఞానవైరాగ్యసిద్ధ్యర్థం భిక్షాం దేహి చ పార్వతి ||' },
+      { step: 3, title: 'Brahmarpanam Recitation', desc: 'Offer food to Brahman as described in the sacred Bhagavad Gita.', mantra: 'బ్రహ్మార్పణం బ్రహ్మ హవిర్ బ్రహ్మాగ్నౌ బ్రహ్మణా హుతమ్ | బ్రహ్మైవ తేన గంతవ్యం బ్రహ్మకర్మసమాధినా ||' }
+    ],
+    materials: [
+      { name: 'Pure Water', qty: '1 Tumbler', icon: 'Flame' },
+      { name: 'Sanctified Vegetarian Food', qty: 'Meal Plate', icon: 'Soup' }
+    ],
+    mantras: [
+      {
+        title: 'Brahmarpanam Mantra (Gita 4.24)',
+        script: 'బ్రహ్మార్పణం బ్రహ్మ హవిర్ బ్రహ్మాగ్నౌ బ్రహ్మణా హుతమ్ | బ్రహ్మైవ తేన గంతవ్యం బ్రహ్మకర్మసమాధినా ||',
+        transliteration: 'Brahmaarpanam Brahma Havir Brahmaagnau Brahmanaahutam | Brahmaiva Tena Gantavyam Brahma Karma Samaadhinaa ||',
+        meaning: 'The offering is Brahman; the clarified butter is Brahman; offered by Brahman into the fire of Brahman. Brahman alone shall be reached by him who is absorbed in Brahman as the act.'
+      }
+    ],
+    benefits: [
+      'Eliminates impurities in food and enhances digestion.',
+      'Instills contentment, humility, and gratitude for daily sustenance.'
+    ]
+  },
+
+  'night-prayers': {
+    id: 'night-prayers',
+    deityId: 'all',
+    deityName: 'All Deities',
+    deityTelugu: 'సకల దేవతలు',
+    category: 'slokas',
+    title: 'Night Prayers',
+    titleTelugu: 'రాత్రి ప్రార్థనలు',
+    subtitle: 'Protective bedside verses and peace chants for peaceful sleep and protection from bad dreams.',
+    heroImage: '/images/subcategories/slokas/night-prayers.webp',
+    badge: 'Night Essential',
+    badgeClass: 'badge-daily',
+    duration: '5 mins',
+    difficulty: 'All Devotees',
+    bestTime: 'Bedtime before sleeping',
+    overview: `Night prayers purify subconscious thoughts, surrender all actions performed throughout the day to God, and protect the soul with divine guardianship during restful sleep.`,
+    procedure: [
+      { step: 1, title: 'Smaranam & Surrender', desc: 'Sit quietly on the bed, breathe deeply and surrender all daily actions.', mantra: 'కరచరణకృతం వా కాయజం కర్మజం వా శ్రవణనయనజం వా మానసం వాऽపరాధం | విహితమవిహితం వా సర్వమేతత్ క్షమస్వ జయ జయ కరుణాబ్ధే శ్రీమహాదేవ శంభో ||' },
+      { step: 2, title: 'Du-swapna Nashana Mantra', desc: 'Remember Rama, Skanda, Hanuman and Garuda for peaceful sleep free of nightmares.', mantra: 'రామస్కందం హనూమంతం వైనతేయం వృకోదరమ్ | శయనే యః స్మరేన్నిత్యం దుఃస్వప్నం తస్య నశ్యతి ||' }
+    ],
+    materials: [
+      { name: 'Clean Peaceful Bedding', qty: 'Bedside space', icon: 'Sparkles' }
+    ],
+    mantras: [
+      {
+        title: 'Peaceful Sleep Mantra',
+        script: 'రామస్కందం హనూమంతం వైనతేయం వృకోదరమ్ | శయనే యః స్మరేన్నిత్యం దుఃస్వప్నం తస్య నశ్యతి ||',
+        transliteration: 'Rama-Skandam Hanumantam Vainateyam Vrikodaram | Shayane Yah Smaren-Nityam Duh-Swapnam Tasya Nashyati ||',
+        meaning: 'Whoever remembers Rama, Skanda, Hanuman, Garuda, and Bhima before sleep shall have all bad dreams destroyed and enjoy peaceful rest.'
+      }
+    ],
+    benefits: [
+      'Grants peaceful, undisturbed and rejuvenating sleep.',
+      'Wipes away stress, negative thoughts and nighttime anxieties.'
+    ]
+  },
 };
 
 export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
@@ -397,18 +513,110 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
   const subcategoryId = searchParams.get('id') || 'ayyappa-pooja';
   const godParam = searchParams.get('god');
 
-  // Load subcategory data from catalog or find best match
-  const data = useMemo(() => {
+  // Load subcategory fallback data from catalog or find best match
+  const fallbackData = useMemo(() => {
     if (SUBCATEGORY_DETAILS[subcategoryId]) {
       return SUBCATEGORY_DETAILS[subcategoryId];
     }
     // Match by deity
-    if (godParam) {
+    if (godParam && godParam !== 'all') {
       const match = Object.values(SUBCATEGORY_DETAILS).find((item) => item.deityId === godParam);
       if (match) return match;
     }
-    return SUBCATEGORY_DETAILS['ayyappa-pooja'];
+    // Dynamic fallback for any DB-driven subcategory
+    const formattedTitle = subcategoryId.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+    return {
+      id: subcategoryId,
+      deityId: godParam || 'all',
+      deityName: 'Lord Ayyappa & All Deities',
+      deityTelugu: 'శ్రీ అయ్యప్ప స్వామి & సర్వ దేవతలు',
+      category: 'slokas',
+      title: formattedTitle,
+      titleTelugu: formattedTitle,
+      subtitle: `Sacred vidhanam, procedure and verses for ${formattedTitle}.`,
+      heroImage: '/images/pooja/card-banner-ayyappa-hd.png',
+      badge: 'Daily Devotion',
+      badgeClass: 'badge-daily',
+      duration: '10 mins',
+      difficulty: 'All Devotees',
+      bestTime: 'Morning (Pratah Kalam) or Evening (Sandhya)',
+      overview: `${formattedTitle} brings peace of mind, removes obstacles, and bestows divine blessings and protective spiritual vibrations upon devotees and their families.`,
+      procedure: [
+        { step: 1, title: 'Prarthana & Invocation', desc: 'Light a deepam, sit facing East with a calm and pure mind, and offer prostrations.' },
+        { step: 2, title: 'Sacred Sloka Chanting', desc: 'Chant the holy verses with heartfelt devotion and clear pronunciation.' },
+        { step: 3, title: 'Samarpanam & Blessings', desc: 'Surrender all fruits of the prayer to Lord Ayyappa and receive divine peace.' }
+      ],
+      materials: [
+        { name: 'Pure Water / Achamanam', qty: '1 Vessel', icon: 'Flame' },
+        { name: 'Deepam & Vibhuti', qty: 'Altar Space', icon: 'Sparkles' }
+      ],
+      mantras: [
+        {
+          title: `${formattedTitle} Maha Mantra`,
+          script: 'స్వామియే శరణం అయ్యప్ప | శ్రీ గురుభ్యో నమః',
+          transliteration: 'Swamiye Saranam Ayyappa | Sri Gurubhyo Namah',
+          meaning: 'I surrender completely to Lord Manikanta, the protector of the universe.'
+        }
+      ],
+      benefits: [
+        'Destroys mental restlessness and brings calmness and focus.',
+        'Bestows spiritual strength, good health, and family prosperity.'
+      ]
+    };
   }, [subcategoryId, godParam]);
+
+  // Dynamically fetch stotra and verses from DB via API
+  const [apiDetail, setApiDetail] = useState(null);
+
+  useEffect(() => {
+    let isCancelled = false;
+    const fetchApiDetail = async () => {
+      try {
+        let res = await fetch(`${API_BASE_URL}/categories/stotras/${subcategoryId}?lang=${currentLanguage}`);
+        let json = await res.json().catch(() => null);
+        if (!json || !json.success || !json.data) {
+          res = await fetch(`${API_BASE_URL}/categories/${subcategoryId}?lang=${currentLanguage}`);
+          json = await res.json().catch(() => null);
+        }
+        if (!isCancelled && json && (json.data || json.contents)) {
+          const d = json.data || json;
+          setApiDetail(d);
+        }
+      } catch (err) {
+        console.warn('API fetch error for subcategory detail:', err);
+      }
+    };
+    fetchApiDetail();
+    return () => { isCancelled = true; };
+  }, [subcategoryId, currentLanguage]);
+
+  // Combine DB data with UI defaults
+  const data = useMemo(() => {
+    if (!apiDetail) return fallbackData;
+
+    const formattedMantras = [];
+    if (apiDetail.sacredText) {
+      const verses = apiDetail.sacredText.split(/\n\s*\n/).filter(Boolean);
+      const meanings = (apiDetail.meaning || '').split(/\n\s*\n/).filter(Boolean);
+      verses.forEach((v, idx) => {
+        formattedMantras.push({
+          title: `Verse / శ్లోకం #${idx + 1}`,
+          script: v,
+          transliteration: '',
+          meaning: meanings[idx] || apiDetail.meaning || 'Devotional verse.'
+        });
+      });
+    }
+
+    return {
+      ...fallbackData,
+      title: apiDetail.title || fallbackData.title,
+      titleTelugu: apiDetail.title || fallbackData.titleTelugu,
+      overview: apiDetail.introduction || apiDetail.description || fallbackData.overview,
+      mantras: formattedMantras.length > 0 ? formattedMantras : fallbackData.mantras,
+      heroImage: apiDetail.imageUrl || fallbackData.heroImage
+    };
+  }, [fallbackData, apiDetail]);
 
   const [activeTab, setActiveTab] = useState('overview');
   const [isPlaying, setIsPlaying] = useState(false);

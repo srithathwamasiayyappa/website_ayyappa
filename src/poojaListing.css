@@ -34,6 +34,8 @@
   z-index: 0;
   opacity: 0.12; /* Refined elegant devotional opacity */
   mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 90%);
+  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 90%);
   transition: opacity 0.3s ease;
 }
 

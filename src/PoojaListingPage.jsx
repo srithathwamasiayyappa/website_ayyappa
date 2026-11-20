@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as L from 'lucide-react';
 import { useLanguage } from './LanguageContext';
+import { API_BASE_URL } from './apiConfig';
 import './poojaListing.css';
 import './devotionalCleanList.css';
 
@@ -709,6 +710,61 @@ export default function PoojaListingPage({ category: categoryProp }) {
 
   const config = subcategoryConfigs[activeCategory] || subcategoryConfigs.pooja;
 
+  // Dynamically fetch subcategories from DB via API to stay 100% in sync with Admin panel
+  const [dbItems, setDbItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let isCancelled = false;
+    setLoading(true);
+
+    const fetchSubcategories = async () => {
+      try {
+        let res = await fetch(`${API_BASE_URL}/categories/subcategories?parent=${activeCategory}&lang=${currentLanguage}&limit=100`);
+        let json = await res.json().catch(() => null);
+        if (!json || !Array.isArray(json.data) || json.data.length === 0) {
+          res = await fetch(`${API_BASE_URL}/admin/subcategories?parentId=${activeCategory}&lang=${currentLanguage}&limit=100`);
+          json = await res.json().catch(() => null);
+        }
+        if (!isCancelled && json && Array.isArray(json.data) && json.data.length > 0) {
+          const mapped = json.data.map((item, idx) => {
+            const rawSlug = item.slug || String(item.id);
+            const titleFormatted = item.title && item.title !== rawSlug
+              ? item.title
+              : rawSlug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+
+            return {
+              id: rawSlug,
+              rawId: item.id,
+              deityId: item.deityId || 'all',
+              deityName: item.deityName || (item.parentTitle || 'All Deities'),
+              title: titleFormatted,
+              desc: item.description || item.desc || `Complete sacred verses, meaning and guidance for ${titleFormatted}.`,
+              duration: item.duration || '10 minutes',
+              badge: item.badge || 'Daily',
+              badgeClass: item.badgeClass || 'badge-daily',
+              type: item.isAudio ? 'Audio / Bhajan' : (item.parentTitle || 'Slokas'),
+              image: item.imageUrl || item.image || `/images/subcategories/${activeCategory}/${rawSlug}.webp`,
+              filterTag: item.filterTag || 'Daily',
+              popularity: item.displayOrder ? (100 - item.displayOrder) : (95 - idx),
+              durationMinutes: item.durationMinutes || 10,
+            };
+          });
+          setDbItems(mapped);
+        } else if (!isCancelled) {
+          setDbItems([]);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch subcategories from DB via API:', err);
+      } finally {
+        if (!isCancelled) setLoading(false);
+      }
+    };
+
+    fetchSubcategories();
+    return () => { isCancelled = true; };
+  }, [activeCategory, currentLanguage]);
+
   // Read deity from URL search parameter (default to 'all' so all subcategories show by default)
   const [selectedGod, setSelectedGod] = useState(() => {
     const fromUrl = new URLSearchParams(location.search).get('god');
@@ -734,9 +790,11 @@ export default function PoojaListingPage({ category: categoryProp }) {
   const [filter, setFilter] = useState('All');
   const [sort, setSort] = useState('Popular');
 
+  const itemsToUse = (dbItems && dbItems.length > 0) ? dbItems : (config.items || []);
+
   // Filtering & Sorting (STRICTLY FILTERED BASED ON SELECTED GOD)
   const filteredList = useMemo(() => {
-    let list = config.items.filter((item) => {
+    let list = itemsToUse.filter((item) => {
       // 1. GOD / DEITY FILTER: If a specific God is selected, show only that God's subcategories
       if (selectedGod !== 'all' && item.deityId !== selectedGod && item.deityId !== 'all') {
         return false;
@@ -772,7 +830,7 @@ export default function PoojaListingPage({ category: categoryProp }) {
     }
 
     return list;
-  }, [config.items, selectedGod, search, filter, sort]);
+  }, [itemsToUse, selectedGod, search, filter, sort]);
 
   const currentGodObj = DEITIES.find((d) => d.id === selectedGod);
 
@@ -781,7 +839,7 @@ export default function PoojaListingPage({ category: categoryProp }) {
       {/* Devotional Watermark Background with Soft Opacity */}
       <div className="sa-pooja-bg-watermark" aria-hidden="true">
         <img
-          src="/images/ayyappa-tiger-gold-bg.png"
+          src="/images/ayyappa-watermark-transparent.png"
           alt=""
           className="sa-pooja-bg-watermark-img"
         />
