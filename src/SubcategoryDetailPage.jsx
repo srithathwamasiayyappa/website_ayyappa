@@ -758,20 +758,29 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
   const [fontSize, setFontSize] = useState(17);
   const [showSamagri, setShowSamagri] = useState(false);
 
-  // Check if this subcategory has child types (like Mahaganapathi 4 types)
+  // Check if this subcategory has child types (e.g. Mahaganapathi 4 types, Sri Subrahmanyeswara 4 types)
   const resolvedChildren = useMemo(() => {
     if (Array.isArray(apiDetail?.children) && apiDetail.children.length > 0) {
       return apiDetail.children;
     }
-    const matchKey = subcategoryId || fallbackData.id;
+    const matchKey = (subcategoryId || fallbackData.id || '').toLowerCase();
     if (DEFAULT_CHILDREN[matchKey]) {
       return DEFAULT_CHILDREN[matchKey];
+    }
+    if (
+      matchKey.includes('subramanya') ||
+      matchKey.includes('subrahmanya') ||
+      matchKey.includes('murugan') ||
+      matchKey.includes('kartikeya') ||
+      matchKey === '7'
+    ) {
+      return DEFAULT_CHILDREN['sri-subramanya-ashtottara'];
     }
     if (
       matchKey.includes('ganapa') ||
       matchKey.includes('vignesh') ||
       matchKey.includes('mahaganapati') ||
-      matchKey.includes('ashtottara')
+      matchKey === '6'
     ) {
       return DEFAULT_CHILDREN['ganapathi-pooja'];
     }
