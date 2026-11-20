@@ -4,6 +4,8 @@ import * as L from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import { API_BASE_URL } from './apiConfig';
 import DeitySelectionModal, { DEFAULT_DEITIES_LIST } from './DeitySelectionModal';
+import AppDownloadModal from './AppDownloadModal';
+import { DEFAULT_CHILDREN } from './defaultScriptures';
 import './devotionalCategoryPage.css';
 
 const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
@@ -167,6 +169,33 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
       return false;
     }
   });
+
+  // App Download Modal State (When user clicks a subcategory or type)
+  const [downloadModalItem, setDownloadModalItem] = useState(null);
+
+  const handleCardClick = (item) => {
+    const s = (item.slug || '').toLowerCase();
+    const rawId = String(item.rawId || item.id || '');
+    const hasMultipleTypes = Boolean(
+      DEFAULT_CHILDREN[s] ||
+      DEFAULT_CHILDREN[rawId] ||
+      /ganapa|vignesh|subramanya|subrahmanya|ashtottara|ashtothram|satyanarayana|varalakshmi|kedareswara|vinayaka/.test(s)
+    );
+
+    if (hasMultipleTypes) {
+      // Allow viewing the 4-5 Types list view (Image 2)
+      navigate(
+        `/subcategory-detail?id=${encodeURIComponent(
+          item.slug
+        )}&category=${activeCategory}&god=${encodeURIComponent(
+          selectedDeity
+        )}`
+      );
+    } else {
+      // No detailed page allowed! Show App Download Popup directly
+      setDownloadModalItem(item.title);
+    }
+  };
 
   // Watch for direct category clicks that request deity selection
   useEffect(() => {
@@ -537,15 +566,7 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
                 <article
                   key={item.id}
                   className="sa-dev-card"
-                  onClick={() =>
-                    navigate(
-                      `/subcategory-detail?id=${encodeURIComponent(
-                        item.slug
-                      )}&category=${activeCategory}&god=${encodeURIComponent(
-                        selectedDeity
-                      )}`
-                    )
-                  }
+                  onClick={() => handleCardClick(item)}
                 >
                   {/* Top Image (16:9 Devotional Artwork) */}
                   <div className="sa-dev-card-image-wrap">
@@ -659,6 +680,12 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
           handleSelectDeity(deity.id);
           handleCloseModal();
         }}
+      />
+      {/* ── 8. APP DOWNLOAD POPUP MODAL (When clicking subcategories) ── */}
+      <AppDownloadModal
+        isOpen={Boolean(downloadModalItem)}
+        onClose={() => setDownloadModalItem(null)}
+        itemTitle={downloadModalItem}
       />
     </div>
   );

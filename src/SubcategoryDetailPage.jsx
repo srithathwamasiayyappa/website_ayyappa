@@ -4,6 +4,7 @@ import * as L from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import { API_BASE_URL } from './apiConfig';
 import { DEFAULT_SCRIPTURES, DEFAULT_CHILDREN } from './defaultScriptures';
+import AppDownloadModal from './AppDownloadModal';
 import './devotionalCleanList.css';
 import './subcategoryDetail.css';
 
@@ -830,8 +831,12 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
     return parseScriptureContent(activeScriptureText);
   }, [activeScriptureText]);
 
+  const [downloadModalItem, setDownloadModalItem] = useState(() => {
+    return resolvedChildren.length === 0 ? data.title : null;
+  });
+
   // ── VIEW 1: 4-TYPES SUBCATEGORY LIST VIEW (EXACT MATCH TO REFERENCE IMAGE 1) ──
-  if (resolvedChildren.length > 0 && !selectedChild) {
+  if (resolvedChildren.length > 0) {
     return (
       <div className="sa-types-list-page">
         {/* Saffron Sticky Top Bar */}
@@ -850,14 +855,14 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
           </h1>
         </div>
 
-        {/* 4 Types Vertical List matching Reference Screenshot */}
+        {/* 4-5 Types Vertical List matching Reference Screenshot */}
         <div className="sa-types-list-wrap">
           <div className="sa-types-list-container">
             {resolvedChildren.map((item, idx) => (
               <div
                 key={item.id || idx}
                 className="sa-type-item-row"
-                onClick={() => setSelectedChild(item)}
+                onClick={() => setDownloadModalItem(item.title)}
               >
                 <div className="sa-type-avatar-wrap">
                   <img
@@ -872,586 +877,130 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
             ))}
           </div>
         </div>
+
+        {/* App Download Modal for the selected type */}
+        <AppDownloadModal
+          isOpen={Boolean(downloadModalItem)}
+          onClose={() => setDownloadModalItem(null)}
+          itemTitle={downloadModalItem}
+        />
       </div>
     );
   }
 
-  const [activeNavTab, setActiveNavTab] = useState('overview');
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [shareToast, setShareToast] = useState(false);
-
-  // Bookmark check
-  useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem('sa_bookmarks') || '[]');
-      setIsBookmarked(saved.includes(subcategoryId || data.id));
-    } catch (_) {}
-  }, [subcategoryId, data.id]);
-
-  const toggleBookmark = () => {
-    try {
-      const key = subcategoryId || data.id;
-      const saved = JSON.parse(localStorage.getItem('sa_bookmarks') || '[]');
-      let updated;
-      if (saved.includes(key)) {
-        updated = saved.filter((k) => k !== key);
-        setIsBookmarked(false);
-      } else {
-        updated = [...saved, key];
-        setIsBookmarked(true);
-      }
-      localStorage.setItem('sa_bookmarks', JSON.stringify(updated));
-    } catch (_) {}
-  };
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: data.title,
-        text: data.subtitle || data.overview,
-        url: window.location.href,
-      }).catch(() => {});
-    } else if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      setShareToast(true);
-      setTimeout(() => setShareToast(false), 2400);
-    }
-  };
-
-  const scrollToSection = (secId, tabKey) => {
-    setActiveNavTab(tabKey);
-    const el = document.getElementById(secId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
-  // ── VIEW 2: MASTER DEVOTIONAL CONTENT DETAIL PAGE (EXACT MATCH TO REFERENCE IMAGE) ──
-  const categoryLabel =
-    data.category === 'pooja'
-      ? 'Pooja Vidhanam'
-      : data.category === 'stotras'
-      ? 'Divine Stotras'
-      : data.category === 'slokas'
-      ? 'Daily Slokas'
-      : 'Bhajans & Songs';
-
-  const defaultMaterials = [
-    { name: 'Lord Ayyappa photo / idol (విగ్రహం / చిత్రం)' },
-    { name: 'Flowers (పువ్వులు) – preferably Tulasi / Arali / Chrysanthemum' },
-    { name: 'Pooja platform or clean space (పూజా స్థలం)' },
-    { name: 'Sandal paste (చందనం), Kumkum (కుంకుమ)' },
-    { name: 'Pure Cow Ghee or Sesame Oil for deepam' },
-    { name: 'Fresh Fruits and Naivedyam (పండ్లు / నైవేద్యం)' },
-    { name: 'Incense sticks (అగరుబత్తులు) & Dhoop' },
-    { name: 'Water in a small vessel (ఉదకం) and clean cloth' },
-  ];
-
-  const displayMaterials =
-    Array.isArray(data.materials) && data.materials.length > 0
-      ? data.materials
-      : defaultMaterials;
-
-  const defaultProcedure = [
-    {
-      step: 1,
-      title: 'స్థల శుద్ధి & సిద్ధత (Preparation)',
-      desc: 'Clean the pooja area, place the photo or idol of Lord Ayyappa, and arrange the sacred offerings with peaceful mind.',
-    },
-    {
-      step: 2,
-      title: 'దీపారాధన (Lighting the Lamp)',
-      desc: 'Light the brass lamp with sesame oil or pure ghee, pray for the removal of all obstacles, and invoke divine grace.',
-    },
-    {
-      step: 3,
-      title: 'ధ్యానం (Dhyana)',
-      desc: 'Meditate on Lord Ayyappa, seated in the yogic posture, radiating boundless compassion and protective blessings.',
-    },
-    {
-      step: 4,
-      title: 'అర్చన (Archana)',
-      desc: 'Offer sacred flowers and chant: "Om Swamiye Saranam Ayyappa" (11, 21, or 108 times) with sincere devotion.',
-    },
-    {
-      step: 5,
-      title: 'నైవేద్యం (Naivedyam)',
-      desc: 'Offer fresh fruits, jaggery payasam, or pure sattvic food with deep devotion and surrender of the heart.',
-    },
-    {
-      step: 6,
-      title: 'హారతి & ప్రార్థన (Harati & Prayer)',
-      desc: 'Wave the camphor harathi, bow and pray for the well-being of family, strength to follow dharma, and Sabarimala blessings.',
-    },
-  ];
-
-  const displayProcedure =
-    Array.isArray(data.procedure) && data.procedure.length > 0
-      ? data.procedure
-      : defaultProcedure;
-
-  const defaultBenefits = [
-    { icon: '🕊️', text: 'Brings mental peace & stability' },
-    { icon: '🛡️', text: 'Removes obstacles and negativity' },
-    { icon: '👨‍👩‍👧‍👦', text: 'Blesses family with health & harmony' },
-    { icon: '⚖️', text: 'Instills discipline, devotion & self-control' },
-    { icon: '⛰️', text: 'Nurtures the grace of Lord Ayyappa' },
-  ];
-
-  const defaultNotes = [
-    'Perform the pooja with utmost purity and devotion in the morning or evening at a fixed time daily.',
-    'Light lamps preferably with pure sesame oil or cow ghee facing East or North.',
-    'Chant "Om Swamiye Saranam Ayyappa" with full devotion and a calm mind.',
-    'On Saturdays, Mandala season, or during the 41-day vratham, you may perform the pooja with more elaboration.',
-  ];
-
+  // ── VIEW 2: SINGLE SUBCATEGORY APP DOWNLOAD PROMPT ──
+  // User policy: "No need to show the detailed page. Instead of that when a user clicks on a subcategory, we have to show the app download popup. Then the user can see it in the app."
   return (
-    <div className="sa-master-detail-page">
-      {/* ── 1. MASTER DEVOTIONAL HERO BANNER (MATCHES APPROVED REFERENCE) ── */}
-      <section className="sa-master-hero" aria-label="Devotional Hero Banner">
-        <div className="sa-master-hero-lamps-left" aria-hidden="true" />
-        <div className="sa-master-hero-lamps-right" aria-hidden="true" />
-
-        <div className="sa-master-hero-container">
-          {/* Breadcrumb Navigation */}
-          <nav className="sa-master-breadcrumb" aria-label="Breadcrumb">
-            <Link to="/home">Home</Link>
-            <span className="sep">&gt;</span>
-            <Link to={`/subcategories?category=${data.category || 'pooja'}`}>{categoryLabel}</Link>
-            <span className="sep">&gt;</span>
-            <span className="curr">{selectedChild ? selectedChild.title : data.title}</span>
-          </nav>
-
-          <div className="sa-master-hero-grid">
-            <div className="sa-master-hero-left">
-              {/* Category Badge */}
-              <div className="sa-hero-category-badge">
-                <Icon name="Sparkles" size={13} />
-                <span>{categoryLabel}</span>
-              </div>
-
-              {/* Title & Deity Pill Row */}
-              <div className="sa-master-hero-title-row">
-                <h1 className="sa-master-hero-title">
-                  {selectedChild ? selectedChild.title : data.title}
-                </h1>
-                <div className="sa-hero-deity-pill">
-                  <Icon name="Sparkles" size={12} />
-                  <span>{data.deityName || 'Lord Ayyappa'}</span>
-                </div>
-              </div>
-
-              {/* Localized Telugu Subtitle */}
-              <p className="sa-master-hero-subtitle-te">
-                {selectedChild ? selectedChild.title : data.titleTelugu || 'నిత్య పూజా విధానం (సరళ విధానం)'}
-              </p>
-
-              {/* Description */}
-              <p className="sa-master-hero-desc">
-                {data.subtitle ||
-                  data.overview ||
-                  'A simple and traditional daily pooja procedure to worship Lord Ayyappa at home with devotion, discipline and true purity.'}
-              </p>
-            </div>
-
-            {/* Hero Right: Lord Ayyappa in Decorated Golden Arch */}
-            <div className="sa-master-hero-right">
-              <div className="sa-hero-arch-card">
-                <img
-                  src={data.heroImage || '/images/pooja/card-banner-ayyappa-hd.png'}
-                  alt={data.title}
-                  className="sa-hero-arch-img"
-                  loading="eager"
-                  onError={(e) => {
-                    e.target.src = '/images/pooja/card-banner-ayyappa-hd.png';
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 2. TWO-COLUMN MASTER BODY LAYOUT ── */}
-      <div className="sa-master-body-wrap">
-        {/* LEFT COLUMN: ~69% MAIN READING CONTENT */}
-        <main className="sa-master-main-col">
-          {/* In-Page Navigation Bar */}
-          <nav className="sa-master-nav-tabs" aria-label="In-page section navigation">
-            <button
-              type="button"
-              className={`sa-nav-tab-pill ${activeNavTab === 'overview' ? 'active' : ''}`}
-              onClick={() => scrollToSection('overview-sec', 'overview')}
-            >
-              <Icon name="BookOpen" size={15} />
-              <span>Overview</span>
-            </button>
-            <button
-              type="button"
-              className={`sa-nav-tab-pill ${activeNavTab === 'procedure' ? 'active' : ''}`}
-              onClick={() => scrollToSection('procedure-sec', 'procedure')}
-            >
-              <Icon name="ListOrdered" size={15} />
-              <span>Procedure Steps</span>
-            </button>
-            <button
-              type="button"
-              className={`sa-nav-tab-pill ${activeNavTab === 'mantras' ? 'active' : ''}`}
-              onClick={() => scrollToSection('mantras-sec', 'mantras')}
-            >
-              <Icon name="Sparkles" size={15} />
-              <span>Mantras / Slokas</span>
-            </button>
-            <button
-              type="button"
-              className={`sa-nav-tab-pill ${activeNavTab === 'faqs' ? 'active' : ''}`}
-              onClick={() => scrollToSection('notes-sec', 'faqs')}
-            >
-              <Icon name="HelpCircle" size={15} />
-              <span>FAQs</span>
-            </button>
-          </nav>
-
-          {/* SECTION 1: OVERVIEW */}
-          <section id="overview-sec" className="sa-master-card sa-overview-card" aria-label="Overview">
-            <div className="sa-overview-row">
-              <div className="sa-overview-thumb-wrap">
-                <img
-                  src="/images/pooja/pooja-card-1-ref.png"
-                  alt={data.title}
-                  className="sa-overview-thumb-img"
-                  onError={(e) => {
-                    e.target.src = '/images/pooja/pooja-card-1-ref.png';
-                  }}
-                />
-              </div>
-              <div className="sa-overview-text-col">
-                <div className="sa-overview-heading-row">
-                  <Icon name="Sparkles" size={18} style={{ color: '#d4af37' }} />
-                  <h2 className="sa-overview-title">Overview</h2>
-                </div>
-                <p className="sa-overview-lead">
-                  {data.overview ||
-                    'The Daily Pooja (Nitya Pooja) to Lord Ayyappa is a sacred routine that helps cultivate devotion (భక్తి), discipline (నియమం) and inner purity (అంతఃశుద్ధి). This is a simple, traditional method that can be easily performed at home by devotees, with a pure heart and sincere devotion.'}
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 2: REQUIRED MATERIALS (కావలసిన సామగ్రి) */}
-          <section id="materials-sec" className="sa-master-card" aria-label="Required Materials">
-            <div className="sa-card-header-strip">
-              <Icon name="Layers" size={18} style={{ color: '#0c3823' }} />
-              <h3>Required Materials (కావలసిన సామగ్రి)</h3>
-            </div>
-            <div className="sa-materials-two-col">
-              {displayMaterials.map((item, idx) => (
-                <div key={idx} className="sa-material-bullet-item">
-                  <span className="sa-mat-dot">◆</span>
-                  <span>{item.name || item}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* SECTION 3: PROCEDURE STEPS (పూజా విధానం) */}
-          <section id="procedure-sec" className="sa-master-card" aria-label="Procedure Steps">
-            <div className="sa-card-header-strip">
-              <Icon name="ListOrdered" size={18} style={{ color: '#0c3823' }} />
-              <h3>Procedure Steps (పూజా విధానం)</h3>
-            </div>
-            <div className="sa-procedure-steps-stack">
-              {displayProcedure.map((stepItem, idx) => {
-                const stepNum = stepItem.step || idx + 1;
-                return (
-                  <div key={idx} className="sa-procedure-step-row">
-                    <div className="sa-step-number-circle">{stepNum}</div>
-                    <div className="sa-step-content-body">
-                      <h4 className="sa-step-main-title">{stepItem.title}</h4>
-                      <p className="sa-step-main-desc">{stepItem.desc}</p>
-                      {stepItem.mantra && (
-                        <div className="sa-step-mantra-quote">
-                          {stepItem.mantra}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-
-          {/* SECTION 4: MANTRAS / SLOKAS (పఠించవలసిన మంత్రాలు / శ్లోకాలు) */}
-          <section id="mantras-sec" className="sa-master-card" aria-label="Mantras and Slokas">
-            <div className="sa-card-header-strip">
-              <Icon name="Sparkles" size={18} style={{ color: '#0c3823' }} />
-              <h3>Mantras / Slokas (పఠించవలసిన మంత్రాలు / శ్లోకాలు)</h3>
-            </div>
-            <div className="sa-mantras-section-grid">
-              {/* Highlighted Quote Box */}
-              <div className="sa-mantra-highlight-box">
-                <p className="sa-mantra-big-script">
-                  &ldquo; ఓం స్వామియే శరణం అయ్యప్ప &rdquo;
-                </p>
-                <p className="sa-mantra-translit">Om Swamiye Saranam Ayyappa</p>
-              </div>
-
-              {/* Linked Sacred Verses List (Strictly reading only: no audio player) */}
-              <div className="sa-mantra-links-col">
-                <div className="sa-mantra-link-item">
-                  <span>▶ Ayyappa Dhyana Slokam</span>
-                  <Icon name="ChevronRight" size={16} />
-                </div>
-                <div className="sa-mantra-link-item">
-                  <span>▶ Ayyappa Ashtottara Sata Namavali</span>
-                  <Icon name="ChevronRight" size={16} />
-                </div>
-                <div className="sa-mantra-link-item">
-                  <span>▶ Harati (Ayyappa Harati)</span>
-                  <Icon name="ChevronRight" size={16} />
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 5: BENEFITS (ఫలితాలు) */}
-          <section id="benefits-sec" className="sa-master-card" aria-label="Benefits">
-            <div className="sa-card-header-strip">
-              <Icon name="Heart" size={18} style={{ color: '#0c3823' }} />
-              <h3>Benefits (ఫలితాలు)</h3>
-            </div>
-            <div className="sa-benefits-horizontal-row">
-              {defaultBenefits.map((b, idx) => (
-                <div key={idx} className="sa-benefit-block-card">
-                  <span className="sa-benefit-block-icon" aria-hidden="true">{b.icon}</span>
-                  <p className="sa-benefit-block-text">{b.text}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* SECTION 6: IMPORTANT NOTES (ముఖ్యమైన సూచనలు) */}
-          <section id="notes-sec" className="sa-master-card" aria-label="Important Notes">
-            <div className="sa-card-header-strip">
-              <Icon name="Info" size={18} style={{ color: '#0c3823' }} />
-              <h3>Important Notes (ముఖ్యమైన సూచనలు)</h3>
-            </div>
-            <div className="sa-notes-content-wrap">
-              <div className="sa-notes-list">
-                {defaultNotes.map((note, idx) => (
-                  <div key={idx} className="sa-note-item">
-                    <Icon name="CheckCircle2" size={16} className="sa-note-check-icon" />
-                    <span>{note}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="sa-notes-watermark-bg" aria-hidden="true" />
-            </div>
-          </section>
-        </main>
-
-        {/* RIGHT COLUMN: ~31% SIDEBAR */}
-        <aside className="sa-master-sidebar-col" aria-label="Sidebar Actions and Details">
-          {/* Quick Info Card */}
-          <div className="sa-quickinfo-card">
-            <div className="sa-quickinfo-title-row">
-              <h3>Quick Info</h3>
-              <Icon name="Sparkles" size={16} style={{ color: '#d4af37' }} />
-            </div>
-            <div className="sa-quickinfo-rows">
-              <div className="sa-quickinfo-row">
-                <span className="sa-quickinfo-label">
-                  <Icon name="Sparkles" size={14} />
-                  <span>Deity</span>
-                </span>
-                <span className="sa-quickinfo-val">{data.deityName || 'Lord Ayyappa'}</span>
-              </div>
-              <div className="sa-quickinfo-row">
-                <span className="sa-quickinfo-label">
-                  <Icon name="Folder" size={14} />
-                  <span>Category</span>
-                </span>
-                <span className="sa-quickinfo-val">{categoryLabel}</span>
-              </div>
-              <div className="sa-quickinfo-row">
-                <span className="sa-quickinfo-label">
-                  <Icon name="Clock" size={14} />
-                  <span>Duration</span>
-                </span>
-                <span className="sa-quickinfo-val">~ 15 - 20 Minutes</span>
-              </div>
-              <div className="sa-quickinfo-row">
-                <span className="sa-quickinfo-label">
-                  <Icon name="Award" size={14} />
-                  <span>Difficulty</span>
-                </span>
-                <span
-                  className="sa-quickinfo-val"
-                  style={{
-                    background: '#eaf4ef',
-                    color: '#173d32',
-                    padding: '2px 8px',
-                    borderRadius: '4px',
-                    fontSize: '11.5px',
-                  }}
-                >
-                  Easy (Simple Home Pooja)
-                </span>
-              </div>
-              <div className="sa-quickinfo-row">
-                <span className="sa-quickinfo-label">
-                  <Icon name="Languages" size={14} />
-                  <span>Language</span>
-                </span>
-                <span className="sa-quickinfo-val">Telugu, Sanskrit, English</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Reading Actions Card (Directly beneath Quick Info: Bookmark & Share) */}
-          <div className="sa-sidebar-actions-card">
-            <div className="sa-actions-top-row">
-              <button
-                type="button"
-                className={`sa-btn-action-outline ${isBookmarked ? 'active' : ''}`}
-                onClick={toggleBookmark}
-                title="Bookmark this guide"
-              >
-                <Icon name={isBookmarked ? 'BookmarkCheck' : 'Bookmark'} size={15} />
-                <span>{isBookmarked ? 'Bookmarked' : 'Bookmark'}</span>
-              </button>
-
-              <button
-                type="button"
-                className="sa-btn-action-outline"
-                onClick={handleShare}
-                title="Share this guide"
-              >
-                <Icon name="Share2" size={15} />
-                <span>{shareToast ? 'Link Copied!' : 'Share'}</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Related Pooja Vidhanams Card */}
-          <div className="sa-related-content-card">
-            <div className="sa-related-card-title">
-              <Icon name="Sparkles" size={15} style={{ color: '#d4af37' }} />
-              <h4>Related Pooja Vidhanams</h4>
-            </div>
-            <div className="sa-related-items-list">
-              <div
-                className="sa-related-item-row"
-                onClick={() => navigate('/subcategory-detail?id=mandala-pooja&category=pooja')}
-              >
-                <div className="sa-related-item-thumb">
-                  <img src="/images/pooja/pooja-card-2-ref.png" alt="" />
-                </div>
-                <div className="sa-related-item-info">
-                  <span className="sa-related-item-name">Mandala Pooja Vidhanam</span>
-                  <span className="sa-related-item-sub">మండల పూజా విధానం</span>
-                </div>
-                <Icon name="ChevronRight" size={15} className="sa-related-chevron" />
-              </div>
-
-              <div
-                className="sa-related-item-row"
-                onClick={() => navigate('/subcategory-detail?id=deeksha-pooja&category=pooja')}
-              >
-                <div className="sa-related-item-thumb">
-                  <img src="/images/pooja/pooja-card-4-ref.png" alt="" />
-                </div>
-                <div className="sa-related-item-info">
-                  <span className="sa-related-item-name">Deeksha Pooja Procedure</span>
-                  <span className="sa-related-item-sub">దీక్ష పూజా విధానం</span>
-                </div>
-                <Icon name="ChevronRight" size={15} className="sa-related-chevron" />
-              </div>
-
-              <div
-                className="sa-related-item-row"
-                onClick={() => navigate('/subcategory-detail?id=sabarimala-yatra-pooja&category=pooja')}
-              >
-                <div className="sa-related-item-thumb">
-                  <img src="/images/pooja/pooja-card-6-ref.png" alt="" />
-                </div>
-                <div className="sa-related-item-info">
-                  <span className="sa-related-item-name">Sabarimala Yatra Pooja</span>
-                  <span className="sa-related-item-sub">శబరిమల యాత్రా పూజా విధానం</span>
-                </div>
-                <Icon name="ChevronRight" size={15} className="sa-related-chevron" />
-              </div>
-            </div>
-          </div>
-
-          {/* Related Stotras / Slokas Card */}
-          <div className="sa-related-content-card">
-            <div className="sa-related-card-title">
-              <Icon name="FileText" size={15} style={{ color: '#d4af37' }} />
-              <h4>Related Stotras / Slokas</h4>
-            </div>
-            <div className="sa-related-items-list">
-              <div
-                className="sa-related-item-row"
-                onClick={() => navigate('/subcategory-detail?id=ayyappa-dhyana-slokam&category=stotras')}
-              >
-                <div className="sa-related-item-thumb" style={{ background: '#f5eed8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Icon name="FileText" size={18} style={{ color: '#8b6b23' }} />
-                </div>
-                <div className="sa-related-item-info">
-                  <span className="sa-related-item-name">Ayyappa Dhyana Slokam</span>
-                  <span className="sa-related-item-sub">అయ్యప్ప ధ్యాన శ్లోకం</span>
-                </div>
-                <Icon name="ChevronRight" size={15} className="sa-related-chevron" />
-              </div>
-
-              <div
-                className="sa-related-item-row"
-                onClick={() => navigate('/subcategory-detail?id=ayyappa-ashtottara-sata-namavali&category=stotras')}
-              >
-                <div className="sa-related-item-thumb" style={{ background: '#f5eed8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Icon name="FileText" size={18} style={{ color: '#8b6b23' }} />
-                </div>
-                <div className="sa-related-item-info">
-                  <span className="sa-related-item-name">Ayyappa Ashtottara Sata Namavali</span>
-                  <span className="sa-related-item-sub">అయ్యప్ప అష్టోత్తర శతనామావళి</span>
-                </div>
-                <Icon name="ChevronRight" size={15} className="sa-related-chevron" />
-              </div>
-
-              <div
-                className="sa-related-item-row"
-                onClick={() => navigate('/subcategory-detail?id=ayyappa-harati&category=stotras')}
-              >
-                <div className="sa-related-item-thumb" style={{ background: '#f5eed8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Icon name="FileText" size={18} style={{ color: '#8b6b23' }} />
-                </div>
-                <div className="sa-related-item-info">
-                  <span className="sa-related-item-name">Ayyappa Harati</span>
-                  <span className="sa-related-item-sub">అయ్యప్ప హారతి</span>
-                </div>
-                <Icon name="ChevronRight" size={15} className="sa-related-chevron" />
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom CTA Card */}
-          <div
-            className="sa-sidebar-cta-card"
-            onClick={() => scrollToSection('procedure-sec', 'procedure')}
-            title="Read step-by-step procedure"
-          >
-            <div className="sa-cta-left">
-              <Icon name="Sparkles" size={20} style={{ color: '#e5b955' }} />
-              <div>
-                <span className="sa-cta-title">Start Daily Pooja</span>
-                <span className="sa-cta-sub" style={{ display: 'block' }}>Follow the step-by-step procedure</span>
-              </div>
-            </div>
-            <Icon name="ArrowRight" size={20} style={{ color: '#e5b955' }} />
-          </div>
-        </aside>
+    <div className="sa-types-list-page">
+      <div className="sa-scripture-top-bar">
+        <button
+          type="button"
+          className="scripture-back-btn"
+          onClick={() => navigate(-1)}
+          aria-label="Back to Categories"
+          title="Back"
+        >
+          <Icon name="ArrowLeft" size={24} />
+        </button>
+        <h1 className="scripture-top-title">
+          {currentLanguage === 'te' ? data.titleTelugu : data.title}
+        </h1>
       </div>
+
+      <div
+        className="sa-types-list-wrap"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '60vh',
+          padding: '30px 20px',
+          textAlign: 'center',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '520px',
+            width: '100%',
+            background: '#ffffff',
+            borderRadius: '20px',
+            border: '1.5px solid #d4af37',
+            padding: '34px 26px',
+            boxShadow: '0 12px 32px rgba(12, 56, 35, 0.12)',
+          }}
+        >
+          <img
+            src="/images/saranam-ayyappa-official-emblem.jpg"
+            alt="Saranam Ayyappa"
+            style={{
+              width: '80px',
+              height: '80px',
+              borderRadius: '18px',
+              border: '2px solid #d4af37',
+              margin: '0 auto 16px',
+              display: 'block',
+              objectFit: 'cover',
+            }}
+            onError={(e) => {
+              e.target.src = '/images/pooja/pooja-card-1-ref.png';
+            }}
+          />
+          <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#0c3823', margin: '0 0 10px' }}>
+            {data.titleTelugu || data.title}
+          </h2>
+          <p style={{ fontSize: '14px', color: '#2c4436', fontWeight: 600, margin: '0 0 8px' }}>
+            సంపూర్ణ పూజా విధానం, దివ్య శ్లోకములు మరియు మంత్రాల పఠనం మా అఫీషియల్ మొబైల్ యాప్‌లో అందుబాటులో ఉన్నాయి.
+          </p>
+          <p style={{ fontSize: '13px', color: '#5d6d63', margin: '0 0 20px' }}>
+            To view and read the complete sacred procedure and slokas, please download the free Saranam Ayyappa App.
+          </p>
+          <button
+            type="button"
+            style={{
+              width: '100%',
+              padding: '13px',
+              borderRadius: '12px',
+              background: '#0c3823',
+              color: '#ffffff',
+              border: '1px solid #d4af37',
+              fontWeight: 700,
+              fontSize: '14.5px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              boxShadow: '0 4px 14px rgba(12, 56, 35, 0.25)',
+            }}
+            onClick={() => setDownloadModalItem(data.title)}
+          >
+            <span>📱 Download Saranam Ayyappa App</span>
+          </button>
+          <button
+            type="button"
+            style={{
+              marginTop: '14px',
+              background: 'none',
+              border: 'none',
+              color: '#0c3823',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: 600,
+            }}
+            onClick={() => navigate(-1)}
+          >
+            ← Back to Devotional Services
+          </button>
+        </div>
+      </div>
+
+      <AppDownloadModal
+        isOpen={Boolean(downloadModalItem)}
+        onClose={() => setDownloadModalItem(null)}
+        itemTitle={downloadModalItem || data.title}
+      />
     </div>
   );
 }
