@@ -446,11 +446,21 @@ export default function AuthPage({
                   inputMode="numeric"
                   maxLength={10}
                   className="sa-auth-phone-input"
-                  placeholder="Enter mobile number"
+                  placeholder="6302759527"
                   value={phone}
                   onChange={handlePhoneChange}
                   autoComplete="tel"
                 />
+              </div>
+              <div style={{ marginTop: '6px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: '#687766' }}>
+                <span>Default Test Mobile:</span>
+                <button
+                  type="button"
+                  style={{ background: 'none', border: 'none', color: '#b8860b', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline', padding: 0 }}
+                  onClick={() => setPhone('6302759527')}
+                >
+                  6302759527 (OTP: 123456)
+                </button>
               </div>
             </div>
 
