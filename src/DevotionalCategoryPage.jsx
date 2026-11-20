@@ -190,11 +190,20 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
     setIsDeityModalOpen(false);
   };
 
-  // 2. Fetch Devotional Content from DB via API for Selected Category & Deity
+  // 2. Fetch Devotional Content from DB via API with Server-side Search & Filtering
   const [dbItems, setDbItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
+
+  // Debounce search input for clean server-side query dispatch
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   useEffect(() => {
     let isCancelled = false;
@@ -206,11 +215,20 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
         if (selectedDeity && selectedDeity !== 'all') {
           endpoint += `&deity=${encodeURIComponent(selectedDeity)}`;
         }
+        if (debouncedSearch && debouncedSearch.trim()) {
+          endpoint += `&search=${encodeURIComponent(debouncedSearch.trim())}`;
+        }
+        if (activeFilter && activeFilter !== 'All') {
+          endpoint += `&filter=${encodeURIComponent(activeFilter)}`;
+        }
+
         let res = await fetch(endpoint);
         let json = await res.json().catch(() => null);
 
         if (!json || !Array.isArray(json.data) || json.data.length === 0) {
-          res = await fetch(`${API_BASE_URL}/admin/subcategories?parentId=${activeCategory}&lang=${currentLanguage}&limit=100`);
+          let fallbackEndpoint = `${API_BASE_URL}/admin/subcategories?parentId=${activeCategory}&lang=${currentLanguage}&limit=100`;
+          if (debouncedSearch && debouncedSearch.trim()) fallbackEndpoint += `&search=${encodeURIComponent(debouncedSearch.trim())}`;
+          res = await fetch(fallbackEndpoint);
           json = await res.json().catch(() => null);
         }
 
@@ -241,17 +259,7 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
             };
           });
 
-          // Strict client-side filter by selected deity
-          let filteredByDeity = mapped;
-          if (selectedDeity && selectedDeity !== 'all') {
-            filteredByDeity = mapped.filter((item) => {
-              const itemD = (item.deityId || '').toLowerCase().replace(/^(lord-|goddess-)/, '');
-              const selD = selectedDeity.toLowerCase().replace(/^(lord-|goddess-)/, '');
-              return itemD === selD || itemD === 'all';
-            });
-          }
-
-          setDbItems(filteredByDeity);
+          setDbItems(mapped);
         } else if (!isCancelled) {
           setDbItems([]);
         }
@@ -266,35 +274,12 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
     return () => {
       isCancelled = true;
     };
-  }, [activeCategory, currentLanguage, selectedDeity]);
+  }, [activeCategory, currentLanguage, selectedDeity, debouncedSearch, activeFilter]);
 
-  // 3. Search & Filter Processing
+  // 3. Devotional Cards list (Direct from DB Server-side filtered response)
   const filteredCards = useMemo(() => {
-    let list = dbItems;
-
-    // Search query filter
-    const q = search.trim().toLowerCase();
-    if (q) {
-      list = list.filter(
-        (item) =>
-          item.title.toLowerCase().includes(q) ||
-          item.desc.toLowerCase().includes(q) ||
-          item.deityName.toLowerCase().includes(q)
-      );
-    }
-
-    // Filter pill filter (All, Beginner, Festival, Daily, Popular)
-    if (activeFilter !== 'All') {
-      list = list.filter((item) => {
-        if (activeFilter === 'Popular') {
-          return item.badge === 'Popular' || item.filterTag === 'Popular';
-        }
-        return item.badge === activeFilter || item.filterTag === activeFilter;
-      });
-    }
-
-    return list;
-  }, [dbItems, search, activeFilter]);
+    return dbItems;
+  }, [dbItems]);
 
   // Current Deity Object for Avatar & Name
   const currentDeityObj = useMemo(() => {
