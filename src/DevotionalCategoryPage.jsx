@@ -27,15 +27,33 @@ const CARD_REFERENCE_ARTWORKS = [
 
 export function resolveCardArtwork(slug = '', title = '', deityId = '', index = 0) {
   const s = `${slug} ${title}`.toLowerCase();
-  if (s.includes('linga') || s.includes('simple') || s.includes('nithya-pooja')) return CARD_REFERENCE_ARTWORKS[0];
-  if (s.includes('subrahmanya') || s.includes('murugan') || s.includes('kartikeya')) return CARD_REFERENCE_ARTWORKS[1];
-  if (s.includes('mantrapushpam') || s.includes('sharanu') || s.includes('trishula')) return CARD_REFERENCE_ARTWORKS[2];
-  if (s.includes('harathi') || s.includes('deepa') || s.includes('diya')) return CARD_REFERENCE_ARTWORKS[3];
-  if (s.includes('ganapa') || s.includes('vinayak') || s.includes('gomatha')) return CARD_REFERENCE_ARTWORKS[4];
-  if (s.includes('abhisheka') || s.includes('kalasha') || s.includes('poorvaangamu')) return CARD_REFERENCE_ARTWORKS[5];
-  if (deityId === 'ayyappa') return '/images/pooja/card-banner-ayyappa-hd.png';
-  if (deityId === 'ganesha') return '/images/pooja/card-banner-ganapathi-hd.png';
-  if (deityId === 'devi') return '/images/pooja/card-banner-lakshmi-hd.png';
+  if (s.includes('ganapa') || s.includes('vinayak') || s.includes('vignesh') || s.includes('గణప') || s.includes('వినాయక') || s.includes('విఘ్నే') || s.includes('గణేశ') || deityId === 'ganesha') {
+    return '/images/pooja/card-banner-ganapathi-hd.png';
+  }
+  if (s.includes('gomatha') || s.includes('గోమాత') || s.includes('కామధేను')) {
+    return '/images/pooja/pooja-card-5-ref.png';
+  }
+  if (s.includes('subrahmanya') || s.includes('murugan') || s.includes('kartikeya') || s.includes('సుబ్రహ్మణ్య') || s.includes('మురుగన్') || deityId === 'murugan') {
+    return CARD_REFERENCE_ARTWORKS[1];
+  }
+  if (s.includes('devi') || s.includes('lakshmi') || s.includes('durga') || s.includes('lalitha') || s.includes('దేవి') || s.includes('లక్ష్మి') || s.includes('దుర్గ') || s.includes('మాళికాపురత్తమ్మ') || deityId === 'devi') {
+    return '/images/pooja/card-banner-lakshmi-hd.png';
+  }
+  if (s.includes('harathi') || s.includes('deepa') || s.includes('diya') || s.includes('హారతి') || s.includes('దీప')) {
+    return CARD_REFERENCE_ARTWORKS[3];
+  }
+  if (s.includes('ayyap') || s.includes('sastha') || s.includes('అయ్యప్ప') || s.includes('శాస్తా') || s.includes('శరణు') || deityId === 'ayyappa') {
+    return '/images/pooja/card-banner-ayyappa-hd.png';
+  }
+  if (s.includes('venkat') || s.includes('vishnu') || s.includes('satyanarayana') || s.includes('వేంకట') || s.includes('విష్ణు') || s.includes('సత్యనారాయణ') || deityId === 'venkateswara') {
+    return CARD_REFERENCE_ARTWORKS[2];
+  }
+  if (s.includes('shiva') || s.includes('linga') || s.includes('rudra') || s.includes('శివ') || s.includes('లింగ') || deityId === 'shiva') {
+    return CARD_REFERENCE_ARTWORKS[0];
+  }
+  if (s.includes('abhisheka') || s.includes('kalasha') || s.includes('poorvaangamu') || s.includes('పూర్వాంగ')) {
+    return CARD_REFERENCE_ARTWORKS[5];
+  }
   return CARD_REFERENCE_ARTWORKS[index % CARD_REFERENCE_ARTWORKS.length];
 }
 
@@ -104,23 +122,23 @@ const FILTER_PILLS = [
 export function resolveDeityId(slug = '', title = '', serverDeityId = '') {
   if (serverDeityId && serverDeityId !== 'all' && serverDeityId !== '') {
     const s = serverDeityId.toLowerCase().replace(/^(lord-|goddess-)/, '');
-    if (s.includes('ayyap') || s.includes('sastha')) return 'ayyappa';
-    if (s.includes('shiv') || s.includes('linga') || s.includes('bilva')) return 'shiva';
-    if (s.includes('venkat') || s.includes('vishnu') || s.includes('achyuta') || s.includes('koodalmanikya')) return 'venkateswara';
-    if (s.includes('ganesh') || s.includes('vignesh') || s.includes('vinayak') || s.includes('ganapath')) return 'ganesha';
-    if (s.includes('devi') || s.includes('durga') || s.includes('lakshmi') || s.includes('lalitha') || s.includes('kanaka')) return 'devi';
-    if (s.includes('hanuman') || s.includes('anjaneya')) return 'hanuman';
-    if (s.includes('subrahmanya') || s.includes('murugan') || s.includes('kartikeya') || s.includes('saravana')) return 'murugan';
+    if (s.includes('ayyap') || s.includes('sastha') || s.includes('అయ్యప్ప') || s.includes('శాస్త')) return 'ayyappa';
+    if (s.includes('shiv') || s.includes('linga') || s.includes('bilva') || s.includes('శివ') || s.includes('ఈశ్వర')) return 'shiva';
+    if (s.includes('venkat') || s.includes('vishnu') || s.includes('achyuta') || s.includes('koodalmanikya') || s.includes('వేంకట') || s.includes('విష్ణు')) return 'venkateswara';
+    if (s.includes('ganesh') || s.includes('vignesh') || s.includes('vinayak') || s.includes('ganapath') || s.includes('గణప') || s.includes('వినాయక')) return 'ganesha';
+    if (s.includes('devi') || s.includes('durga') || s.includes('lakshmi') || s.includes('lalitha') || s.includes('kanaka') || s.includes('gomatha') || s.includes('దేవి') || s.includes('లక్ష్మి') || s.includes('గోమాత')) return 'devi';
+    if (s.includes('hanuman') || s.includes('anjaneya') || s.includes('హనుమాన్') || s.includes('ఆంజనేయ')) return 'hanuman';
+    if (s.includes('subrahmanya') || s.includes('murugan') || s.includes('kartikeya') || s.includes('saravana') || s.includes('సుబ్రహ్మణ్య') || s.includes('మురుగన్')) return 'murugan';
     return s;
   }
   const str = `${slug} ${title}`.toLowerCase();
-  if (/ayyap|sastha|harivarasanam|shabarimala|uthara|sannidhanam|padi|maaladharan|sharanu/.test(str)) return 'ayyappa';
-  if (/shiva|linga|bilva|rudra|natara|mrityunjaya/.test(str)) return 'shiva';
-  if (/venkates|vishnu|koodalmanikya|achyuta|govinda|narayana|perumal/.test(str)) return 'venkateswara';
-  if (/ganesh|vignesh|vinayak|ganapath|modak/.test(str)) return 'ganesha';
-  if (/devi|durga|lakshmi|lalitha|kanakadhara|mahalakshmi|meenakshi|kamakshi|saraswathi|gomatha/.test(str)) return 'devi';
-  if (/hanuman|anjaneya|maruti|bajrang|sundarakanda/.test(str)) return 'hanuman';
-  if (/subrahmanya|murugan|kartikeya|saravana|shanmukha|vel|skanda/.test(str)) return 'murugan';
+  if (/ganesh|vignesh|vinayak|ganapath|modak|గణపతి|వినాయక|విఘ్నేశ్వర|గణేశ|గణప|మోదక/.test(str)) return 'ganesha';
+  if (/devi|durga|lakshmi|lalitha|kanakadhara|mahalakshmi|meenakshi|kamakshi|saraswathi|gomatha|kamadhenu|దేవి|లక్ష్మి|దుర్గ|లలిత|సరస్వతి|గోమాత|కామధేను|వరలక్ష్మి|మాళికాపురత్తమ్మ/.test(str)) return 'devi';
+  if (/ayyap|sastha|harivarasanam|shabarimala|uthara|sannidhanam|padi|maaladharan|sharanu|harathi|అయ్యప్ప|శాస్తా|శాస్త|శబరిమల|మాలాధారణ|హరివరాసనం|శరణం|హారతి|ఇరుముడి|పడి/.test(str)) return 'ayyappa';
+  if (/shiva|linga|bilva|rudra|natara|mrityunjaya|శివ|లింగ|బిల్వ|రుద్ర|మృత్యుంజయ|ఈశ్వర|కేదారేశ్వర|నటరాజ/.test(str)) return 'shiva';
+  if (/venkates|vishnu|koodalmanikya|achyuta|govinda|narayana|perumal|satyanarayana|వేంకట|వెంకట|విష్ణు|సత్యనారాయణ|గోవింద|నారాయణ|శ్రీనివాస/.test(str)) return 'venkateswara';
+  if (/hanuman|anjaneya|maruti|bajrang|sundarakanda|హనుమాన్|ఆంజనేయ|మారుతి|రామదూత/.test(str)) return 'hanuman';
+  if (/subrahmanya|murugan|kartikeya|saravana|shanmukha|vel|skanda|సుబ్రహ్మణ్య|మురుగన్|కార్తికేయ|షణ్ముఖ|స్కంద/.test(str)) return 'murugan';
   return 'all';
 }
 
@@ -283,7 +301,26 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
                 ? (item.imageUrl.startsWith('http') ? item.imageUrl : `${MEDIA_ORIGIN}${item.imageUrl}`)
                 : resolveCardArtwork(rawSlug, titleFormatted, deityResolved, idx),
               deityId: deityResolved,
-              deityName: item.deityName || (deityResolved === 'shiva' ? 'Lord Shiva' : deityResolved === 'ayyappa' ? 'Lord Ayyappa' : deityResolved === 'ganesha' ? 'Lord Ganesha' : deityResolved === 'devi' ? 'Goddess Lakshmi / Durga' : deityResolved === 'murugan' ? 'Lord Murugan' : deityResolved === 'venkateswara' ? 'Lord Venkateswara' : 'Lord Shiva'),
+              deityName: item.deityName || (
+                deityResolved === 'ganesha' ? 'Lord Ganesha' :
+                deityResolved === 'ayyappa' ? 'Lord Ayyappa' :
+                deityResolved === 'devi' ? 'Goddess Lakshmi / Devi' :
+                deityResolved === 'shiva' ? 'Lord Shiva' :
+                deityResolved === 'murugan' ? 'Lord Murugan' :
+                deityResolved === 'venkateswara' ? 'Lord Venkateswara' :
+                deityResolved === 'hanuman' ? 'Lord Hanuman' :
+                'Devotional'
+              ),
+              deityIcon: (
+                deityResolved === 'ganesha' ? '🐘' :
+                deityResolved === 'ayyappa' ? '🕉️' :
+                deityResolved === 'devi' ? '🌸' :
+                deityResolved === 'shiva' ? '🔱' :
+                deityResolved === 'murugan' ? '🦚' :
+                deityResolved === 'venkateswara' ? '🪷' :
+                deityResolved === 'hanuman' ? '🚩' :
+                '🕉️'
+              ),
             };
           });
 
@@ -604,7 +641,7 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
                     {/* Metadata Pills Row (Deity Emblem + Daily/Festival Badge) */}
                     <div className="sa-dev-card-chips-row">
                       <span className="card-chip deity-chip">
-                        <span className="chip-icon">🔱</span>
+                        <span className="chip-icon">{item.deityIcon || '🕉️'}</span>
                         <span>{item.deityName}</span>
                       </span>
 

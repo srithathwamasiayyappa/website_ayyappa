@@ -567,22 +567,22 @@ export function resolveTypeCardArtwork(item, subcategorySlug = '', idx = 0) {
   if (item.imageUrl && !item.imageUrl.endsWith('.webp') && !item.imageUrl.includes('undefined')) {
     return item.imageUrl;
   }
-  if (t.includes('ganapa') || t.includes('vignesh') || t.includes('ekadanta') || sub.includes('ganapa')) {
+  if (t.includes('ganapa') || t.includes('vignesh') || t.includes('ekadanta') || t.includes('గణప') || t.includes('వినాయక') || t.includes('విఘ్నే') || t.includes('గణేశ') || sub.includes('ganapa') || sub.includes('గణప')) {
     return '/images/deities/card_ganesha.jpg';
   }
-  if (t.includes('subramanya') || t.includes('subrahmanya') || t.includes('murugan') || sub.includes('subramanya')) {
+  if (t.includes('subramanya') || t.includes('subrahmanya') || t.includes('murugan') || t.includes('సుబ్రహ్మణ్య') || t.includes('మురుగన్') || sub.includes('subramanya') || sub.includes('సుబ్రహ్మణ్య')) {
     return '/images/deities/card_murugan.jpg';
   }
-  if (t.includes('ayyappa') || t.includes('sharanu') || t.includes('harivarasanam') || t.includes('sastha') || sub.includes('ayyappa')) {
+  if (t.includes('ayyappa') || t.includes('sharanu') || t.includes('harivarasanam') || t.includes('sastha') || t.includes('harathi') || t.includes('అయ్యప్ప') || t.includes('శాస్తా') || t.includes('శాస్త') || t.includes('శరణు') || t.includes('హారతి') || sub.includes('ayyappa') || sub.includes('harathi') || sub.includes('అయ్యప్ప')) {
     return '/images/deities/card_ayyappa.jpg';
   }
-  if (t.includes('shiva') || t.includes('dakshinamurti') || t.includes('veerabhadra') || t.includes('rudra')) {
+  if (t.includes('shiva') || t.includes('dakshinamurti') || t.includes('veerabhadra') || t.includes('rudra') || t.includes('శివ') || t.includes('దక్షిణామూర్తి') || t.includes('వీరభద్ర') || t.includes('రుద్ర')) {
     return '/images/deities/card_shiva.jpg';
   }
-  if (t.includes('vishnu') || t.includes('venkates') || t.includes('vishwaksena')) {
+  if (t.includes('vishnu') || t.includes('venkates') || t.includes('vishwaksena') || t.includes('విష్ణు') || t.includes('వేంకట') || t.includes('వెంకట') || t.includes('విష్వక్సేన')) {
     return '/images/deities/card_vishnu.jpg';
   }
-  if (t.includes('lalita') || t.includes('lakshmi') || t.includes('saraswati') || t.includes('durga') || t.includes('vasavi') || t.includes('poorna') || t.includes('pushkala') || t.includes('gomatha')) {
+  if (t.includes('lalita') || t.includes('lakshmi') || t.includes('saraswati') || t.includes('durga') || t.includes('vasavi') || t.includes('poorna') || t.includes('pushkala') || t.includes('gomatha') || t.includes('దేవి') || t.includes('లక్ష్మి') || t.includes('గోమాత') || t.includes('దుర్గ') || t.includes('లలిత') || t.includes('సరస్వతి') || t.includes('పూర్ణ') || t.includes('పుష్కల')) {
     return '/images/deities/card_devi.jpg';
   }
   return `/images/pooja/pooja-card-${(idx % 6) + 1}-ref.png`;
@@ -962,19 +962,37 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
                 <div className="sa-type-card-body">
                   <div className="sa-type-card-chips">
                     <span className="sa-type-chip">
-                      <span>🔱</span>
                       <span>
-                        {item.title.includes('విఘ్నే') || item.title.includes('గణే') || item.title.includes('ఏకదంత')
+                        {item.title.includes('విఘ్నే') || item.title.includes('గణే') || item.title.includes('ఏకదంత') || item.title.includes('గణప') || item.title.includes('వినాయక')
+                          ? '🐘'
+                          : item.title.includes('సుబ్ర') || item.title.includes('మురుగన్')
+                          ? '🦚'
+                          : item.title.includes('అయ్య') || item.title.includes('శాస్త') || item.title.includes('హారతి')
+                          ? '🕉️'
+                          : item.title.includes('గోమాత') || item.title.includes('లక్ష్మి') || item.title.includes('దేవి') || item.title.includes('దుర్గ')
+                          ? '🌸'
+                          : item.title.includes('విష్ణు') || item.title.includes('వేంకటేశ్వర') || item.title.includes('విష్వక్సేన')
+                          ? '🪷'
+                          : item.title.includes('ఆంజనేయ') || item.title.includes('హనుమాన్')
+                          ? '🚩'
+                          : '🔱'}
+                      </span>
+                      <span>
+                        {item.title.includes('విఘ్నే') || item.title.includes('గణే') || item.title.includes('ఏకదంత') || item.title.includes('గణప') || item.title.includes('వినాయక')
                           ? 'Lord Ganesha'
-                          : item.title.includes('సుబ్ర')
+                          : item.title.includes('సుబ్ర') || item.title.includes('మురుగన్')
                           ? 'Lord Murugan'
-                          : item.title.includes('అయ్య') || item.title.includes('శాస్త')
+                          : item.title.includes('అయ్య') || item.title.includes('శాస్త') || item.title.includes('హారతి')
                           ? 'Lord Ayyappa'
+                          : item.title.includes('గోమాత') || item.title.includes('లక్ష్మి') || item.title.includes('దేవి') || item.title.includes('దుర్గ')
+                          ? 'Goddess Devi / Lakshmi'
                           : item.title.includes('శివ') || item.title.includes('దక్షిణామూర్తి') || item.title.includes('వీరభద్ర')
                           ? 'Lord Shiva'
                           : item.title.includes('విష్ణు') || item.title.includes('వేంకటేశ్వర') || item.title.includes('విష్వక్సేన')
                           ? 'Lord Vishnu'
-                          : 'Divine Deity'}
+                          : item.title.includes('ఆంజనేయ') || item.title.includes('హనుమాన్')
+                          ? 'Lord Hanuman'
+                          : 'Devotional'}
                       </span>
                     </span>
                   </div>
