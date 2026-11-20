@@ -833,8 +833,14 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
     if (matchKey.includes('sharanu') || matchKey === '3') {
       return DEFAULT_CHILDREN['3'] || DEFAULT_CHILDREN['sri-ayyappa-sharanu-gosha'];
     }
-    if (matchKey.includes('harathi') || matchKey === '11') {
-      return DEFAULT_CHILDREN['11'] || DEFAULT_CHILDREN['ayyappa-harathi'];
+    if (matchKey.includes('harathi') || matchKey === '11' || matchKey === '235') {
+      return DEFAULT_CHILDREN['235'] || DEFAULT_CHILDREN['11'] || DEFAULT_CHILDREN['ayyappa-harathi'];
+    }
+    if (matchKey.includes('gomatha') || matchKey === '20') {
+      return DEFAULT_CHILDREN['20'] || DEFAULT_CHILDREN['sri-gomatha-pooja'];
+    }
+    if (matchKey.includes('devi') || matchKey === '19') {
+      return DEFAULT_CHILDREN['19'] || DEFAULT_CHILDREN['sri-devi-pooja'];
     }
     if (matchKey.includes('satyanarayana') || matchKey === '25') {
       return DEFAULT_CHILDREN['25'] || DEFAULT_CHILDREN['sri-satyanarayana-swamy-vratham'];

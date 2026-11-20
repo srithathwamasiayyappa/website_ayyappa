@@ -222,6 +222,342 @@ export const DEFAULT_SCRIPTURES = {
 };
 
 export const DEFAULT_CHILDREN = {
+  "20": [
+    {
+      "id": "81",
+      "slug": "sri-gomatha-ashtottara-shatanamavali",
+      "title": "శ్రీ గోమాత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/pooja/pooja-card-5-ref.png"
+    },
+    {
+      "id": "81_2",
+      "slug": "sri-gomatha-prarthana",
+      "title": "శ్రీ గోమాత ప్రార్థన & పూజా విధానం",
+      "imageUrl": "/images/pooja/pooja-card-5-ref.png"
+    }
+  ],
+  "sri-gomatha-pooja": [
+    {
+      "id": "81",
+      "slug": "sri-gomatha-ashtottara-shatanamavali",
+      "title": "శ్రీ గోమాత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/pooja/pooja-card-5-ref.png"
+    },
+    {
+      "id": "81_2",
+      "slug": "sri-gomatha-prarthana",
+      "title": "శ్రీ గోమాత ప్రార్థన & పూజా విధానం",
+      "imageUrl": "/images/pooja/pooja-card-5-ref.png"
+    }
+  ],
+  "19": [
+    {
+      "id": "82",
+      "slug": "sri-lalitha-ashtottara-shatanamavali",
+      "title": "శ్రీ లలిత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "83",
+      "slug": "sri-lakshmi-ashtottara-shatanamavali",
+      "title": "శ్రీ లక్ష్మి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "84",
+      "slug": "sri-saraswathi-ashtottara-shatanamavali",
+      "title": "శ్రీ సరస్వతీ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "85",
+      "slug": "sri-durga-ashtottara-shatanamavali",
+      "title": "శ్రీ దుర్గ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    }
+  ],
+  "sri-devi-pooja": [
+    {
+      "id": "82",
+      "slug": "sri-lalitha-ashtottara-shatanamavali",
+      "title": "శ్రీ లలిత అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "83",
+      "slug": "sri-lakshmi-ashtottara-shatanamavali",
+      "title": "శ్రీ లక్ష్మి అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "84",
+      "slug": "sri-saraswathi-ashtottara-shatanamavali",
+      "title": "శ్రీ సరస్వతీ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    },
+    {
+      "id": "85",
+      "slug": "sri-durga-ashtottara-shatanamavali",
+      "title": "శ్రీ దుర్గ అష్టోత్తర శతనామావళిః",
+      "imageUrl": "/images/deities/card_devi.jpg"
+    }
+  ],
+  "235": [
+    {
+      "id": "90",
+      "slug": "harathi-paata-sri-sabarigirivasa",
+      "title": "హారతి పాట (శ్రీ శబరిగిరివాస)",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "91",
+      "slug": "ayyappa-mangala-harathi-shankaraya-shankaraya",
+      "title": "అయ్యప్ప మంగళ హారతి(శంకరాయ శంకరాయ)",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "92",
+      "slug": "om-mangalam",
+      "title": "ఓం మంగళం",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    }
+  ],
+  "mangala-harathi-vidhanam": [
+    {
+      "id": "90",
+      "slug": "harathi-paata-sri-sabarigirivasa",
+      "title": "హారతి పాట (శ్రీ శబరిగిరివాస)",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "91",
+      "slug": "ayyappa-mangala-harathi-shankaraya-shankaraya",
+      "title": "అయ్యప్ప మంగళ హారతి(శంకరాయ శంకరాయ)",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "92",
+      "slug": "om-mangalam",
+      "title": "ఓం మంగళం",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    }
+  ],
+  "231": [
+    {
+      "id": "61",
+      "slug": "sri-ayyappa-pooja",
+      "title": "శ్రీ అయ్యప్ప పూజ",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "62",
+      "slug": "irumudi",
+      "title": "ఇరుముడి",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "63",
+      "slug": "ayyappaswamy-stotram",
+      "title": "అయ్యప్పస్వామి స్తోత్రం",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "64",
+      "slug": "sri-sabarigireeshashtakam",
+      "title": "శ్రీ శబరిగిరీశాష్టకమ్",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "65",
+      "slug": "hariharathmajashtakam",
+      "title": "హరిహరాత్మజాష్టకం",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "66",
+      "slug": "sri-dharmasastha-bhujanga-stotram",
+      "title": "శ్రీ ధర్మశాస్తా భుజంగ స్తోత్రం",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "67",
+      "slug": "sri-dharmasastha-stotram-sringeri",
+      "title": "శ్రీ ధర్మశాస్తా స్తోత్రం (శృంగేరి జగద్గురు విరచితం)",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "68",
+      "slug": "sri-mahashastha-anugraha-kavacham",
+      "title": "శ్రీ మహాశాస్తా అనుగ్రహ కవచం",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "69",
+      "slug": "sri-dharmasastha-sahasranama-stotram",
+      "title": "శ్రీ ధర్మశాస్తా సహస్రనామ స్తోత్రమ్",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    }
+  ],
+  "sri-dharma-sastha-ayyappa-pooja": [
+    {
+      "id": "61",
+      "slug": "sri-ayyappa-pooja",
+      "title": "శ్రీ అయ్యప్ప పూజ",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "62",
+      "slug": "irumudi",
+      "title": "ఇరుముడి",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "63",
+      "slug": "ayyappaswamy-stotram",
+      "title": "అయ్యప్పస్వామి స్తోత్రం",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "64",
+      "slug": "sri-sabarigireeshashtakam",
+      "title": "శ్రీ శబరిగిరీశాష్టకమ్",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "65",
+      "slug": "hariharathmajashtakam",
+      "title": "హరిహరాత్మజాష్టకం",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "66",
+      "slug": "sri-dharmasastha-bhujanga-stotram",
+      "title": "శ్రీ ధర్మశాస్తా భుజంగ స్తోత్రం",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "67",
+      "slug": "sri-dharmasastha-stotram-sringeri",
+      "title": "శ్రీ ధర్మశాస్తా స్తోత్రం (శృంగేరి జగద్గురు విరచితం)",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "68",
+      "slug": "sri-mahashastha-anugraha-kavacham",
+      "title": "శ్రీ మహాశాస్తా అనుగ్రహ కవచం",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    },
+    {
+      "id": "69",
+      "slug": "sri-dharmasastha-sahasranama-stotram",
+      "title": "శ్రీ ధర్మశాస్తా సహస్రనామ స్తోత్రమ్",
+      "imageUrl": "/images/deities/card_ayyappa.jpg"
+    }
+  ],
+  "229": [
+    {
+      "id": "53",
+      "slug": "sri-vigneshwara-pooja",
+      "title": "శ్రీ విఘ్నేశ్వర పూజ",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "54",
+      "slug": "sri-ganesha-pancharatnam",
+      "title": "శ్రీ గణేశ పంచరత్నము",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "55",
+      "slug": "sri-ekadanta-stotram",
+      "title": "శ్రీ ఏకదంతస్తోత్రము",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "56",
+      "slug": "sri-sankashta-nashana-ganesha-stotram",
+      "title": "శ్రీ సంకష్టనాశన గణేశస్తోత్రము",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    }
+  ],
+  "sri-maha-ganapathi-pooja": [
+    {
+      "id": "53",
+      "slug": "sri-vigneshwara-pooja",
+      "title": "శ్రీ విఘ్నేశ్వర పూజ",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "54",
+      "slug": "sri-ganesha-pancharatnam",
+      "title": "శ్రీ గణేశ పంచరత్నము",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "55",
+      "slug": "sri-ekadanta-stotram",
+      "title": "శ్రీ ఏకదంతస్తోత్రము",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "56",
+      "slug": "sri-sankashta-nashana-ganesha-stotram",
+      "title": "శ్రీ సంకష్టనాశన గణేశస్తోత్రము",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    }
+  ],
+  "230": [
+    {
+      "id": "57",
+      "slug": "sri-subrahmanyeswara-pooja",
+      "title": "శ్రీ సుబ్రహ్మణ్యేశ్వర పూజ",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "58",
+      "slug": "sri-subrahmanya-ashtakam",
+      "title": "శ్రీ సుబ్రహ్మణ్య అష్టకము",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "59",
+      "slug": "sri-subrahmanya-pancharatnam",
+      "title": "శ్రీ సుబ్రహ్మణ్య పంచరత్నము",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "60",
+      "slug": "sri-subrahmanya-stotram",
+      "title": "శ్రీ సుబ్రహ్మణ్య స్తోత్రము",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    }
+  ],
+  "sri-subrahmanyeswara-pooja": [
+    {
+      "id": "57",
+      "slug": "sri-subrahmanyeswara-pooja",
+      "title": "శ్రీ సుబ్రహ్మణ్యేశ్వర పూజ",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "58",
+      "slug": "sri-subrahmanya-ashtakam",
+      "title": "శ్రీ సుబ్రహ్మణ్య అష్టకము",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "59",
+      "slug": "sri-subrahmanya-pancharatnam",
+      "title": "శ్రీ సుబ్రహ్మణ్య పంచరత్నము",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    },
+    {
+      "id": "60",
+      "slug": "sri-subrahmanya-stotram",
+      "title": "శ్రీ సుబ్రహ్మణ్య స్తోత్రము",
+      "imageUrl": "/images/deities/card_murugan.jpg"
+    }
+  ],
   "3": [
     {
       "id": "40",
