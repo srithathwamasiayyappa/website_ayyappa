@@ -18,27 +18,29 @@
 /* Devotional Watermark Background with Soft Opacity */
 .sa-categories-bg-watermark {
   position: absolute;
-  top: 50%;
+  top: 52%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(850px, 90vw);
-  max-height: 85vh;
+  width: min(720px, 85vw);
+  max-height: 75vh;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.12; /* Refined elegant devotional opacity */
+  opacity: 0.12;
   mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 90%);
+  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 90%);
   transition: opacity 0.3s ease;
 }
 
 .sa-categories-bg-watermark-img {
   width: 100%;
   height: auto;
-  max-height: 85vh;
+  max-height: 75vh;
   object-fit: contain;
-  filter: contrast(1.1) brightness(0.95);
+  filter: contrast(1.05) brightness(0.98);
 }
 
 /* 1. Corner Temple Bells & Arches matching Reference */
