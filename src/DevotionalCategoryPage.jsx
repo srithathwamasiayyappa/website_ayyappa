@@ -181,27 +181,13 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
   const [downloadModalItem, setDownloadModalItem] = useState(null);
 
   const handleCardClick = (item) => {
-    const s = (item.slug || '').toLowerCase();
-    const rawId = String(item.rawId || item.id || '');
-    const hasMultipleTypes = Boolean(
-      DEFAULT_CHILDREN[s] ||
-      DEFAULT_CHILDREN[rawId] ||
-      /ganapa|vignesh|subramanya|subrahmanya|ashtottara|ashtothram|satyanarayana|varalakshmi|kedareswara|vinayaka|dharma-sastha|ayyappa-pooja|harathi|gomatha|devi|bhajan|keerthan/.test(s)
+    navigate(
+      `/subcategory-detail?id=${encodeURIComponent(
+        item.slug
+      )}&category=${activeCategory}&god=${encodeURIComponent(
+        selectedDeity
+      )}`
     );
-
-    if (hasMultipleTypes) {
-      // Allow viewing the 4-5 Types list view (Image 2)
-      navigate(
-        `/subcategory-detail?id=${encodeURIComponent(
-          item.slug
-        )}&category=${activeCategory}&god=${encodeURIComponent(
-          selectedDeity
-        )}`
-      );
-    } else {
-      // No detailed page allowed! Show App Download Popup directly
-      setDownloadModalItem(item.title);
-    }
   };
 
   // Watch for direct category clicks that request deity selection

@@ -891,9 +891,7 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
     return parseScriptureContent(activeScriptureText);
   }, [activeScriptureText]);
 
-  const [downloadModalItem, setDownloadModalItem] = useState(() => {
-    return resolvedChildren.length === 0 ? data.title : null;
-  });
+  const [downloadModalItem, setDownloadModalItem] = useState(null);
 
   // ── VIEW 1: 4-CARDS PER ROW SUBCATEGORY TYPES GRID ──
   if (resolvedChildren.length > 0) {
