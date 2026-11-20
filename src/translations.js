@@ -1,5 +1,5 @@
 // Saranam Ayyappa Devotional Portal — Comprehensive UI Localization Resource
-// Supported Languages: Telugu (te - Default), Kannada (kn), English (en), Tamil (ta), Hindi (hi)
+// Supported Languages: English (en - Default), Telugu (te), Kannada (kn), Tamil (ta), Hindi (hi)
 
 export const translations = {
   te: {
@@ -793,12 +793,12 @@ export const translations = {
   },
 };
 
-export const DEFAULT_LANGUAGE = 'te';
+export const DEFAULT_LANGUAGE = 'en';
 
 export const SUPPORTED_LANGUAGES = [
-  { id: 1, code: 'te', name: 'Telugu', nativeName: 'తెలుగు', label: 'Telugu (తెలుగు)', isDefault: true },
-  { id: 2, code: 'kn', name: 'Kannada', nativeName: 'ಕನ್ನಡ', label: 'Kannada (ಕನ್ನಡ)', isDefault: false },
-  { id: 3, code: 'en', name: 'English', nativeName: 'English', label: 'English', isDefault: false },
+  { id: 1, code: 'en', name: 'English', nativeName: 'English', label: 'English', isDefault: true },
+  { id: 2, code: 'te', name: 'Telugu', nativeName: 'తెలుగు', label: 'Telugu (తెలుగు)', isDefault: false },
+  { id: 3, code: 'kn', name: 'Kannada', nativeName: 'ಕನ್ನಡ', label: 'Kannada (ಕನ್ನಡ)', isDefault: false },
   { id: 4, code: 'ta', name: 'Tamil', nativeName: 'தமிழ்', label: 'Tamil (தமிழ்)', isDefault: false },
   { id: 5, code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', label: 'Hindi (हिन्दी)', isDefault: false },
 ];

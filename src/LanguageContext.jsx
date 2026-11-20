@@ -6,15 +6,27 @@ import { translations, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from './translati
 const LanguageContext = createContext(null);
 
 export function LanguageProvider({ children }) {
-  // Read persisted language with valid fallback
+  // Read persisted language with valid fallback (defaulting to English)
   const getInitialLanguage = () => {
     try {
-      const stored = localStorage.getItem('sa-language');
-      if (!stored) return DEFAULT_LANGUAGE;
-      const parsed = JSON.parse(stored);
-      const code = typeof parsed === 'string' ? parsed : parsed?.code || DEFAULT_LANGUAGE;
-      const isValid = SUPPORTED_LANGUAGES.some((l) => l.code === code);
-      return isValid ? code : DEFAULT_LANGUAGE;
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get('lang');
+        if (urlLang && SUPPORTED_LANGUAGES.some((l) => l.code === urlLang.toLowerCase())) {
+          return urlLang.toLowerCase();
+        }
+      }
+      const isExplicit = localStorage.getItem('sa-language-explicit');
+      if (isExplicit === 'true') {
+        const stored = localStorage.getItem('sa-language');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          const code = typeof parsed === 'string' ? parsed : parsed?.code;
+          const isValid = SUPPORTED_LANGUAGES.some((l) => l.code === code);
+          if (isValid) return code;
+        }
+      }
+      return DEFAULT_LANGUAGE;
     } catch {
       return DEFAULT_LANGUAGE;
     }
@@ -101,6 +113,9 @@ export function LanguageProvider({ children }) {
     const normalized = String(code).toLowerCase().trim();
     const exists = SUPPORTED_LANGUAGES.some((l) => l.code === normalized);
     const target = exists ? normalized : DEFAULT_LANGUAGE;
+    try {
+      localStorage.setItem('sa-language-explicit', 'true');
+    } catch {}
     setCurrentLanguageState(target);
   }, []);
 

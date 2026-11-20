@@ -19,7 +19,7 @@ export const services = [
     { id: 'food', title: 'Food Donation Today', sub: 'Today’s annadanam locations', icon: 'Soup', url: '/food-donations', image: 'annadanam-meal' },
 ];
 export const deities = [['Lord Ayyappa', 'god-ayyappa'], ['Lord Venkateswara', 'god-venkateswara'], ['Lord Shiva', 'god-shiva'], ['Lord Ganesha', 'god-ganesha'], ['Goddess Durga', 'god-durga'], ['Lord Krishna', 'god-krishna']];
-export const languages = [['Telugu', 'తెలుగు', 'te'], ['Kannada', 'ಕನ್ನಡ', 'kn'], ['English', 'English', 'en'], ['Tamil', 'தமிழ்', 'ta'], ['Hindi', 'हिन्दी', 'hi']];
+export const languages = [['English', 'English', 'en'], ['Telugu', 'తెలుగు', 'te'], ['Kannada', 'ಕನ್ನಡ', 'kn'], ['Tamil', 'தமிழ்', 'ta'], ['Hindi', 'हिन्दी', 'hi']];
 export const poojas = [['Ayyappa Pooja Vidhanam', 'Complete step-by-step worship procedure', '25 minutes'], ['Mandala Pooja', 'Daily devotion during Mandala season', '40 minutes'], ['Makaravilakku Pooja', 'Special festival rituals and offerings', '35 minutes'], ['Vratham Vidhanam', 'Preparation, observance and practices', '15 minutes'], ['Ganapathi Pooja', 'Traditional prayers before auspicious beginnings', '20 minutes']];
 export const stotras = [['Sri Ayyappa Ashtothram', '108 sacred names'], ['Sri Ayyappa Sahasranamam', '1000 divine names'], ['Sri Ayyappa Stotram', 'Powerful hymn'], ['Harivarasanam', 'Sacred lullaby of Ayyappa'], ['Vishnu Sahasranamam', 'Traditional Vishnu stotra'], ['Lalitha Sahasranamam', 'Devotional hymn to Devi']];
 export const tracks = [['Ayyappa Bhajan — Swamiye Saranam', 'Ayyappa Bhajans', '04:38'], ['Harathi — Sri Ayyappa Swamy', 'Harathis', '05:12'], ['Manasa Smarami — Devotional Song', 'Songs', '03:54'], ['Ayyappa Suprabhatam', 'Bhajans', '07:18'], ['Harivarasanam', 'Songs', '06:10']];

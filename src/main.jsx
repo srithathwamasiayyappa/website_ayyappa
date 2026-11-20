@@ -1869,7 +1869,7 @@ function ProfileForm({ profile, setProfile, onSave, action }) {
     async function fetchMasterOptions() {
       try {
         setLoadingOptions(true);
-        const res = await fetch(`${API_BASE_URL}/master/profile-options?lang=${profile.preferredLang || 'te'}`);
+        const res = await fetch(`${API_BASE_URL}/master/profile-options?lang=${profile.preferredLang || language || 'en'}`);
         if (res.ok) {
           const json = await res.json();
           if (json.data && isMounted) {
