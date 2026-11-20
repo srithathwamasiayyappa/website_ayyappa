@@ -460,7 +460,7 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
           <span className="sep">/</span>
           <Link to="/categories">DEVOTIONAL SERVICES</Link>
           <span className="sep">/</span>
-          <Link to={`/subcategories?category=${data.category}&god=${data.deityId}`}>
+          <Link to={`/subcategories?category=${data.category}`}>
             {data.deityName.toUpperCase()}
           </Link>
           <span className="sep">/</span>
