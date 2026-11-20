@@ -3,8 +3,64 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as L from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import { API_BASE_URL } from './apiConfig';
+import { DEFAULT_SCRIPTURES } from './defaultScriptures';
 import './devotionalCleanList.css';
 import './subcategoryDetail.css';
+
+// Scripture Content Parser to faithfully format scripture text matching reference design
+export function parseScriptureContent(fullText) {
+  if (!fullText) return { instruction: '', invocations: [], sections: [] };
+
+  const paragraphs = fullText
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+
+  let instruction = '';
+  const invocations = [];
+  const sections = [];
+  let startIdx = 0;
+
+  // 1. Extract introductory instruction note (సూచన)
+  if (paragraphs.length > 0 && (paragraphs[0].includes('సూచన') || paragraphs[0].length > 140)) {
+    instruction = paragraphs[0].replace(/^సూచన\s*:\s*/, '').trim();
+    startIdx = 1;
+  }
+
+  // 2. Extract central invocations (శ్రీ మహాగణాధిపతయే నమః / శ్రీ గురుభ్యోనమః హరిః ఓం)
+  if (
+    paragraphs[startIdx] &&
+    (paragraphs[startIdx].includes('మహాగణాధిపతయే') || paragraphs[startIdx].includes('గురుభ్యోనమః'))
+  ) {
+    const invLines = paragraphs[startIdx].split('\n').map((l) => l.trim()).filter(Boolean);
+    invocations.push(...invLines);
+    startIdx++;
+  }
+
+  for (let i = startIdx; i < paragraphs.length; i++) {
+    const p = paragraphs[i];
+    if (/^[.\-—_·•\s]{5,}$/.test(p)) continue;
+
+    // Detect section headings vs verses
+    const isHeading =
+      p.length < 55 && !p.includes('|') && !p.includes('||') && !p.includes('\n');
+
+    // Traditional headings for primary slokas matching reference
+    if (p.includes('సరస్వతీ నమస్తుభ్యం') && !paragraphs[i - 1]?.includes('సరస్వతీ')) {
+      sections.push({ type: 'heading', text: 'శ్రీ సరస్వతీ శ్లోకం' });
+    } else if (p.includes('గురుర్బ్రహ్మ') && !paragraphs[i - 1]?.includes('గురు')) {
+      sections.push({ type: 'heading', text: 'గురు శ్లోకం' });
+    }
+
+    if (isHeading) {
+      sections.push({ type: 'heading', text: p.replace(/^[\[\(]|[\]\)]$/g, '').trim() });
+    } else {
+      sections.push({ type: 'verse', text: p });
+    }
+  }
+
+  return { instruction, invocations, sections };
+}
 
 const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
   const Component = L[name] || L.Sparkles;
@@ -667,12 +723,24 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
       ? apiDetail.benefits
       : fallbackData.benefits;
 
+    const scriptureText =
+      apiDetail.fullScriptureText ||
+      apiDetail.sacredText ||
+      DEFAULT_SCRIPTURES[subcategoryId] ||
+      DEFAULT_SCRIPTURES[fallbackData.id] ||
+      DEFAULT_SCRIPTURES['daily-pooja'] ||
+      DEFAULT_SCRIPTURES['nithyapooja'] ||
+      apiDetail.description ||
+      fallbackData.overview;
+
     return {
       ...fallbackData,
       title: apiDetail.title || fallbackData.title,
       titleTelugu: apiDetail.titleTelugu || apiDetail.title || fallbackData.titleTelugu,
       subtitle: apiDetail.subtitle || apiDetail.description || fallbackData.subtitle,
       overview: apiDetail.overview || apiDetail.introduction || apiDetail.description || fallbackData.overview,
+      fullScriptureText: scriptureText,
+      instructionNote: apiDetail.instructionNote || '',
       heroImage: apiDetail.heroImage || apiDetail.imageUrl || fallbackData.heroImage,
       deityName: apiDetail.deityName || fallbackData.deityName,
       deityTelugu: apiDetail.deityTelugu || fallbackData.deityTelugu,
@@ -682,238 +750,164 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
       procedure: procedureSteps,
       materials: materialsList,
       mantras: formattedMantras.length > 0 ? formattedMantras : fallbackData.mantras,
-      benefits: benefitsList,
-      audioTrack: apiDetail.audioTrack || fallbackData.audioTrack
+      benefits: benefitsList
     };
-  }, [fallbackData, apiDetail]);
+  }, [fallbackData, apiDetail, subcategoryId]);
 
-  const [activeTab, setActiveTab] = useState('overview');
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [copiedMantra, setCopiedMantra] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [fontSize, setFontSize] = useState(17);
+  const [showSamagri, setShowSamagri] = useState(false);
 
-  // Check bookmark status
-  useEffect(() => {
-    try {
-      const favs = JSON.parse(localStorage.getItem('sa-fav-subcategories') || '[]');
-      setIsBookmarked(favs.includes(data.id));
-    } catch {}
-  }, [data.id]);
-
-  const toggleBookmark = () => {
-    try {
-      const favs = JSON.parse(localStorage.getItem('sa-fav-subcategories') || '[]');
-      let updated;
-      if (favs.includes(data.id)) {
-        updated = favs.filter((id) => id !== data.id);
-        setIsBookmarked(false);
-      } else {
-        updated = [...favs, data.id];
-        setIsBookmarked(true);
-      }
-      localStorage.setItem('sa-fav-subcategories', JSON.stringify(updated));
-    } catch {}
-  };
-
-  const copyMantraText = (text) => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text);
-      setCopiedMantra(true);
-      setTimeout(() => setCopiedMantra(false), 2200);
-    }
-  };
+  const parsedScripture = useMemo(() => {
+    return parseScriptureContent(data.fullScriptureText);
+  }, [data.fullScriptureText]);
 
   return (
-    <div className="sa-subcat-detail-page">
-      {/* Background Watermark */}
-      <div className="sa-subcat-watermark" aria-hidden="true">
-        <img src="/images/ayyappa-tiger-gold-bg.png" alt="" />
+    <div className="sa-subcat-detail-page sa-scripture-view-mode">
+      {/* 1. Saffron Sticky Top Bar (Matching Reference Screenshot) */}
+      <div className="sa-scripture-top-bar">
+        <button
+          type="button"
+          className="scripture-back-btn"
+          onClick={() => navigate(-1)}
+          aria-label="Back to Subcategories"
+          title="Back"
+        >
+          <Icon name="ArrowLeft" size={24} />
+        </button>
+
+        <h1 className="scripture-top-title">
+          {currentLanguage === 'te' ? data.titleTelugu : data.title}
+        </h1>
+
+        <div className="scripture-top-actions">
+          <button
+            type="button"
+            className="scripture-font-btn"
+            onClick={() => setFontSize((s) => Math.max(14, s - 1))}
+            title="Decrease font size"
+            aria-label="Decrease font size"
+          >
+            A-
+          </button>
+          <button
+            type="button"
+            className="scripture-font-btn"
+            onClick={() => setFontSize((s) => Math.min(26, s + 1))}
+            title="Increase font size"
+            aria-label="Increase font size"
+          >
+            A+
+          </button>
+        </div>
       </div>
 
-      <div className="sa-subcat-container">
-        {/* Navigation Breadcrumb */}
-        <nav className="sa-subcat-nav">
-          <Link to="/home">HOME</Link>
-          <span className="sep">/</span>
-          <Link to="/categories">DEVOTIONAL SERVICES</Link>
-          <span className="sep">/</span>
-          <Link to={`/subcategories?category=${data.category}`}>
-            {data.deityName.toUpperCase()}
-          </Link>
-          <span className="sep">/</span>
-          <span className="curr">{data.title.toUpperCase()}</span>
-        </nav>
-
-        {/* Hero Banner Header */}
-        <header className="sa-subcat-hero">
-          <div className="sa-subcat-hero-left">
-            <div className="sa-subcat-badge-row">
-              <span className={`sa-subcat-pill ${data.badgeClass || 'badge-festival'}`}>
-                {data.badge}
-              </span>
-              <span className="sa-subcat-pill-deity">
-                <Icon name="Sparkles" size={13} />
-                <span>{currentLanguage === 'te' ? data.deityTelugu : data.deityName}</span>
-              </span>
-            </div>
-
-            <h1 className="sa-subcat-title">{currentLanguage === 'te' ? data.titleTelugu : data.title}</h1>
-            <p className="sa-subcat-subtitle">{data.subtitle}</p>
-
-            <div className="sa-subcat-meta-strip">
-              <div className="meta-item">
-                <Icon name="Clock" size={15} />
-                <span>Duration: <strong>{data.duration}</strong></span>
-              </div>
-              <div className="meta-item">
-                <Icon name="Users" size={15} />
-                <span>Audience: <strong>{data.difficulty}</strong></span>
-              </div>
-              <div className="meta-item">
-                <Icon name="Calendar" size={15} />
-                <span>Auspicious Timings: <strong>{data.bestTime}</strong></span>
-              </div>
-            </div>
-
-            {/* Action Bar */}
-            <div className="sa-subcat-actions">
-              <button
-                type="button"
-                className={`sa-btn-fav ${isBookmarked ? 'active' : ''}`}
-                onClick={toggleBookmark}
-              >
-                <Icon name={isBookmarked ? 'BookmarkCheck' : 'Bookmark'} size={16} />
-                <span>{isBookmarked ? 'Saved to Bookmarks' : 'Bookmark Guide'}</span>
-              </button>
-
-              <button
-                type="button"
-                className="sa-btn-print"
-                onClick={() => window.print()}
-              >
-                <Icon name="Printer" size={16} />
-                <span>Print Guide</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="sa-subcat-hero-right">
-            <div className="hero-img-card">
-              <img src={data.heroImage} alt={data.title} />
-              <div className="hero-img-tag">Sacred Vidhanam Reference</div>
-            </div>
-          </div>
-        </header>
-
-        {/* Devotional Audio Chants Player Bar */}
-        {data.audioTrack && (
-          <div className="sa-subcat-audio-bar">
-            <div className="audio-left">
-              <button
-                type="button"
-                className="audio-play-btn"
-                onClick={() => setIsPlaying(!isPlaying)}
-                aria-label={isPlaying ? 'Pause Chants' : 'Play Chants'}
-              >
-                <Icon name={isPlaying ? 'Pause' : 'Play'} size={20} />
-              </button>
-              <div className="audio-info">
-                <span className="audio-title">{data.audioTrack.title}</span>
-                <span className="audio-sub">Ragam: {data.audioTrack.ragam} • Duration: {data.audioTrack.duration}</span>
-              </div>
-            </div>
-
-            <div className="audio-right">
-              <span className="audio-status">{isPlaying ? 'Streaming Devotional Audio...' : 'Click to Listen Chants'}</span>
-              <Icon name="Volume2" size={18} className="audio-vol-icon" />
-            </div>
-          </div>
-        )}
-
-        {/* Main Content Layout with Interactive Tabs */}
-        <div className="sa-subcat-tabs-row">
-          {[
-            { id: 'overview', label: 'Overview', icon: 'BookOpen' },
-            { id: 'procedure', label: 'Step-by-Step Vidhanam', icon: 'ListOrdered' },
-            { id: 'materials', label: 'Sacred Materials (Samagri)', icon: 'Layers' },
-            { id: 'mantras', label: 'Mantras & Chants', icon: 'Sparkles' },
-            { id: 'benefits', label: 'Benefits & Blessings', icon: 'Heart' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              className={`sa-subcat-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
+      {/* 2. Scripture Parchment Sheet (Exact match to reference layout) */}
+      <div className="sa-scripture-reader-wrap">
+        <article className="sa-scripture-parchment-sheet">
+          {/* Temple Crown Arch Ornament */}
+          <div className="scripture-crown-ornament" aria-hidden="true">
+            <svg
+              className="scripture-crown-svg"
+              viewBox="0 0 160 36"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <Icon name={tab.icon} size={16} />
-              <span>{tab.label}</span>
+              <path
+                d="M80 2C70 14 55 18 35 18C15 18 0 28 0 28H160C160 28 145 18 125 18C105 18 90 14 80 2Z"
+                fill="#f59e0b"
+                opacity="0.3"
+              />
+              <path
+                d="M80 6L84 16H94L86 22L89 32L80 26L71 32L74 22L66 16H76L80 6Z"
+                fill="#d97706"
+              />
+              <circle cx="80" cy="4" r="3" fill="#b45309" />
+              <circle cx="40" cy="24" r="2.5" fill="#f59e0b" />
+              <circle cx="120" cy="24" r="2.5" fill="#f59e0b" />
+            </svg>
+          </div>
+
+          {/* Introductory Instruction Box (సూచన) */}
+          {parsedScripture.instruction && (
+            <div className="scripture-instruction-box" style={{ fontSize: `${fontSize - 1.5}px` }}>
+              <p>{parsedScripture.instruction}</p>
+            </div>
+          )}
+
+          {/* Central Invocations */}
+          {parsedScripture.invocations.length > 0 && (
+            <div className="scripture-invocations-box">
+              {parsedScripture.invocations.map((inv, idx) => (
+                <div
+                  key={idx}
+                  className="scripture-invocation-line"
+                  style={{ fontSize: `${fontSize + 1.5}px` }}
+                >
+                  {inv}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Sequential Slokas, Section Headings & Dotted Dividers */}
+          <div className="scripture-content-flow">
+            {parsedScripture.sections.map((sec, idx) => {
+              if (sec.type === 'heading') {
+                return (
+                  <React.Fragment key={idx}>
+                    <div className="scripture-dotted-sep" aria-hidden="true">
+                      ··················································
+                    </div>
+                    <h2
+                      className="scripture-sec-heading"
+                      style={{ fontSize: `${fontSize + 0.5}px` }}
+                    >
+                      {sec.text}
+                    </h2>
+                  </React.Fragment>
+                );
+              }
+              return (
+                <p
+                  key={idx}
+                  className="scripture-sloka-paragraph"
+                  style={{ fontSize: `${fontSize}px` }}
+                >
+                  {sec.text}
+                </p>
+              );
+            })}
+          </div>
+
+          {/* Bottom Actions: Samagri Checklist Toggle & Back to Subcategories */}
+          <div className="sa-scripture-bottom-tabs">
+            {data.materials && data.materials.length > 0 && (
+              <button
+                type="button"
+                className={`bottom-tab-pill ${showSamagri ? 'active' : ''}`}
+                onClick={() => setShowSamagri(!showSamagri)}
+              >
+                <Icon name="Layers" size={16} />
+                <span>{showSamagri ? 'Hide Samagri Checklist' : 'View Pooja Samagri Checklist'}</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              className="bottom-tab-pill"
+              onClick={() => navigate(-1)}
+            >
+              <Icon name="ArrowLeft" size={16} />
+              <span>Back to Subcategories</span>
             </button>
-          ))}
-        </div>
+          </div>
 
-        {/* Tab Panel Content */}
-        <div className="sa-subcat-content-card">
-          {/* TAB 1: OVERVIEW */}
-          {activeTab === 'overview' && (
-            <div className="tab-pane">
-              <h2 className="pane-heading">Divine Purpose & Significance</h2>
-              <p className="pane-lead">{data.overview}</p>
-
-              <div className="overview-highlights-grid">
-                <div className="highlight-box">
-                  <span className="box-icon">🕉️</span>
-                  <h3>Presiding Deity</h3>
-                  <p>{data.deityName} ({data.deityTelugu})</p>
-                </div>
-                <div className="highlight-box">
-                  <span className="box-icon">⏳</span>
-                  <h3>Estimated Duration</h3>
-                  <p>{data.duration} for complete rituals</p>
-                </div>
-                <div className="highlight-box">
-                  <span className="box-icon">☀️</span>
-                  <h3>Optimal Muhurtham</h3>
-                  <p>{data.bestTime}</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 2: STEP-BY-STEP PROCEDURE (VIDHANAM) */}
-          {activeTab === 'procedure' && (
-            <div className="tab-pane">
-              <h2 className="pane-heading">Sacred Step-by-Step Worship Vidhanam</h2>
-              <p className="pane-desc">Follow these authentic traditional steps in reverence with an unobstructed mind.</p>
-
-              <div className="procedure-steps-list">
-                {data.procedure.map((step) => (
-                  <div key={step.step} className="procedure-step-card">
-                    <div className="step-num-col">
-                      <div className="step-badge">{step.step}</div>
-                      <div className="step-connector" />
-                    </div>
-                    <div className="step-detail-col">
-                      <h3 className="step-title">{step.title}</h3>
-                      <p className="step-desc">{step.desc}</p>
-                      {step.mantra && (
-                        <div className="step-mantra-box">
-                          <span className="mantra-label">Chant during this step:</span>
-                          <p className="mantra-text">{step.mantra}</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* TAB 3: MATERIALS (SAMAGRI) */}
-          {activeTab === 'materials' && (
-            <div className="tab-pane">
-              <h2 className="pane-heading">Required Sacred Pooja Samagri Checklist</h2>
-              <p className="pane-desc">Assemble these sacred items before commencing the holy rituals.</p>
-
+          {/* Expandable Samagri Drawer */}
+          {showSamagri && data.materials && (
+            <div className="scripture-samagri-drawer" style={{ marginTop: '24px' }}>
+              <h3 className="pane-heading" style={{ textAlign: 'center', marginBottom: '16px' }}>
+                Required Sacred Pooja Samagri Checklist
+              </h3>
               <div className="samagri-grid">
                 {data.materials.map((item, idx) => (
                   <div key={idx} className="samagri-item-card">
@@ -922,90 +916,16 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
                     </div>
                     <div className="samagri-info">
                       <span className="samagri-name">{item.name}</span>
-                      <span className="samagri-qty">Quantity: <strong>{item.qty}</strong></span>
+                      <span className="samagri-qty">
+                        Quantity: <strong>{item.qty}</strong>
+                      </span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           )}
-
-          {/* TAB 4: MANTRAS & CHANTS */}
-          {activeTab === 'mantras' && (
-            <div className="tab-pane">
-              <div className="pane-header-with-action">
-                <div>
-                  <h2 className="pane-heading">Sacred Mantras & Divine Hymns</h2>
-                  <p className="pane-desc">Recite with purity, correct pronunciation, and contemplation of meaning.</p>
-                </div>
-                {copiedMantra && (
-                  <span className="copy-toast">✓ Mantra copied to clipboard!</span>
-                )}
-              </div>
-
-              <div className="mantras-stack">
-                {data.mantras.map((m, idx) => (
-                  <div key={idx} className="mantra-card">
-                    <div className="mantra-header">
-                      <h3 className="mantra-title">{m.title}</h3>
-                      <button
-                        type="button"
-                        className="btn-copy-mantra"
-                        onClick={() => copyMantraText(`${m.script}\n\n${m.transliteration}\n\nMeaning: ${m.meaning}`)}
-                      >
-                        <Icon name="Copy" size={14} />
-                        <span>Copy Mantra</span>
-                      </button>
-                    </div>
-
-                    <div className="mantra-script-box">
-                      <p className="mantra-sacred-script">{m.script}</p>
-                    </div>
-
-                    <div className="mantra-translit-box">
-                      <span className="translit-label">Transliteration:</span>
-                      <p className="translit-text">{m.transliteration}</p>
-                    </div>
-
-                    <div className="mantra-meaning-box">
-                      <span className="meaning-label">Devotional Meaning:</span>
-                      <p className="meaning-text">{m.meaning}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* TAB 5: BENEFITS */}
-          {activeTab === 'benefits' && (
-            <div className="tab-pane">
-              <h2 className="pane-heading">Divine Fruits & Spiritual Blessings (Phalasruti)</h2>
-              <p className="pane-desc">The traditional spiritual and worldly rewards bestowed upon sincere devotees.</p>
-
-              <div className="benefits-list">
-                {data.benefits.map((b, idx) => (
-                  <div key={idx} className="benefit-row">
-                    <span className="benefit-gold-bullet">◆</span>
-                    <p className="benefit-text">{b}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Back Link Footer */}
-        <div className="sa-subcat-footer-nav">
-          <button
-            type="button"
-            className="sa-btn-back-cat"
-            onClick={() => navigate(-1)}
-          >
-            <Icon name="ArrowLeft" size={16} />
-            <span>Back to Subcategories</span>
-          </button>
-        </div>
+        </article>
       </div>
     </div>
   );
