@@ -784,6 +784,24 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
     ) {
       return DEFAULT_CHILDREN['ganapathi-pooja'];
     }
+    if (matchKey.includes('sharanu') || matchKey === '3') {
+      return DEFAULT_CHILDREN['3'] || DEFAULT_CHILDREN['sri-ayyappa-sharanu-gosha'];
+    }
+    if (matchKey.includes('harathi') || matchKey === '11') {
+      return DEFAULT_CHILDREN['11'] || DEFAULT_CHILDREN['ayyappa-harathi'];
+    }
+    if (matchKey.includes('satyanarayana') || matchKey === '25') {
+      return DEFAULT_CHILDREN['25'] || DEFAULT_CHILDREN['sri-satyanarayana-swamy-vratham'];
+    }
+    if (matchKey.includes('varalakshmi') || matchKey === '26') {
+      return DEFAULT_CHILDREN['26'] || DEFAULT_CHILDREN['varalakshmi-vratham'];
+    }
+    if (matchKey.includes('vinayaka-vratha') || matchKey === '27') {
+      return DEFAULT_CHILDREN['27'] || DEFAULT_CHILDREN['vinayaka-vratha-kalpam'];
+    }
+    if (matchKey.includes('kedareswara') || matchKey === '28') {
+      return DEFAULT_CHILDREN['28'] || DEFAULT_CHILDREN['kedareswara-vratham'];
+    }
     return [];
   }, [apiDetail, subcategoryId, fallbackData.id]);
 
