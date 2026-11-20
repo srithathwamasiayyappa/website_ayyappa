@@ -543,7 +543,7 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
           </div>
         </section>
 
-        {/* ── 5. EXACT THREE-COLUMN DEVOTIONAL CONTENT GRID ── */}
+        {/* ── 5. FOUR-COLUMN DEVOTIONAL CONTENT GRID ── */}
         <section className="sa-dev-grid-section" aria-label="Devotional Items">
           {loading && (
             <div className="sa-dev-loading-grid">

@@ -179,9 +179,9 @@
 /* ── MAIN CONTENT CONTAINER (PADDED 1200PX MAX WIDTH) ── */
 .sa-dev-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1360px;
   margin: 0 auto;
-  padding: 0 20px 40px;
+  padding: 0 24px 40px;
 }
 
 /* ── 2. SELECTED DEITY BAR (ROUNDED HORIZONTAL CREAM PANEL) ── */
@@ -498,15 +498,15 @@
   color: #f6dc92;
 }
 
-/* ── 5. EXACT THREE-COLUMN DEVOTIONAL CONTENT GRID ── */
+/* ── 5. FOUR-COLUMN DEVOTIONAL CONTENT GRID ── */
 .sa-dev-grid-section {
   width: 100%;
 }
 
 .sa-dev-cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 /* Content Card */
@@ -554,7 +554,7 @@
 
 /* Card Body */
 .sa-dev-card-body {
-  padding: 18px 20px 16px;
+  padding: 14px 16px 14px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -562,7 +562,7 @@
 
 .sa-dev-card-title {
   font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #113824;
   line-height: 1.35;
@@ -816,10 +816,17 @@
    RESPONSIVE DESIGN (TABLET & MOBILE)
    ========================================================================== */
 
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
+  .sa-dev-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+}
+
+@media (max-width: 900px) {
   .sa-dev-cards-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    gap: 16px;
   }
 }
 
