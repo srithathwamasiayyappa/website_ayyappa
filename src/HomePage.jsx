@@ -601,9 +601,17 @@ function ServicesSection() {
                 const displayTitle = loc?.title || service.title;
                 const displaySub = loc?.sub || service.sub;
 
+                const rawUrl = service.url || '/subcategories';
+                const isDevotionalCategory = ['pooja', 'ashtothram', 'stotras', 'slokas', 'bhajans', 'songs', 'harathis'].includes(sKey) ||
+                  ['/subcategories', '/stotras', '/slokas', '/songs', '/pooja'].some((p) => rawUrl.startsWith(p));
+                const targetUrl = isDevotionalCategory
+                  ? (rawUrl.includes('?') ? `${rawUrl}&selectDeity=true` : `${rawUrl}?selectDeity=true`)
+                  : rawUrl;
+
                 return (
                   <Link
-                    to={service.url}
+                    to={targetUrl}
+                    state={isDevotionalCategory ? { openDeityModal: true } : undefined}
                     key={service.id || service.serviceId}
                     className={`sa-service-card-item ${isFoodCard ? "sa-service-card-highlight" : ""}`}
                     aria-label={`${displayTitle} - ${displaySub}`}

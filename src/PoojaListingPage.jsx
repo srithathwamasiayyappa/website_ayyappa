@@ -790,19 +790,35 @@ export default function PoojaListingPage({ category: categoryProp }) {
     return () => { isCancelled = true; };
   }, [activeCategory, currentLanguage]);
 
-  // Auto-open modal on first visit if deity preference has not been set yet
-  const [isDeityModalOpen, setIsDeityModalOpen] = useState(() => {
+  // Determine if popup should open:
+  // 1. If URL has selectDeity=true OR selectDeity=1
+  // 2. OR if location.state?.openDeityModal is true
+  // 3. OR if user has not chosen/dismissed deity in this category during this session
+  const checkShouldOpenModal = () => {
     try {
-      const stored = localStorage.getItem('sa_selected_deity') || localStorage.getItem('selected_deity');
-      const fromUrl = new URLSearchParams(location.search).get('god');
-      if (fromUrl || stored) {
-        return false;
+      const params = new URLSearchParams(location.search);
+      if (params.get('selectDeity') === 'true' || params.get('selectDeity') === '1' || location.state?.openDeityModal) {
+        return true;
       }
-      return true; // Auto open on first visit!
-    } catch {
+      const sessionSeen = sessionStorage.getItem(`sa_deity_modal_seen_${activeCategory}`);
+      if (!sessionSeen) {
+        return true;
+      }
       return false;
+    } catch {
+      return true;
     }
-  });
+  };
+
+  const [isDeityModalOpen, setIsDeityModalOpen] = useState(checkShouldOpenModal);
+
+  // Watch for navigation changes (e.g. user clicks on category in navbar, home, or categories page)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('selectDeity') === 'true' || params.get('selectDeity') === '1' || location.state?.openDeityModal) {
+      setIsDeityModalOpen(true);
+    }
+  }, [location.pathname, location.search, location.state, activeCategory]);
 
   // Read deity from URL search parameter (default to saved deity or 'all')
   const [selectedGod, setSelectedGod] = useState(() => {
@@ -829,7 +845,15 @@ export default function PoojaListingPage({ category: categoryProp }) {
       localStorage.setItem('sa_selected_deity', godId);
       localStorage.setItem('sa-selected-god', godId);
       localStorage.setItem('selected_deity', godId);
+      sessionStorage.setItem(`sa_deity_modal_seen_${activeCategory}`, 'true');
     } catch {}
+  };
+
+  const handleCloseModal = () => {
+    try {
+      sessionStorage.setItem(`sa_deity_modal_seen_${activeCategory}`, 'true');
+    } catch {}
+    setIsDeityModalOpen(false);
   };
 
   const [search, setSearch] = useState('');
@@ -1162,11 +1186,12 @@ export default function PoojaListingPage({ category: categoryProp }) {
       {/* ── GOD / GODDESS SELECTION POPUP MODAL ── */}
       <DeitySelectionModal
         isOpen={isDeityModalOpen}
-        onClose={() => setIsDeityModalOpen(false)}
+        onClose={handleCloseModal}
         currentDeityId={selectedGod}
         targetPageTitle={config.title}
         onSelectDeity={(deity) => {
           handleSelectGod(deity.id);
+          handleCloseModal();
         }}
       />
     </main>

@@ -6,12 +6,12 @@ export const nav = [
   ['Panchangam', '/panchangam']
 ];
 export const services = [
-    { id: 'pooja', title: 'Pooja Vidhanam', sub: 'Step-by-step sacred rituals', icon: 'Flame', url: '/subcategories', image: 'pooja-padi' },
-    { id: 'ashtothram', title: 'Astothrams', sub: '108 divine names', icon: 'Flower2', url: '/stotras', image: 'deity' },
-    { id: 'stotras', title: 'Stotras', sub: 'Powerful devotional hymns', icon: 'BookOpenText', url: '/stotras', image: 'deity' },
-    { id: 'slokas', title: 'Slokas', sub: 'Sacred verses & meanings', icon: 'ScrollText', url: '/slokas', image: 'pooja-altar' },
-    { id: 'bhajans', title: 'Bhajans', sub: 'Devotional songs', icon: 'Music', url: '/songs', image: 'music-art' },
-    { id: 'harathis', title: 'Harathis & Songs', sub: 'Mangala harathi & kirtans', icon: 'Lamp', url: '/songs', image: 'music-art' },
+    { id: 'pooja', title: 'Pooja Vidhanam', sub: 'Step-by-step sacred rituals', icon: 'Flame', url: '/subcategories?selectDeity=true', image: 'pooja-padi' },
+    { id: 'ashtothram', title: 'Astothrams', sub: '108 divine names', icon: 'Flower2', url: '/stotras?selectDeity=true', image: 'deity' },
+    { id: 'stotras', title: 'Stotras', sub: 'Powerful devotional hymns', icon: 'BookOpenText', url: '/stotras?selectDeity=true', image: 'deity' },
+    { id: 'slokas', title: 'Slokas', sub: 'Sacred verses & meanings', icon: 'ScrollText', url: '/slokas?selectDeity=true', image: 'pooja-altar' },
+    { id: 'bhajans', title: 'Bhajans', sub: 'Devotional songs', icon: 'Music', url: '/songs?selectDeity=true', image: 'music-art' },
+    { id: 'harathis', title: 'Harathis & Songs', sub: 'Mangala harathi & kirtans', icon: 'Lamp', url: '/songs?selectDeity=true', image: 'music-art' },
     { id: 'live', title: 'Live Streams', sub: 'Temple darshan & events', icon: 'Radio', url: '/live-streams', image: 'live-temple' },
     { id: 'panchangam', title: 'Panchangam', sub: 'Tithi, muhurtham & festivals', icon: 'CalendarDays', url: '/panchangam', image: 'temple-steps' },
     { id: 'temples', title: 'Temples in India', sub: 'Explore sacred places', icon: 'Landmark', url: '/temples', image: 'temple-hero' },
