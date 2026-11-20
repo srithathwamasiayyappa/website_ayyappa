@@ -222,6 +222,86 @@ export const DEFAULT_SCRIPTURES = {
 };
 
 export const DEFAULT_CHILDREN = {
+  "93": [
+    {
+      "id": "93_1",
+      "slug": "saranam-ganesha",
+      "title": "శరణం గణేశ",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "93_2",
+      "slug": "chanda-pranchadude-pindibomma-athade",
+      "title": "చండా ప్రంచడుడే పిండిబొమ్మ అతడే",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "93_3",
+      "slug": "kannimoola-ganapathivayya",
+      "title": "కన్నిమూల గణపతివయ్యా",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    }
+  ],
+  "ganapathi-bhajanalu": [
+    {
+      "id": "93_1",
+      "slug": "saranam-ganesha",
+      "title": "శరణం గణేశ",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "93_2",
+      "slug": "chanda-pranchadude-pindibomma-athade",
+      "title": "చండా ప్రంచడుడే పిండిబొమ్మ అతడే",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "93_3",
+      "slug": "kannimoola-ganapathivayya",
+      "title": "కన్నిమూల గణపతివయ్యా",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    }
+  ],
+  "249": [
+    {
+      "id": "93_1",
+      "slug": "saranam-ganesha",
+      "title": "శరణం గణేశ",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "93_2",
+      "slug": "chanda-pranchadude-pindibomma-athade",
+      "title": "చండా ప్రంచడుడే పిండిబొమ్మ అతడే",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "93_3",
+      "slug": "kannimoola-ganapathivayya",
+      "title": "కన్నిమూల గణపతివయ్యా",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    }
+  ],
+  "vinayaka-bhajana-keerthanalu": [
+    {
+      "id": "93_1",
+      "slug": "saranam-ganesha",
+      "title": "శరణం గణేశ",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "93_2",
+      "slug": "chanda-pranchadude-pindibomma-athade",
+      "title": "చండా ప్రంచడుడే పిండిబొమ్మ అతడే",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    },
+    {
+      "id": "93_3",
+      "slug": "kannimoola-ganapathivayya",
+      "title": "కన్నిమూల గణపతివయ్యా",
+      "imageUrl": "/images/deities/card_ganesha.jpg"
+    }
+  ],
   "22": [
     { id: "93", slug: "ganapathi-bhajanalu", title: "గణపతి భజనలు", imageUrl: "/images/deities/card_ganesha.jpg" },
     { id: "94", slug: "om-guru-natha", title: "ఓం గురు నాథ", imageUrl: "/images/deities/card_ayyappa.jpg" },

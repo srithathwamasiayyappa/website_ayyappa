@@ -843,6 +843,14 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
       return DEFAULT_CHILDREN['19'] || DEFAULT_CHILDREN['sri-devi-pooja'];
     }
     if (
+      matchKey.includes('ganapathi-bhajan') ||
+      matchKey.includes('vinayaka-bhajan') ||
+      matchKey === '93' ||
+      matchKey === '249'
+    ) {
+      return DEFAULT_CHILDREN['93'] || DEFAULT_CHILDREN['ganapathi-bhajanalu'];
+    }
+    if (
       matchKey.includes('bhajan') ||
       matchKey.includes('keerthan') ||
       matchKey === '248' ||
