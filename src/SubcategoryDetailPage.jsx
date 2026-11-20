@@ -797,10 +797,19 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
       return DEFAULT_CHILDREN[matchKey];
     }
     if (
+      matchKey.includes('dharma-sastha') ||
+      matchKey.includes('sri-dharma-sastha-ayyappa-pooja') ||
+      matchKey === '231' ||
+      matchKey === '8'
+    ) {
+      return DEFAULT_CHILDREN['8'] || DEFAULT_CHILDREN['sri-ayyappa-ashtottara'];
+    }
+    if (
       matchKey.includes('subramanya') ||
       matchKey.includes('subrahmanya') ||
       matchKey.includes('murugan') ||
       matchKey.includes('kartikeya') ||
+      matchKey === '230' ||
       matchKey === '7'
     ) {
       return DEFAULT_CHILDREN['sri-subramanya-ashtottara'];
@@ -809,6 +818,7 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
       matchKey.includes('ganapa') ||
       matchKey.includes('vignesh') ||
       matchKey.includes('mahaganapati') ||
+      matchKey === '229' ||
       matchKey === '6'
     ) {
       return DEFAULT_CHILDREN['ganapathi-pooja'];
