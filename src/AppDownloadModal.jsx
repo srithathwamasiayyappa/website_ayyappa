@@ -1,13 +1,99 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from './apiConfig';
 import './appDownloadModal.css';
+
+// Module-level cached store links so reopening modal is instantaneous
+let memoryCachedLinks = null;
 
 export default function AppDownloadModal({
   isOpen,
   onClose,
   itemTitle = '',
-  playStoreUrl = 'https://play.google.com/store/apps/details?id=com.saranamayyappa.app',
-  appStoreUrl = 'https://apps.apple.com/app/saranam-ayyappa/id123456789',
+  playStoreUrl: propPlayStoreUrl,
+  appStoreUrl: propAppStoreUrl,
 }) {
+  const [storeLinks, setStoreLinks] = useState(() => {
+    // 1. Check memory cache
+    if (memoryCachedLinks) return memoryCachedLinks;
+
+    // 2. Check session storage cache
+    try {
+      const stored = sessionStorage.getItem('sa_app_links');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.playStoreUrl || parsed?.appStoreUrl) {
+          memoryCachedLinks = parsed;
+          return parsed;
+        }
+      }
+    } catch {
+      // Ignore sessionStorage error
+    }
+
+    // 3. Initial default state
+    return {
+      playStoreUrl: propPlayStoreUrl || 'https://play.google.com/store/apps/details?id=com.saranamayyappa.app',
+      appStoreUrl: propAppStoreUrl || 'https://apps.apple.com/app/saranam-ayyappa/id123456789',
+      logoUrl: '/images/saranam-ayyappa-official-emblem.jpg',
+      storeSubtext: 'Available on iOS & Android',
+      appName: 'Saranam Ayyappa App',
+    };
+  });
+
+  // Fetch dynamic links directly from MySQL database via API
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchAppLinks = async () => {
+      try {
+        // Try dedicated app-links endpoint first, then fallback to /home/logo
+        const res = await fetch(`${API_BASE_URL}/home/app-links`).catch(() =>
+          fetch(`${API_BASE_URL}/home/logo`)
+        );
+        if (!res || !res.ok) return;
+        const data = await res.json();
+
+        if (data?.success && isMounted) {
+          let resolvedLogo = '/images/saranam-ayyappa-official-emblem.jpg';
+          if (data.logoUrl) {
+            if (data.logoUrl.startsWith('http://') || data.logoUrl.startsWith('https://') || data.logoUrl.startsWith('data:')) {
+              resolvedLogo = data.logoUrl;
+            } else if (data.logoUrl.startsWith('/')) {
+              resolvedLogo = data.logoUrl;
+            } else {
+              resolvedLogo = `/${data.logoUrl}`;
+            }
+          }
+
+          const updated = {
+            playStoreUrl: data.playStoreUrl || propPlayStoreUrl || 'https://play.google.com/store/apps/details?id=com.saranamayyappa.app',
+            appStoreUrl: data.appStoreUrl || propAppStoreUrl || 'https://apps.apple.com/app/saranam-ayyappa/id123456789',
+            logoUrl: resolvedLogo,
+            storeSubtext: data.storeSubtext || 'Available on iOS & Android',
+            appName: data.appName || 'Saranam Ayyappa App',
+          };
+
+          memoryCachedLinks = updated;
+          try {
+            sessionStorage.setItem('sa_app_links', JSON.stringify(updated));
+          } catch {
+            // Ignore sessionStorage error
+          }
+
+          setStoreLinks(updated);
+        }
+      } catch (err) {
+        // Keep fallback links if API call fails
+      }
+    };
+
+    fetchAppLinks();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [propPlayStoreUrl, propAppStoreUrl]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isOpen) {
@@ -28,9 +114,14 @@ export default function AppDownloadModal({
 
   if (!isOpen) return null;
 
-  const handleStoreClick = (url) => {
-    if (url && url.startsWith('http')) {
-      window.open(url, '_blank', 'noopener,noreferrer');
+  const activePlayStoreUrl = propPlayStoreUrl || storeLinks.playStoreUrl;
+  const activeAppStoreUrl = propAppStoreUrl || storeLinks.appStoreUrl;
+
+  const handleStoreClick = (url, platformName = 'App') => {
+    if (url && typeof url === 'string' && url.trim().startsWith('http')) {
+      window.open(url.trim(), '_blank', 'noopener,noreferrer');
+    } else {
+      alert(`Saranam Ayyappa for ${platformName}: Official link will be updated shortly.`);
     }
   };
 
@@ -50,7 +141,7 @@ export default function AppDownloadModal({
         {/* Top Decorative Devotional Icon */}
         <div className="sa-app-modal-icon-wrap">
           <img
-            src="/images/saranam-ayyappa-official-emblem.jpg"
+            src={storeLinks.logoUrl || '/images/saranam-ayyappa-official-emblem.jpg'}
             alt="Saranam Ayyappa Emblem"
             className="sa-app-modal-emblem"
             onError={(e) => {
@@ -102,7 +193,7 @@ export default function AppDownloadModal({
           <button
             type="button"
             className="sa-store-btn play-store"
-            onClick={() => handleStoreClick(playStoreUrl)}
+            onClick={() => handleStoreClick(activePlayStoreUrl, 'Google Play')}
             aria-label="Get it on Google Play"
           >
             <svg width="22" height="24" viewBox="0 0 512 512" fill="currentColor">
@@ -120,7 +211,7 @@ export default function AppDownloadModal({
           <button
             type="button"
             className="sa-store-btn app-store"
-            onClick={() => handleStoreClick(appStoreUrl)}
+            onClick={() => handleStoreClick(activeAppStoreUrl, 'Apple App Store')}
             aria-label="Download on the App Store"
           >
             <svg width="22" height="24" viewBox="0 0 170 170" fill="currentColor">

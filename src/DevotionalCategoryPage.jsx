@@ -199,13 +199,28 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
   const [downloadModalItem, setDownloadModalItem] = useState(null);
 
   const handleCardClick = (item) => {
-    navigate(
-      `/subcategory-detail?id=${encodeURIComponent(
-        item.slug
-      )}&category=${activeCategory}&god=${encodeURIComponent(
-        selectedDeity
-      )}`
+    const s = (item.slug || '').toLowerCase();
+    const rawId = String(item.rawId || item.id || '');
+    const hasMultipleTypes = Boolean(
+      (item.children && item.children.length > 0) ||
+      DEFAULT_CHILDREN[s] ||
+      DEFAULT_CHILDREN[rawId] ||
+      /ganapa|vignesh|subramanya|subrahmanya|ashtottara|ashtothram|satyanarayana|varalakshmi|kedareswara|vinayaka/.test(s)
     );
+
+    if (hasMultipleTypes) {
+      // Allow viewing the subcategories / Types list
+      navigate(
+        `/subcategory-detail?id=${encodeURIComponent(
+          item.slug
+        )}&category=${activeCategory}&god=${encodeURIComponent(
+          selectedDeity
+        )}`
+      );
+    } else {
+      // Show App Download Popup directly (no full-page redirect)
+      setDownloadModalItem(item.titleTelugu || item.title || item.name || 'Devotional Services');
+    }
   };
 
   // Watch for direct category clicks that request deity selection
@@ -297,9 +312,15 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
               badgeClass: item.badgeClass || 'badge-daily',
               filterTag: item.filterTag || 'Daily',
               type: item.type || (activeCategory === 'pooja' ? 'Pooja' : 'Stotra'),
-              image: item.imageUrl
-                ? (item.imageUrl.startsWith('http') ? item.imageUrl : `${MEDIA_ORIGIN}${item.imageUrl}`)
-                : resolveCardArtwork(rawSlug, titleFormatted, deityResolved, idx),
+              image: (() => {
+                if (item.imageUrl && !item.imageUrl.includes('.webp')) {
+                  if (item.imageUrl.startsWith('http')) return item.imageUrl;
+                  if (item.imageUrl.startsWith('/uploads')) return `${MEDIA_ORIGIN}${item.imageUrl}`;
+                  if (item.imageUrl.startsWith('/images')) return item.imageUrl;
+                  return item.imageUrl;
+                }
+                return resolveCardArtwork(rawSlug, titleFormatted, deityResolved, idx);
+              })(),
               deityId: deityResolved,
               deityName: item.deityName || (
                 deityResolved === 'ganesha' ? 'Lord Ganesha' :
@@ -324,19 +345,16 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
             };
           });
 
-          // Strict unique filter by slug and normalized title
+          // Strict unique filter by unique slug / id (preserves all distinct database subcategories)
           const seenSlugs = new Set();
-          const seenTitles = new Set();
           const uniqueItems = [];
 
           for (const item of mapped) {
-            const normTitle = (item.title || '').trim().toLowerCase().replace(/\s+/g, ' ');
-            const keySlug = (item.slug || '').trim().toLowerCase();
-            if (seenSlugs.has(keySlug) || (normTitle && seenTitles.has(normTitle))) {
+            const keySlug = (item.slug || String(item.id || '')).trim().toLowerCase();
+            if (seenSlugs.has(keySlug)) {
               continue;
             }
             if (keySlug) seenSlugs.add(keySlug);
-            if (normTitle) seenTitles.add(normTitle);
             uniqueItems.push(item);
           }
 
@@ -628,7 +646,10 @@ export default function DevotionalCategoryPage({ category = 'pooja' }) {
                       className="sa-dev-card-image"
                       loading="lazy"
                       onError={(e) => {
-                        e.target.src = CARD_REFERENCE_ARTWORKS[idx % CARD_REFERENCE_ARTWORKS.length];
+                        const fallback = resolveCardArtwork(item.slug, item.title, item.deityId, idx) || CARD_REFERENCE_ARTWORKS[idx % CARD_REFERENCE_ARTWORKS.length];
+                        if (e.target.src !== fallback) {
+                          e.target.src = fallback;
+                        }
                       }}
                     />
                   </div>

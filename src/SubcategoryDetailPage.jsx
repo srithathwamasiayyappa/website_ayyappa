@@ -1059,101 +1059,13 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
   }
 
   // ── VIEW 2: SINGLE SUBCATEGORY APP DOWNLOAD PROMPT ──
-  // User policy: "No need to show the detailed page. Instead of that when a user clicks on a subcategory, we have to show the app download popup. Then the user can see it in the app."
+  // User policy: "instead of this page we have to show popup to download app( previous popup i want )"
   return (
-    <div className="sa-types-list-page">
-      <div className="sa-scripture-top-bar">
-        <button
-          type="button"
-          className="scripture-back-btn"
-          onClick={() => navigate(-1)}
-          aria-label="Back to Categories"
-          title="Back"
-        >
-          <Icon name="ArrowLeft" size={24} />
-        </button>
-        <h1 className="scripture-top-title">
-          {currentLanguage === 'te' ? data.titleTelugu : data.title}
-        </h1>
-      </div>
-
-      <div
-        className="sa-types-list-wrap"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '60vh',
-          padding: '30px 20px',
-          textAlign: 'center',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '520px',
-            width: '100%',
-            background: '#ffffff',
-            borderRadius: '20px',
-            border: '1.5px solid #d4af37',
-            padding: '34px 26px',
-            boxShadow: '0 12px 32px rgba(12, 56, 35, 0.12)',
-          }}
-        >
-          <img
-            src="/images/saranam-ayyappa-official-emblem.jpg"
-            alt="Saranam Ayyappa"
-            style={{
-              width: '80px',
-              height: '80px',
-              borderRadius: '18px',
-              border: '2px solid #d4af37',
-              margin: '0 auto 16px',
-              display: 'block',
-              objectFit: 'cover',
-            }}
-            onError={(e) => {
-              e.target.src = '/images/pooja/pooja-card-1-ref.png';
-            }}
-          />
-          <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#0c3823', margin: '0 0 10px' }}>
-            {data.titleTelugu || data.title}
-          </h2>
-          <p style={{ fontSize: '14px', color: '#2c4436', fontWeight: 600, margin: '0 0 8px', lineHeight: 1.6 }}>
-            సంపూర్ణ పూజా విధానం, దివ్య స్తోత్రములు, భజనల సాహిత్యం మరియు మంత్రాల పఠనం మా అఫీషియల్ మొబైల్ యాప్‌లో అందుబాటులో ఉన్నాయి.
-          </p>
-          <p style={{ fontSize: '13px', color: '#5d6d63', margin: '0 0 20px', lineHeight: 1.5 }}>
-            To view and read the complete sacred procedure, slokas, lyrics and mantras, please download the free Saranam Ayyappa App.
-          </p>
-          <button
-            type="button"
-            style={{
-              width: '100%',
-              padding: '13px',
-              borderRadius: '12px',
-              background: '#0c3823',
-              color: '#ffffff',
-              border: '1px solid #d4af37',
-              fontWeight: 700,
-              fontSize: '14.5px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              boxShadow: '0 4px 14px rgba(12, 56, 35, 0.25)',
-            }}
-            onClick={() => setDownloadModalItem(data.title)}
-          >
-            <span>📱 Download Saranam Ayyappa App</span>
-          </button>
-        </div>
-      </div>
-
+    <div className="sa-types-list-page" style={{ minHeight: '80vh', background: 'transparent' }}>
       <AppDownloadModal
-        isOpen={Boolean(downloadModalItem)}
-        onClose={() => setDownloadModalItem(null)}
-        itemTitle={downloadModalItem || data.title}
+        isOpen={true}
+        onClose={() => navigate(-1)}
+        itemTitle={data.titleTelugu || data.title}
       />
     </div>
   );

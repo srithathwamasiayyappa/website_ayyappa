@@ -167,9 +167,7 @@ function App() {
   const [dkTemples, setDkTemples] = useState([]);
   const [dkLoading, setDkLoading] = useState(false);
 
-  const availableTemples = (dkTemples && dkTemples.length > 0)
-    ? dkTemples
-    : [{ id: 1, name: profile?.templeName || 'Sri Dharma Sastha Temple', city: profile?.templeCity || profile?.city || 'Sabarimala' }];
+  const availableTemples = dkTemples || [];
 
   const [showAddFestModal, setShowAddFestModal] = useState(false);
   const [newFestModalForm, setNewFestModalForm] = useState({
@@ -322,18 +320,37 @@ function App() {
 
   useEffect(() => {
     if (profile?.role === 'DHARMA_KARTHA') {
-      const uid = profile?.id || 1;
+      let uid = profile?.id || profile?.userId;
+      if (!uid) {
+        try {
+          const stored = localStorage.getItem('sa-profile') || localStorage.getItem('user');
+          if (stored) {
+            const p = JSON.parse(stored);
+            uid = p.id || p.userId;
+          }
+        } catch {}
+      }
+      uid = uid || 1;
       setDkLoading(true);
       Promise.all([
-        fetch(`${API_BASE_URL}/dharma-kartha/festivals?userId=${uid}`).then(r => r.json()).catch(() => null),
-        fetch(`${API_BASE_URL}/dharma-kartha/events?userId=${uid}`).then(r => r.json()).catch(() => null),
-        fetch(`${API_BASE_URL}/dharma-kartha/media?userId=${uid}`).then(r => r.json()).catch(() => null),
-        fetch(`${API_BASE_URL}/dharma-kartha/temples?userId=${uid}`).then(r => r.json()).catch(() => null),
+        fetch(`${API_BASE_URL}/dharma-kartha/festivals?userId=${uid}`, { headers: { 'x-user-id': String(uid) } }).then(r => r.json()).catch(() => null),
+        fetch(`${API_BASE_URL}/dharma-kartha/events?userId=${uid}`, { headers: { 'x-user-id': String(uid) } }).then(r => r.json()).catch(() => null),
+        fetch(`${API_BASE_URL}/dharma-kartha/media?userId=${uid}`, { headers: { 'x-user-id': String(uid) } }).then(r => r.json()).catch(() => null),
+        fetch(`${API_BASE_URL}/dharma-kartha/temples?userId=${uid}`, { headers: { 'x-user-id': String(uid) } }).then(r => r.json()).catch(() => null),
       ]).then(([festData, evtData, mediaData, templeData]) => {
-        if (festData?.festivals) setDkFestivals(festData.festivals);
-        if (evtData?.events) setDkEvents(evtData.events);
-        if (mediaData?.media) setDkGallery(mediaData.media);
-        if (templeData?.temples) setDkTemples(templeData.temples);
+        const fetchedTemples = (templeData?.temples && Array.isArray(templeData.temples)) ? templeData.temples : [];
+        setDkTemples(fetchedTemples);
+        try { sessionStorage.setItem('sa_dk_temples', JSON.stringify(fetchedTemples)); } catch {}
+
+        if (fetchedTemples.length === 0) {
+          setDkFestivals([]);
+          setDkEvents([]);
+          setDkGallery([]);
+        } else {
+          setDkFestivals(festData?.festivals && Array.isArray(festData.festivals) ? festData.festivals : []);
+          setDkEvents(evtData?.events && Array.isArray(evtData.events) ? evtData.events : []);
+          setDkGallery(mediaData?.media && Array.isArray(mediaData.media) ? mediaData.media : []);
+        }
       }).finally(() => setDkLoading(false));
     }
   }, [profile?.role, path]);
@@ -725,7 +742,7 @@ function App() {
                 </p>
                 <div className="trust-quick-stats">
                   <div className="trust-stat-box">
-                    <b>{dkTemples.length || 1}</b>
+                    <b>{dkTemples.length}</b>
                     <span>Registered Mandir</span>
                   </div>
                   <div className="trust-stat-box">
@@ -772,7 +789,13 @@ function App() {
                     <button
                       type="button"
                       className="btn gold"
-                      onClick={() => setShowAddFestModal(true)}
+                      onClick={() => {
+                        if (!dkTemples || dkTemples.length === 0) {
+                          notify('Without adding a temple, you cannot create festivals. Please register or add your sacred Temple first.', 'warning');
+                          return;
+                        }
+                        setShowAddFestModal(true);
+                      }}
                       style={{ padding: '6px 14px', fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                     >
                       <Icon name="Plus" size={15} /> Add Temple Festival
@@ -788,7 +811,17 @@ function App() {
                 ) : dkFestivals.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '24px', background: '#fdfbf7', borderRadius: '10px', border: '1px dashed #d4a753' }}>
                     <p style={{ margin: '0 0 10px', color: '#666' }}>No temple festivals added yet.</p>
-                    <button type="button" className="btn gold small" onClick={() => setShowAddFestModal(true)}>
+                    <button
+                      type="button"
+                      className="btn gold small"
+                      onClick={() => {
+                        if (!dkTemples || dkTemples.length === 0) {
+                          notify('Without adding a temple, you cannot create festivals. Please register or add your sacred Temple first.', 'warning');
+                          return;
+                        }
+                        setShowAddFestModal(true);
+                      }}
+                    >
                       Add First Festival
                     </button>
                   </div>
@@ -1049,7 +1082,13 @@ function App() {
                     <button
                       type="button"
                       className="btn gold"
-                      onClick={() => setShowAddEventModal(true)}
+                      onClick={() => {
+                        if (!dkTemples || dkTemples.length === 0) {
+                          notify('Without adding a temple, you cannot create events. Please register or add your sacred Temple first.', 'warning');
+                          return;
+                        }
+                        setShowAddEventModal(true);
+                      }}
                       style={{ padding: '6px 14px', fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                     >
                       <Icon name="Plus" size={15} /> Create Temple Event
@@ -1065,7 +1104,17 @@ function App() {
                 ) : dkEvents.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '24px', background: '#fdfbf7', borderRadius: '10px', border: '1px dashed #d4a753' }}>
                     <p style={{ margin: '0 0 10px', color: '#666' }}>No special events scheduled yet.</p>
-                    <button type="button" className="btn gold small" onClick={() => setShowAddEventModal(true)}>
+                    <button
+                      type="button"
+                      className="btn gold small"
+                      onClick={() => {
+                        if (!dkTemples || dkTemples.length === 0) {
+                          notify('Without adding a temple, you cannot create events. Please register or add your sacred Temple first.', 'warning');
+                          return;
+                        }
+                        setShowAddEventModal(true);
+                      }}
+                    >
                       Create First Event
                     </button>
                   </div>
@@ -1336,7 +1385,13 @@ function App() {
                     <button
                       type="button"
                       className="btn gold"
-                      onClick={() => setShowAddMediaModal(true)}
+                      onClick={() => {
+                        if (!dkTemples || dkTemples.length === 0) {
+                          notify('Without adding a temple, you cannot upload gallery media. Please register or add your sacred Temple first.', 'warning');
+                          return;
+                        }
+                        setShowAddMediaModal(true);
+                      }}
                       style={{ padding: '6px 14px', fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                     >
                       <Icon name="Plus" size={15} /> Upload Temple Media
@@ -1352,7 +1407,17 @@ function App() {
                 ) : dkGallery.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '24px', background: '#fdfbf7', borderRadius: '10px', border: '1px dashed #d4a753' }}>
                     <p style={{ margin: '0 0 10px', color: '#666' }}>No photos uploaded yet.</p>
-                    <button type="button" className="btn gold small" onClick={() => setShowAddMediaModal(true)}>
+                    <button
+                      type="button"
+                      className="btn gold small"
+                      onClick={() => {
+                        if (!dkTemples || dkTemples.length === 0) {
+                          notify('Without adding a temple, you cannot upload gallery media. Please register or add your sacred Temple first.', 'warning');
+                          return;
+                        }
+                        setShowAddMediaModal(true);
+                      }}
+                    >
                       Upload First Photo
                     </button>
                   </div>

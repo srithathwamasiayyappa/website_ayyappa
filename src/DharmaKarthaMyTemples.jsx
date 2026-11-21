@@ -35,10 +35,24 @@ export default function DharmaKarthaMyTemples({ notify, profile }) {
       .catch(() => {});
   }, []);
 
+  const getUserId = () => {
+    try {
+      const stored = localStorage.getItem('sa-profile') || localStorage.getItem('user');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.id) return parsed.id;
+      }
+    } catch {}
+    return profile?.id || 1;
+  };
+
   const fetchTemples = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE_URL}/dharma-kartha/temples?search=${encodeURIComponent(search)}&status=${statusFilter}`);
+      const uid = getUserId();
+      const res = await fetch(`${API_BASE_URL}/dharma-kartha/temples?userId=${uid}&search=${encodeURIComponent(search)}&status=${statusFilter}`, {
+        headers: { 'x-user-id': String(uid) }
+      });
       const data = await res.json();
       if (data?.temples) {
         setTemples(data.temples);
