@@ -264,11 +264,11 @@ export default function Footer({ notify, brand: propBrand }) {
         <div>
           <h4>{t('footerColServices', 'Devotional Services')}</h4>
           <div className="footer-links">
-            <Link to="/subcategories"><L.Flame size={13} /> {t('footerPoojas', 'Pooja Vidhanam')}</Link>
-            <Link to="/stotras"><L.BookOpen size={13} /> {t('footerStotras', 'Astothrams & Stotras')}</Link>
-            <Link to="/slokas"><L.ScrollText size={13} /> {t('footerSlokas', 'Sacred Slokas')}</Link>
-            <Link to="/songs"><L.Music2 size={13} /> {t('footerSongs', 'Bhajans & Songs')}</Link>
-            <Link to="/panchangam"><L.CalendarDays size={13} /> {t('footerPanchangam', 'Daily Panchangam')}</Link>
+            <Link to="/subcategories"><L.Flame size={13} /> Pooja Vidhanam</Link>
+            <Link to="/stotras"><L.BookOpen size={13} /> Astothrams & Stotras</Link>
+            <Link to="/slokas"><L.ScrollText size={13} /> Sacred Slokas</Link>
+            <Link to="/songs"><L.Music2 size={13} /> Bhajans & Songs</Link>
+            <Link to="/panchangam"><L.CalendarDays size={13} /> {t('navPanchangam', 'Daily Panchangam')}</Link>
           </div>
         </div>
 
@@ -276,11 +276,11 @@ export default function Footer({ notify, brand: propBrand }) {
         <div>
           <h4>{t('footerColExplore', 'Explore')}</h4>
           <div className="footer-links">
-            <Link to="/temples"><L.Landmark size={13} /> {t('footerTemples', 'Hindu Temples')}</Link>
-            <Link to="/live-streams"><L.Video size={13} /> {t('footerLive', 'Events & Live')}</Link>
-            <Link to="/donations"><L.Soup size={13} /> {t('footerDonations', 'Annadanam / Seva')}</Link>
-            <Link to="/food-donations"><L.MapPin size={13} /> {t('footerFoodDonation', 'Food Donation Centers')}</Link>
-            <Link to="/notifications"><L.Bell size={13} /> {t('footerNotices', 'Temple Notices')}</Link>
+            <Link to="/temples"><L.Landmark size={13} /> {t('navTemples', 'Hindu Temples')}</Link>
+            <Link to="/live-streams"><L.Video size={13} /> {t('navEvents', 'Events & Live')}</Link>
+            <Link to="/donations"><L.Soup size={13} /> {t('navDonations', 'Annadanam / Seva')}</Link>
+            <Link to="/food-donations"><L.MapPin size={13} /> {t('navFoodDonations', 'Food Donation Centers')}</Link>
+            <Link to="/notifications"><L.Bell size={13} /> {t('navNotifications', 'Temple Notices')}</Link>
           </div>
         </div>
 
@@ -288,13 +288,13 @@ export default function Footer({ notify, brand: propBrand }) {
         <div>
           <h4>{t('footerColCare', 'Devotee Care')}</h4>
           <div className="footer-links">
-            <Link to="/contact">{t('footerContact', 'Contact Us')}</Link>
-            <Link to="/about">{t('footerAbout', 'About Platform')}</Link>
+            <Link to="/contact">Contact Us</Link>
+            <Link to="/about">About Platform</Link>
             <Link to="/terms">{t('footerTerms', 'Terms & Conditions')}</Link>
             <Link to="/privacy">{t('footerPrivacy', 'Privacy Policy')}</Link>
             <Link to="/refund-policy">{t('footerRefunds', 'Donation & Refund')}</Link>
             <Link to="/account-deletion">{t('footerDataSafety', 'Account Deletion')}</Link>
-            <Link to="/profile">{t('footerProfile', 'My Devotee Profile')}</Link>
+            <Link to="/profile">{t('navProfile', 'My Devotee Profile')}</Link>
           </div>
         </div>
 
@@ -305,20 +305,20 @@ export default function Footer({ notify, brand: propBrand }) {
             <div className="support-row">
               <L.Headphones size={18} />
               <div>
-                <strong>{t('footerHelpDesk', 'Devotee Seva Desk')}</strong>
+                <strong>Devotee Seva Desk</strong>
                 <span>support@saranamayyappa.org</span>
               </div>
             </div>
             <div className="support-row">
               <L.Clock3 size={18} />
               <div>
-                <strong>{t('footerTimingsHelp', 'Temple Timings Help')}</strong>
+                <strong>Temple Timings Help</strong>
                 <span>Mon – Sun: 5:00 AM – 9:00 PM</span>
               </div>
             </div>
             <div className="security-badges">
               <L.ShieldCheck size={16} />
-              <span>{t('footerVerifiedPlatform', '100% Verified Devotional Platform')}</span>
+              <span>100% Verified Devotional Platform</span>
             </div>
           </div>
         </div>

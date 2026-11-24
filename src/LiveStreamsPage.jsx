@@ -211,7 +211,7 @@ export default function LiveStreamsPage({ notify }) {
                 aria-label={`Watch Live Now - ${slide.title}`}
               >
                 <Icon name="Play" size={16} fill="currentColor" />
-                <span>{t('watchLiveNow', 'Watch Live Now')}</span>
+                <span>Watch Live Now</span>
                 <Icon name="ArrowRight" size={16} />
               </button>
             </div>
@@ -239,25 +239,17 @@ export default function LiveStreamsPage({ notify }) {
             PHASE 7: FOUR-FEATURE INFORMATION STRIP
             ========================================================= */}
         <section className="sa-live-strip" aria-label="Live Stream Highlights">
-          {featureItems.map((f) => {
-            const titleMap = {
-              'Live Temple Darshan': t('liveDarshan', f.title),
-              'Verified Streams': t('verifiedStreams', f.title),
-              'Special Events': t('specialEvents', f.title),
-              'Instant Updates': t('instantUpdates', f.title),
-            };
-            return (
-              <div key={f.title} className="sa-live-strip-col">
-                <div className="sa-live-strip-icon-wrap">
-                  <Icon name={f.icon} size={22} />
-                </div>
-                <div className="sa-live-strip-info">
-                  <h4 className="sa-live-strip-title">{titleMap[f.title] || f.title}</h4>
-                  <p className="sa-live-strip-desc">{f.desc}</p>
-                </div>
+          {featureItems.map((f) => (
+            <div key={f.title} className="sa-live-strip-col">
+              <div className="sa-live-strip-icon-wrap">
+                <Icon name={f.icon} size={22} />
               </div>
-            );
-          })}
+              <div className="sa-live-strip-info">
+                <h4 className="sa-live-strip-title">{f.title}</h4>
+                <p className="sa-live-strip-desc">{f.desc}</p>
+              </div>
+            </div>
+          ))}
         </section>
 
         {/* =========================================================
@@ -266,12 +258,12 @@ export default function LiveStreamsPage({ notify }) {
         <section className="sa-live-featured-section" aria-label="Featured Broadcasts">
           <div className="sa-live-section-header">
             <div className="sa-live-section-heading-left">
-              <span className="sa-live-section-eyebrow">{t('liveEyebrow', 'EXPLORE MORE')}</span>
-              <h2 className="sa-live-section-title">{t('liveTitle', 'Featured Broadcasts')}</h2>
+              <span className="sa-live-section-eyebrow">EXPLORE MORE</span>
+              <h2 className="sa-live-section-title">Featured Broadcasts</h2>
             </div>
 
             <Link to="/temples" className="sa-live-view-all-btn">
-              <span>{t('exploreStreamDir', 'View All Streams')}</span>
+              <span>View All Streams</span>
               <Icon name="ArrowRight" size={15} />
             </Link>
           </div>
@@ -299,7 +291,7 @@ export default function LiveStreamsPage({ notify }) {
                     className="sa-live-card-thumb"
                     loading="lazy"
                   />
-                  <span className="sa-live-card-badge">● {t('liveNow', card.badge)}</span>
+                  <span className="sa-live-card-badge">● {card.badge}</span>
                   <div className="sa-live-card-play-overlay" aria-hidden="true">
                     <Icon name="Play" size={18} fill="currentColor" />
                   </div>
@@ -309,7 +301,7 @@ export default function LiveStreamsPage({ notify }) {
                 <div className="sa-live-card-content">
                   <div className="sa-live-card-body">
                     <h3 className="sa-live-card-title">{card.title}</h3>
-                    <p className="sa-live-card-desc">{t('streamScheduleNotice', card.desc)}</p>
+                    <p className="sa-live-card-desc">{card.desc}</p>
                   </div>
 
                   <button
@@ -318,7 +310,7 @@ export default function LiveStreamsPage({ notify }) {
                     onClick={() => handleOpenStream(card)}
                     aria-label={`View Live stream for ${card.title}`}
                   >
-                    <span>{t('viewLive', 'View Live')}</span>
+                    <span>View Live</span>
                     <Icon name="ArrowRight" size={14} />
                   </button>
                 </div>

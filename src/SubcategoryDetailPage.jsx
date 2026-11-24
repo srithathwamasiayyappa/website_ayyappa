@@ -2,66 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as L from 'lucide-react';
 import { useLanguage } from './LanguageContext';
-import { API_BASE_URL } from './apiConfig';
-import { DEFAULT_SCRIPTURES, DEFAULT_CHILDREN } from './defaultScriptures';
-import AppDownloadModal from './AppDownloadModal';
 import './devotionalCleanList.css';
 import './subcategoryDetail.css';
-
-// Scripture Content Parser to faithfully format scripture text matching reference design
-export function parseScriptureContent(fullText) {
-  if (!fullText) return { instruction: '', invocations: [], sections: [] };
-
-  const paragraphs = fullText
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter(Boolean);
-
-  let instruction = '';
-  const invocations = [];
-  const sections = [];
-  let startIdx = 0;
-
-  // 1. Extract introductory instruction note (సూచన)
-  if (paragraphs.length > 0 && (paragraphs[0].includes('సూచన') || paragraphs[0].length > 140)) {
-    instruction = paragraphs[0].replace(/^సూచన\s*:\s*/, '').trim();
-    startIdx = 1;
-  }
-
-  // 2. Extract central invocations (శ్రీ మహాగణాధిపతయే నమః / శ్రీ గురుభ్యోనమః హరిః ఓం)
-  if (
-    paragraphs[startIdx] &&
-    (paragraphs[startIdx].includes('మహాగణాధిపతయే') || paragraphs[startIdx].includes('గురుభ్యోనమః'))
-  ) {
-    const invLines = paragraphs[startIdx].split('\n').map((l) => l.trim()).filter(Boolean);
-    invocations.push(...invLines);
-    startIdx++;
-  }
-
-  for (let i = startIdx; i < paragraphs.length; i++) {
-    const p = paragraphs[i];
-    if (/^[.\-—_·•\s]{5,}$/.test(p)) continue;
-
-    // Detect section headings vs verses
-    const isHeading =
-      p.length < 55 && !p.includes('|') && !p.includes('||') && !p.includes('\n');
-
-    // Traditional headings for primary slokas matching reference
-    if (p.includes('సరస్వతీ నమస్తుభ్యం') && !paragraphs[i - 1]?.includes('సరస్వతీ')) {
-      sections.push({ type: 'heading', text: 'శ్రీ సరస్వతీ శ్లోకం' });
-    } else if (p.includes('గురుర్బ్రహ్మ') && !paragraphs[i - 1]?.includes('గురు')) {
-      sections.push({ type: 'heading', text: 'గురు శ్లోకం' });
-    }
-
-    if (isHeading) {
-      sections.push({ type: 'heading', text: p.replace(/^[\[\(]|[\]\)]$/g, '').trim() });
-    } else {
-      sections.push({ type: 'verse', text: p });
-    }
-  }
-
-  return { instruction, invocations, sections };
-}
 
 const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
   const Component = L[name] || L.Sparkles;
@@ -443,150 +385,7 @@ export const SUBCATEGORY_DETAILS = {
       ragam: 'Vedic Melodic Chants',
     },
   },
-
-  'morning-prayers': {
-    id: 'morning-prayers',
-    deityId: 'all',
-    deityName: 'All Deities',
-    deityTelugu: 'సకల దేవతలు',
-    category: 'slokas',
-    title: 'Morning Prayers',
-    titleTelugu: 'ప్రాతఃకాల ప్రార్థనలు',
-    subtitle: 'Sacred morning verses, Karadarshanam & Bhumi Vandanam chanted upon awakening.',
-    heroImage: '/images/subcategories/slokas/morning-prayers.webp',
-    badge: 'Daily Essential',
-    badgeClass: 'badge-daily',
-    duration: '10 mins',
-    difficulty: 'All Devotees',
-    bestTime: 'Immediately upon awakening (Brahma Muhurtham)',
-    overview: `Pratah Smaranam slokas invoked immediately upon waking up set a positive, pure, and spiritually vibrant foundation for the entire day. Chanting Karadarshanam and Bhumi Prarthana aligns the mind with cosmic divinity.`,
-    procedure: [
-      { step: 1, title: 'Karadarshanam', desc: 'Look at the palms of your hands upon waking and invoke Lakshmi, Saraswati and Gouri.', mantra: 'కరాగ్రే వసతే లక్ష్మీః కరమధ్యే సరస్వతీ | కరమూలే స్థితా గౌరీ ప్రభాతే కరదర్శనమ్ ||' },
-      { step: 2, title: 'Bhumi Vandanam', desc: 'Touch the mother earth seeking forgiveness before placing feet on the ground.', mantra: 'సముద్రవసనే దేవి పర్వతస్తనమండలే | విష్ణుపత్ని నమస్తుభ్యం పాదస్పర్శం క్షమస్వ మే ||' },
-      { step: 3, title: 'Pratah Smaranam', desc: 'Remember Lord Ganesha, Shiva, Vishnu and Ayyappa for auspicious guidance.', mantra: 'ప్రాఃతస్మరామి భవభీతిహరం సురేశం | వందారులోకసులభం కరుణాకటాక్షం ||' }
-    ],
-    materials: [
-      { name: 'Pure Water for Achamanam', qty: '1 Vessel', icon: 'Flame' },
-      { name: 'Vibhuti / Kumkum / Chandanam', qty: 'For Tilakam', icon: 'Sparkles' }
-    ],
-    mantras: [
-      {
-        title: 'Karadarshana Sloka',
-        script: 'కరాగ్రే వసతే లక్ష్మీః కరమధ్యే సరస్వతీ | కరమూలే స్థితా గౌరీ ప్రభాతే కరదర్శనమ్ ||',
-        transliteration: 'Karagre Vasate Lakshmih Kara-Madhye Saraswati | Kara-Moole Sthita Gouri Prabhate Kara-Darshanam ||',
-        meaning: 'At the tips of the fingers resides Goddess Lakshmi; in the middle resides Goddess Saraswati; at the base resides Goddess Gouri. Thus, look at your palms in the morning.'
-      }
-    ],
-    benefits: [
-      'Removes laziness, dullness and negative morning thoughts.',
-      'Blesses with wisdom, prosperity and divine protection throughout the day.'
-    ]
-  },
-
-  'meal-prayers': {
-    id: 'meal-prayers',
-    deityId: 'all',
-    deityName: 'All Deities',
-    deityTelugu: 'సకల దేవతలు',
-    category: 'slokas',
-    title: 'Meal Prayers',
-    titleTelugu: 'భోజన ప్రార్థనలు',
-    subtitle: 'Sacred verses and gratitude prayers recited before taking sanctified food (Prasadam).',
-    heroImage: '/images/subcategories/slokas/meal-prayers.webp',
-    badge: 'Annadanam & Daily',
-    badgeClass: 'badge-daily',
-    duration: '5 mins',
-    difficulty: 'All Devotees',
-    bestTime: 'Before lunch and dinner',
-    overview: `Sanctifying food before eating transforms physical sustenance into sacred medicine and divine energy. Chanting Annapoorna Stotram and Brahmarpanam invokes Goddess Annapoorna and offers the meal to the indwelling Lord.`,
-    procedure: [
-      { step: 1, title: 'Shuddhi & Achamanam', desc: 'Cleanse hands, sit calmly facing East or North with the meal served.' },
-      { step: 2, title: 'Annapoorna Vandanam', desc: 'Chant Annapoorna Stotram with gratitude to the provider of food.', mantra: 'అన్నపూర్ణే సదాపూర్ణే శంకరప్రాణవల్లభే | జ్ఞానవైరాగ్యసిద్ధ్యర్థం భిక్షాం దేహి చ పార్వతి ||' },
-      { step: 3, title: 'Brahmarpanam Recitation', desc: 'Offer food to Brahman as described in the sacred Bhagavad Gita.', mantra: 'బ్రహ్మార్పణం బ్రహ్మ హవిర్ బ్రహ్మాగ్నౌ బ్రహ్మణా హుతమ్ | బ్రహ్మైవ తేన గంతవ్యం బ్రహ్మకర్మసమాధినా ||' }
-    ],
-    materials: [
-      { name: 'Pure Water', qty: '1 Tumbler', icon: 'Flame' },
-      { name: 'Sanctified Vegetarian Food', qty: 'Meal Plate', icon: 'Soup' }
-    ],
-    mantras: [
-      {
-        title: 'Brahmarpanam Mantra (Gita 4.24)',
-        script: 'బ్రహ్మార్పణం బ్రహ్మ హవిర్ బ్రహ్మాగ్నౌ బ్రహ్మణా హుతమ్ | బ్రహ్మైవ తేన గంతవ్యం బ్రహ్మకర్మసమాధినా ||',
-        transliteration: 'Brahmaarpanam Brahma Havir Brahmaagnau Brahmanaahutam | Brahmaiva Tena Gantavyam Brahma Karma Samaadhinaa ||',
-        meaning: 'The offering is Brahman; the clarified butter is Brahman; offered by Brahman into the fire of Brahman. Brahman alone shall be reached by him who is absorbed in Brahman as the act.'
-      }
-    ],
-    benefits: [
-      'Eliminates impurities in food and enhances digestion.',
-      'Instills contentment, humility, and gratitude for daily sustenance.'
-    ]
-  },
-
-  'night-prayers': {
-    id: 'night-prayers',
-    deityId: 'all',
-    deityName: 'All Deities',
-    deityTelugu: 'సకల దేవతలు',
-    category: 'slokas',
-    title: 'Night Prayers',
-    titleTelugu: 'రాత్రి ప్రార్థనలు',
-    subtitle: 'Protective bedside verses and peace chants for peaceful sleep and protection from bad dreams.',
-    heroImage: '/images/subcategories/slokas/night-prayers.webp',
-    badge: 'Night Essential',
-    badgeClass: 'badge-daily',
-    duration: '5 mins',
-    difficulty: 'All Devotees',
-    bestTime: 'Bedtime before sleeping',
-    overview: `Night prayers purify subconscious thoughts, surrender all actions performed throughout the day to God, and protect the soul with divine guardianship during restful sleep.`,
-    procedure: [
-      { step: 1, title: 'Smaranam & Surrender', desc: 'Sit quietly on the bed, breathe deeply and surrender all daily actions.', mantra: 'కరచరణకృతం వా కాయజం కర్మజం వా శ్రవణనయనజం వా మానసం వాऽపరాధం | విహితమవిహితం వా సర్వమేతత్ క్షమస్వ జయ జయ కరుణాబ్ధే శ్రీమహాదేవ శంభో ||' },
-      { step: 2, title: 'Du-swapna Nashana Mantra', desc: 'Remember Rama, Skanda, Hanuman and Garuda for peaceful sleep free of nightmares.', mantra: 'రామస్కందం హనూమంతం వైనతేయం వృకోదరమ్ | శయనే యః స్మరేన్నిత్యం దుఃస్వప్నం తస్య నశ్యతి ||' }
-    ],
-    materials: [
-      { name: 'Clean Peaceful Bedding', qty: 'Bedside space', icon: 'Sparkles' }
-    ],
-    mantras: [
-      {
-        title: 'Peaceful Sleep Mantra',
-        script: 'రామస్కందం హనూమంతం వైనతేయం వృకోదరమ్ | శయనే యః స్మరేన్నిత్యం దుఃస్వప్నం తస్య నశ్యతి ||',
-        transliteration: 'Rama-Skandam Hanumantam Vainateyam Vrikodaram | Shayane Yah Smaren-Nityam Duh-Swapnam Tasya Nashyati ||',
-        meaning: 'Whoever remembers Rama, Skanda, Hanuman, Garuda, and Bhima before sleep shall have all bad dreams destroyed and enjoy peaceful rest.'
-      }
-    ],
-    benefits: [
-      'Grants peaceful, undisturbed and rejuvenating sleep.',
-      'Wipes away stress, negative thoughts and nighttime anxieties.'
-    ]
-  },
 };
-
-export function resolveTypeCardArtwork(item, subcategorySlug = '', idx = 0) {
-  const t = (item.title || item.slug || '').toLowerCase();
-  const sub = (subcategorySlug || '').toLowerCase();
-
-  if (item.imageUrl && !item.imageUrl.endsWith('.webp') && !item.imageUrl.includes('undefined')) {
-    return item.imageUrl;
-  }
-  if (t.includes('ganapa') || t.includes('vignesh') || t.includes('ekadanta') || t.includes('గణప') || t.includes('వినాయక') || t.includes('విఘ్నే') || t.includes('గణేశ') || sub.includes('ganapa') || sub.includes('గణప')) {
-    return '/images/deities/card_ganesha.jpg';
-  }
-  if (t.includes('subramanya') || t.includes('subrahmanya') || t.includes('murugan') || t.includes('సుబ్రహ్మణ్య') || t.includes('మురుగన్') || sub.includes('subramanya') || sub.includes('సుబ్రహ్మణ్య')) {
-    return '/images/deities/card_murugan.jpg';
-  }
-  if (t.includes('ayyappa') || t.includes('sharanu') || t.includes('harivarasanam') || t.includes('sastha') || t.includes('harathi') || t.includes('అయ్యప్ప') || t.includes('శాస్తా') || t.includes('శాస్త') || t.includes('శరణు') || t.includes('హారతి') || sub.includes('ayyappa') || sub.includes('harathi') || sub.includes('అయ్యప్ప')) {
-    return '/images/deities/card_ayyappa.jpg';
-  }
-  if (t.includes('shiva') || t.includes('dakshinamurti') || t.includes('veerabhadra') || t.includes('rudra') || t.includes('శివ') || t.includes('దక్షిణామూర్తి') || t.includes('వీరభద్ర') || t.includes('రుద్ర')) {
-    return '/images/deities/card_shiva.jpg';
-  }
-  if (t.includes('vishnu') || t.includes('venkates') || t.includes('vishwaksena') || t.includes('విష్ణు') || t.includes('వేంకట') || t.includes('వెంకట') || t.includes('విష్వక్సేన')) {
-    return '/images/deities/card_vishnu.jpg';
-  }
-  if (t.includes('lalita') || t.includes('lakshmi') || t.includes('saraswati') || t.includes('durga') || t.includes('vasavi') || t.includes('poorna') || t.includes('pushkala') || t.includes('gomatha') || t.includes('దేవి') || t.includes('లక్ష్మి') || t.includes('గోమాత') || t.includes('దుర్గ') || t.includes('లలిత') || t.includes('సరస్వతి') || t.includes('పూర్ణ') || t.includes('పుష్కల')) {
-    return '/images/deities/card_devi.jpg';
-  }
-  return `/images/pooja/pooja-card-${(idx % 6) + 1}-ref.png`;
-}
 
 export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
   const { currentLanguage, t } = useLanguage();
@@ -598,475 +397,339 @@ export default function SubcategoryDetailPage({ defaultCategory = 'pooja' }) {
   const subcategoryId = searchParams.get('id') || 'ayyappa-pooja';
   const godParam = searchParams.get('god');
 
-  // Load subcategory fallback data from catalog or generate clean dynamic structure
-  const fallbackData = useMemo(() => {
+  // Load subcategory data from catalog or find best match
+  const data = useMemo(() => {
     if (SUBCATEGORY_DETAILS[subcategoryId]) {
       return SUBCATEGORY_DETAILS[subcategoryId];
     }
-
-    // Dynamic fallback for any DB-driven subcategory
-    const formattedTitle = subcategoryId.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-    const isAyyappa = /ayyap|sastha|harivarasanam|shabarimala|irumudi|sharanu/.test(subcategoryId.toLowerCase());
-    const isShiva = /shiv|linga|rudra|bilva|mrityunjaya/.test(subcategoryId.toLowerCase());
-    const isGanesh = /ganesh|vinayak|ganapath/.test(subcategoryId.toLowerCase());
-    const isMurugan = /subrahmanya|murugan|kartikeya/.test(subcategoryId.toLowerCase());
-    const isDevi = /devi|durga|lakshmi|gomatha/.test(subcategoryId.toLowerCase());
-    const isVishnu = /vishnu|venkates|koodalmanikya/.test(subcategoryId.toLowerCase());
-
-    const dName = isAyyappa ? 'Lord Ayyappa' : isShiva ? 'Lord Shiva' : isGanesh ? 'Lord Ganesha' : isMurugan ? 'Lord Murugan' : isDevi ? 'Goddess Lakshmi / Durga' : isVishnu ? 'Lord Venkateswara' : 'Lord Shiva & All Deities';
-    const dTelugu = isAyyappa ? 'శ్రీ అయ్యప్ప స్వామి' : isShiva ? 'పరమశివుడు' : isGanesh ? 'శ్రీ మహాగణపతి' : isMurugan ? 'శ్రీ సుబ్రహ్మణ్యేశ్వర స్వామి' : isDevi ? 'శ్రీ దేవి అమ్మవారు' : isVishnu ? 'శ్రీ వేంకటేశ్వర స్వామి' : 'సర్వ దేవతలు';
-
-    return {
-      id: subcategoryId,
-      deityId: godParam || (isAyyappa ? 'ayyappa' : isShiva ? 'shiva' : isGanesh ? 'ganesha' : isMurugan ? 'murugan' : isDevi ? 'devi' : isVishnu ? 'venkateswara' : 'all'),
-      deityName: dName,
-      deityTelugu: dTelugu,
-      category: 'pooja',
-      title: formattedTitle,
-      titleTelugu: formattedTitle,
-      subtitle: `Sacred vidhanam, procedure and verses for ${formattedTitle}.`,
-      heroImage: '/images/pooja/pooja-card-1-ref.png',
-      badge: 'Daily Devotion',
-      badgeClass: 'badge-daily',
-      duration: '15 mins',
-      difficulty: 'All Devotees',
-      bestTime: 'Morning (Pratah Kalam) or Evening (Sandhya)',
-      overview: `${formattedTitle} brings peace of mind, removes obstacles, and bestows divine blessings and protective spiritual vibrations upon devotees and their families.`,
-      procedure: [
-        { step: 1, title: 'Prarthana & Invocation', desc: 'Light a deepam, sit facing East with a calm and pure mind, and offer prostrations.', mantra: 'ఓం దీపజ్యోతిః పరబ్రహ్మ దీపజ్యోతిర్జనార్దనః | దీపో హరతు మే పాపం సంధ్యాదీప నమోస్తుతే ||' },
-        { step: 2, title: 'Sacred Sloka Chanting', desc: 'Chant the holy verses with heartfelt devotion and clear pronunciation.', mantra: 'శుక్లాంబరధరం విష్ణుం శశివర్ణం చతుర్భుజం | ప్రసన్నవదనం ధ్యాయేత్ సర్వవిఘ్నోపశాంతయే ||' },
-        { step: 3, title: 'Samarpanam & Blessings', desc: 'Surrender all fruits of the prayer to the deity and receive divine peace and blessings.', mantra: 'స్వామియే శరణం అయ్యప్ప | శ్రీ గురుభ్యో నమః' }
-      ],
-      materials: [
-        { name: 'Pure Cow Ghee / Sesame Oil for Deepam', qty: '100 ml', icon: 'Flame' },
-        { name: 'Fresh Cotton Wicks (Vattulu)', qty: '1 Packet', icon: 'Sparkles' },
-        { name: 'Pure Vibhuti, Kumkum & Sandalwood (Gandham)', qty: '50g each', icon: 'Flower2' },
-        { name: 'Fresh Fragrant Flowers & Thulasi / Bilva Leaves', qty: '1 Basket', icon: 'Flower2' },
-        { name: 'Raw Coconuts & Betel Leaves with Supari', qty: '2 Coconuts, 5 Betel Leaves', icon: 'Layers' },
-        { name: 'Raw Rice with Turmeric (Akshintalu)', qty: '1 Bowl', icon: 'Sparkles' },
-        { name: 'Fresh Fruits or Naivedyam Prasad', qty: '1 Bowl', icon: 'Soup' },
-        { name: 'Pure Camphor (Karpooram) & Dhoop Sticks', qty: '1 Box', icon: 'Flame' }
-      ],
-      mantras: [
-        {
-          title: `${formattedTitle} Sacred Chants`,
-          script: 'స్వామియే శరణం అయ్యప్ప | శ్రీ గురుభ్యో నమః',
-          transliteration: 'Swamiye Saranam Ayyappa | Sri Gurubhyo Namah',
-          meaning: 'I surrender completely to the divine Lord, the protector and guide.'
-        }
-      ],
-      benefits: [
-        'Destroys mental restlessness and brings calmness and spiritual focus.',
-        'Bestows divine protection, good health, and family prosperity.',
-        'Removes obstacles and paves the path for peace and fulfillment.'
-      ],
-      audioTrack: {
-        title: `${formattedTitle} Sacred Chants`,
-        duration: '05:30',
-        ragam: 'Madhyamavathi'
-      }
-    };
+    // Match by deity
+    if (godParam) {
+      const match = Object.values(SUBCATEGORY_DETAILS).find((item) => item.deityId === godParam);
+      if (match) return match;
+    }
+    return SUBCATEGORY_DETAILS['ayyappa-pooja'];
   }, [subcategoryId, godParam]);
 
-  // Dynamically fetch detail from DB via API
-  const [apiDetail, setApiDetail] = useState(null);
-  const [dbChildren, setDbChildren] = useState([]);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [copiedMantra, setCopiedMantra] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
+  // Check bookmark status
   useEffect(() => {
-    let isCancelled = false;
-    const fetchApiDetail = async () => {
-      try {
-        // 1. Primary: Subcategory detail endpoint
-        let res = await fetch(`${API_BASE_URL}/categories/subcategories/${encodeURIComponent(subcategoryId)}?lang=${currentLanguage}&god=${encodeURIComponent(godParam || '')}`);
-        let json = await res.json().catch(() => null);
+    try {
+      const favs = JSON.parse(localStorage.getItem('sa-fav-subcategories') || '[]');
+      setIsBookmarked(favs.includes(data.id));
+    } catch {}
+  }, [data.id]);
 
-        // 2. Fallback: Stotras detail endpoint
-        if (!json || !json.success || !json.data) {
-          res = await fetch(`${API_BASE_URL}/categories/stotras/${encodeURIComponent(subcategoryId)}?lang=${currentLanguage}`);
-          json = await res.json().catch(() => null);
-        }
-
-        // 3. Fallback: Generic category detail endpoint
-        if (!json || (!json.data && !json.contents && !json.title)) {
-          res = await fetch(`${API_BASE_URL}/categories/${encodeURIComponent(subcategoryId)}?lang=${currentLanguage}`);
-          json = await res.json().catch(() => null);
-        }
-
-        let d = null;
-        if (!isCancelled && json && (json.data || json.contents || json.title)) {
-          d = json.data || json;
-          setApiDetail(d);
-        }
-
-        // 4. Dynamically fetch child subcategory types from DB by parentId
-        const numericParentId = d?.id || (!isNaN(Number(subcategoryId)) ? Number(subcategoryId) : null);
-        const queryParents = [];
-        if (numericParentId) queryParents.push(numericParentId);
-        if (subcategoryId && !queryParents.includes(subcategoryId)) queryParents.push(subcategoryId);
-
-        for (const pId of queryParents) {
-          try {
-            const childRes = await fetch(`${API_BASE_URL}/admin/subcategories?parentId=${pId}&lang=${currentLanguage}&limit=100`);
-            const childJson = await childRes.json().catch(() => null);
-            if (!isCancelled && childJson && Array.isArray(childJson.data) && childJson.data.length > 0) {
-              const mappedChildren = childJson.data.map((c) => ({
-                id: String(c.id),
-                rawId: c.id,
-                slug: c.slug || String(c.id),
-                title: c.title || c.slug,
-                description: c.description || '',
-                imageUrl: c.imageUrl || ''
-              }));
-              setDbChildren(mappedChildren);
-              break;
-            }
-          } catch (_) {}
-        }
-      } catch (err) {
-        console.warn('API fetch error for subcategory detail:', err);
+  const toggleBookmark = () => {
+    try {
+      const favs = JSON.parse(localStorage.getItem('sa-fav-subcategories') || '[]');
+      let updated;
+      if (favs.includes(data.id)) {
+        updated = favs.filter((id) => id !== data.id);
+        setIsBookmarked(false);
+      } else {
+        updated = [...favs, data.id];
+        setIsBookmarked(true);
       }
-    };
-    fetchApiDetail();
-    return () => { isCancelled = true; };
-  }, [subcategoryId, currentLanguage, godParam]);
+      localStorage.setItem('sa-fav-subcategories', JSON.stringify(updated));
+    } catch {}
+  };
 
-  // Combine DB data with UI defaults
-  const data = useMemo(() => {
-    if (!apiDetail) return fallbackData;
+  const copyMantraText = (text) => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopiedMantra(true);
+      setTimeout(() => setCopiedMantra(false), 2200);
+    }
+  };
 
-    const formattedMantras = [];
+  return (
+    <div className="sa-subcat-detail-page">
+      {/* Background Watermark */}
+      <div className="sa-subcat-watermark" aria-hidden="true">
+        <img src="/images/ayyappa-tiger-gold-bg.png" alt="" />
+      </div>
 
-    // Case A: API returns structured mantras array
-    if (Array.isArray(apiDetail.mantras) && apiDetail.mantras.length > 0) {
-      formattedMantras.push(...apiDetail.mantras);
-    }
-    // Case B: API returns sacredText string
-    else if (apiDetail.sacredText) {
-      const verses = apiDetail.sacredText.split(/\n\s*\n/).filter(Boolean);
-      const meanings = (apiDetail.meaning || '').split(/\n\s*\n/).filter(Boolean);
-      verses.forEach((v, idx) => {
-        formattedMantras.push({
-          title: `Verse / శ్లోకం #${idx + 1}`,
-          script: v,
-          transliteration: '',
-          meaning: meanings[idx] || apiDetail.meaning || 'Devotional verse.'
-        });
-      });
-    }
-    // Case C: API returns contents array from DB
-    else if (Array.isArray(apiDetail.contents) && apiDetail.contents.length > 0) {
-      apiDetail.contents.forEach((item, idx) => {
-        if (item.sacredText) {
-          formattedMantras.push({
-            title: item.title || `Verse #${idx + 1}`,
-            script: item.sacredText,
-            transliteration: '',
-            meaning: item.meaning || 'Sacred verse from scriptures.'
-          });
-        }
-      });
-    }
+      <div className="sa-subcat-container">
+        {/* Navigation Breadcrumb */}
+        <nav className="sa-subcat-nav">
+          <Link to="/home">HOME</Link>
+          <span className="sep">/</span>
+          <Link to="/categories">DEVOTIONAL SERVICES</Link>
+          <span className="sep">/</span>
+          <Link to={`/subcategories?category=${data.category}&god=${data.deityId}`}>
+            {data.deityName.toUpperCase()}
+          </Link>
+          <span className="sep">/</span>
+          <span className="curr">{data.title.toUpperCase()}</span>
+        </nav>
 
-    const procedureSteps = (Array.isArray(apiDetail.procedure) && apiDetail.procedure.length > 0)
-      ? apiDetail.procedure
-      : fallbackData.procedure;
-
-    const materialsList = (Array.isArray(apiDetail.materials) && apiDetail.materials.length > 0)
-      ? apiDetail.materials
-      : fallbackData.materials;
-
-    const benefitsList = (Array.isArray(apiDetail.benefits) && apiDetail.benefits.length > 0)
-      ? apiDetail.benefits
-      : fallbackData.benefits;
-
-    const scriptureText =
-      apiDetail.fullScriptureText ||
-      apiDetail.sacredText ||
-      DEFAULT_SCRIPTURES[subcategoryId] ||
-      DEFAULT_SCRIPTURES[fallbackData.id] ||
-      DEFAULT_SCRIPTURES['daily-pooja'] ||
-      DEFAULT_SCRIPTURES['nithyapooja'] ||
-      apiDetail.description ||
-      fallbackData.overview;
-
-    return {
-      ...fallbackData,
-      title: apiDetail.title || fallbackData.title,
-      titleTelugu: apiDetail.titleTelugu || apiDetail.title || fallbackData.titleTelugu,
-      subtitle: apiDetail.subtitle || apiDetail.description || fallbackData.subtitle,
-      overview: apiDetail.overview || apiDetail.introduction || apiDetail.description || fallbackData.overview,
-      fullScriptureText: scriptureText,
-      instructionNote: apiDetail.instructionNote || '',
-      heroImage: apiDetail.heroImage || apiDetail.imageUrl || fallbackData.heroImage,
-      deityName: apiDetail.deityName || fallbackData.deityName,
-      deityTelugu: apiDetail.deityTelugu || fallbackData.deityTelugu,
-      duration: apiDetail.duration || fallbackData.duration,
-      badge: apiDetail.badge || fallbackData.badge,
-      badgeClass: apiDetail.badgeClass || fallbackData.badgeClass,
-      procedure: procedureSteps,
-      materials: materialsList,
-      mantras: formattedMantras.length > 0 ? formattedMantras : fallbackData.mantras,
-      benefits: benefitsList
-    };
-  }, [fallbackData, apiDetail, subcategoryId]);
-
-  const [selectedChild, setSelectedChild] = useState(null);
-  const [fontSize, setFontSize] = useState(17);
-  const [showSamagri, setShowSamagri] = useState(false);
-
-  // Check if this subcategory has child types (e.g. Mahaganapathi 4 types, Sri Subrahmanyeswara 4 types)
-  const resolvedChildren = useMemo(() => {
-    // 1. Live dynamic child types directly from DB
-    if (Array.isArray(dbChildren) && dbChildren.length > 0) {
-      return dbChildren;
-    }
-    // 2. Child types attached to apiDetail
-    if (Array.isArray(apiDetail?.children) && apiDetail.children.length > 0) {
-      return apiDetail.children;
-    }
-    const matchKey = (subcategoryId || fallbackData.id || '').toLowerCase();
-    if (DEFAULT_CHILDREN[matchKey]) {
-      return DEFAULT_CHILDREN[matchKey];
-    }
-    if (
-      matchKey.includes('dharma-sastha') ||
-      matchKey.includes('sri-dharma-sastha-ayyappa-pooja') ||
-      matchKey === '231' ||
-      matchKey === '8'
-    ) {
-      return DEFAULT_CHILDREN['8'] || DEFAULT_CHILDREN['sri-ayyappa-ashtottara'];
-    }
-    if (
-      matchKey.includes('subramanya') ||
-      matchKey.includes('subrahmanya') ||
-      matchKey.includes('murugan') ||
-      matchKey.includes('kartikeya') ||
-      matchKey === '230' ||
-      matchKey === '7'
-    ) {
-      return DEFAULT_CHILDREN['sri-subramanya-ashtottara'];
-    }
-    if (
-      matchKey.includes('ganapa') ||
-      matchKey.includes('vignesh') ||
-      matchKey.includes('mahaganapati') ||
-      matchKey === '229' ||
-      matchKey === '6'
-    ) {
-      return DEFAULT_CHILDREN['ganapathi-pooja'];
-    }
-    if (
-      matchKey.includes('ashtottara') ||
-      matchKey.includes('ashtothram') ||
-      matchKey === '21'
-    ) {
-      return DEFAULT_CHILDREN['21'] || DEFAULT_CHILDREN['ashtottaramulu'];
-    }
-    if (matchKey.includes('sharanu') || matchKey === '3') {
-      return DEFAULT_CHILDREN['3'] || DEFAULT_CHILDREN['sri-ayyappa-sharanu-gosha'];
-    }
-    if (matchKey.includes('harathi') || matchKey === '11' || matchKey === '235') {
-      return DEFAULT_CHILDREN['235'] || DEFAULT_CHILDREN['11'] || DEFAULT_CHILDREN['ayyappa-harathi'];
-    }
-    if (matchKey.includes('gomatha') || matchKey === '20') {
-      return DEFAULT_CHILDREN['20'] || DEFAULT_CHILDREN['sri-gomatha-pooja'];
-    }
-    if (matchKey.includes('devi') || matchKey === '19') {
-      return DEFAULT_CHILDREN['19'] || DEFAULT_CHILDREN['sri-devi-pooja'];
-    }
-    if (
-      matchKey.includes('ganapathi-bhajan') ||
-      matchKey.includes('vinayaka-bhajan') ||
-      matchKey === '93' ||
-      matchKey === '249'
-    ) {
-      return DEFAULT_CHILDREN['93'] || DEFAULT_CHILDREN['ganapathi-bhajanalu'];
-    }
-    if (
-      matchKey.includes('bhajan') ||
-      matchKey.includes('keerthan') ||
-      matchKey === '248' ||
-      matchKey === '22'
-    ) {
-      return DEFAULT_CHILDREN['248'] || DEFAULT_CHILDREN['bhajana-keerthanalu'];
-    }
-    if (matchKey.includes('satyanarayana') || matchKey === '25') {
-      return DEFAULT_CHILDREN['25'] || DEFAULT_CHILDREN['sri-satyanarayana-swamy-vratham'];
-    }
-    if (matchKey.includes('varalakshmi') || matchKey === '26') {
-      return DEFAULT_CHILDREN['26'] || DEFAULT_CHILDREN['varalakshmi-vratham'];
-    }
-    if (matchKey.includes('vinayaka-vratha') || matchKey === '27') {
-      return DEFAULT_CHILDREN['27'] || DEFAULT_CHILDREN['vinayaka-vratha-kalpam'];
-    }
-    if (matchKey.includes('kedareswara') || matchKey === '28') {
-      return DEFAULT_CHILDREN['28'] || DEFAULT_CHILDREN['kedareswara-vratham'];
-    }
-    return [];
-  }, [apiDetail, subcategoryId, fallbackData.id]);
-
-  // Active scripture text (from selected child or main subcategory)
-  const activeScriptureText = useMemo(() => {
-    if (selectedChild) {
-      return (
-        DEFAULT_SCRIPTURES[selectedChild.slug] ||
-        DEFAULT_SCRIPTURES[selectedChild.id] ||
-        selectedChild.description ||
-        selectedChild.sacredText ||
-        data.fullScriptureText
-      );
-    }
-    return data.fullScriptureText;
-  }, [selectedChild, data.fullScriptureText]);
-
-  const parsedScripture = useMemo(() => {
-    return parseScriptureContent(activeScriptureText);
-  }, [activeScriptureText]);
-
-  const [downloadModalItem, setDownloadModalItem] = useState(null);
-
-  // ── VIEW 1: 4-CARDS PER ROW SUBCATEGORY TYPES GRID ──
-  if (resolvedChildren.length > 0) {
-    return (
-      <div className="sa-types-page">
-        {/* Devotional Hero Header */}
-        <section className="sa-types-hero" aria-label="Devotional Types Header">
-          <div className="sa-types-hero-inner">
-            <nav className="sa-types-breadcrumb" aria-label="Breadcrumb">
-              <Link to="/home">Home</Link>
-              <span className="breadcrumb-sep">&gt;</span>
-              <Link to={`/categories/${data.category || 'stotras'}`}>
-                {data.category === 'pooja' ? 'Pooja Vidhanam' : data.category === 'slokas' ? 'Daily Slokas' : 'Divine Stotras'}
-              </Link>
-              <span className="breadcrumb-sep">&gt;</span>
-              <span className="breadcrumb-current">
-                {currentLanguage === 'te' ? data.titleTelugu : data.title}
+        {/* Hero Banner Header */}
+        <header className="sa-subcat-hero">
+          <div className="sa-subcat-hero-left">
+            <div className="sa-subcat-badge-row">
+              <span className={`sa-subcat-pill ${data.badgeClass || 'badge-festival'}`}>
+                {data.badge}
               </span>
-            </nav>
+              <span className="sa-subcat-pill-deity">
+                <Icon name="Sparkles" size={13} />
+                <span>{currentLanguage === 'te' ? data.deityTelugu : data.deityName}</span>
+              </span>
+            </div>
 
+            <h1 className="sa-subcat-title">{currentLanguage === 'te' ? data.titleTelugu : data.title}</h1>
+            <p className="sa-subcat-subtitle">{data.subtitle}</p>
 
-            <h1 className="sa-types-hero-title">
-              {currentLanguage === 'te' ? data.titleTelugu : data.title}
-            </h1>
+            <div className="sa-subcat-meta-strip">
+              <div className="meta-item">
+                <Icon name="Clock" size={15} />
+                <span>Duration: <strong>{data.duration}</strong></span>
+              </div>
+              <div className="meta-item">
+                <Icon name="Users" size={15} />
+                <span>Audience: <strong>{data.difficulty}</strong></span>
+              </div>
+              <div className="meta-item">
+                <Icon name="Calendar" size={15} />
+                <span>Auspicious Timings: <strong>{data.bestTime}</strong></span>
+              </div>
+            </div>
 
-            <p className="sa-types-hero-sub">
-              {data.subtitle || 'Explore all sacred types, divine namavalis and stotras. Tap any card to read in the official mobile app.'}
-            </p>
+            {/* Action Bar */}
+            <div className="sa-subcat-actions">
+              <button
+                type="button"
+                className={`sa-btn-fav ${isBookmarked ? 'active' : ''}`}
+                onClick={toggleBookmark}
+              >
+                <Icon name={isBookmarked ? 'BookmarkCheck' : 'Bookmark'} size={16} />
+                <span>{isBookmarked ? 'Saved to Bookmarks' : 'Bookmark Guide'}</span>
+              </button>
 
-          </div>
-        </section>
-
-        {/* 4-Cards Grid Container */}
-        <div className="sa-types-grid-wrap">
-          <div className="sa-types-grid-header">
-            <div className="sa-types-grid-title-row">
-              <Icon name="Sparkles" size={20} style={{ color: '#d4af37' }} />
-              <h2 className="sa-types-grid-heading">
-                {currentLanguage === 'te' ? `${data.titleTelugu} రకములు` : `${data.title} Types & Stotras`}
-              </h2>
+              <button
+                type="button"
+                className="sa-btn-print"
+                onClick={() => window.print()}
+              >
+                <Icon name="Printer" size={16} />
+                <span>Print Guide</span>
+              </button>
             </div>
           </div>
 
-          <div className="sa-types-cards-grid">
-            {resolvedChildren.map((item, idx) => (
-              <article
-                key={item.id || idx}
-                className="sa-type-card"
-                onClick={() => setDownloadModalItem(item.title)}
-                role="button"
-                tabIndex={0}
-              >
-                <div className="sa-type-card-img-wrap">
-                  <img
-                    src={resolveTypeCardArtwork(item, subcategoryId, idx)}
-                    alt={item.title}
-                    className="sa-type-card-img"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.src = '/images/deities/card_ganesha.jpg';
-                    }}
-                  />
-                  <div className="sa-type-card-badge">
-                    <span>{`#${idx + 1}`}</span>
-                  </div>
-                </div>
-
-                <div className="sa-type-card-body">
-                  <div className="sa-type-card-chips">
-                    <span className="sa-type-chip">
-                      <span>
-                        {item.title.includes('విఘ్నే') || item.title.includes('గణే') || item.title.includes('ఏకదంత') || item.title.includes('గణప') || item.title.includes('వినాయక')
-                          ? '🐘'
-                          : item.title.includes('సుబ్ర') || item.title.includes('మురుగన్')
-                          ? '🦚'
-                          : item.title.includes('అయ్య') || item.title.includes('శాస్త') || item.title.includes('హారతి')
-                          ? '🕉️'
-                          : item.title.includes('గోమాత') || item.title.includes('లక్ష్మి') || item.title.includes('దేవి') || item.title.includes('దుర్గ')
-                          ? '🌸'
-                          : item.title.includes('విష్ణు') || item.title.includes('వేంకటేశ్వర') || item.title.includes('విష్వక్సేన')
-                          ? '🪷'
-                          : item.title.includes('ఆంజనేయ') || item.title.includes('హనుమాన్')
-                          ? '🚩'
-                          : '🔱'}
-                      </span>
-                      <span>
-                        {item.title.includes('విఘ్నే') || item.title.includes('గణే') || item.title.includes('ఏకదంత') || item.title.includes('గణప') || item.title.includes('వినాయక')
-                          ? 'Lord Ganesha'
-                          : item.title.includes('సుబ్ర') || item.title.includes('మురుగన్')
-                          ? 'Lord Murugan'
-                          : item.title.includes('అయ్య') || item.title.includes('శాస్త') || item.title.includes('హారతి')
-                          ? 'Lord Ayyappa'
-                          : item.title.includes('గోమాత') || item.title.includes('లక్ష్మి') || item.title.includes('దేవి') || item.title.includes('దుర్గ')
-                          ? 'Goddess Devi / Lakshmi'
-                          : item.title.includes('శివ') || item.title.includes('దక్షిణామూర్తి') || item.title.includes('వీరభద్ర')
-                          ? 'Lord Shiva'
-                          : item.title.includes('విష్ణు') || item.title.includes('వేంకటేశ్వర') || item.title.includes('విష్వక్సేన')
-                          ? 'Lord Vishnu'
-                          : item.title.includes('ఆంజనేయ') || item.title.includes('హనుమాన్')
-                          ? 'Lord Hanuman'
-                          : 'Devotional'}
-                      </span>
-                    </span>
-                  </div>
-
-                  <h3 className="sa-type-card-title">{item.title}</h3>
-                  <p className="sa-type-card-desc">
-                    {item.description || 'Complete sacred namavali and procedure available in mobile app.'}
-                  </p>
-
-                  <div className="sa-type-card-footer">
-                    <span className="sa-type-read-pill">
-                      <span>📱 Read in App</span>
-                    </span>
-                    <div className="sa-type-action-btn" aria-label={`Read ${item.title} in app`}>
-                      <Icon name="ArrowRight" size={16} />
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))}
+          <div className="sa-subcat-hero-right">
+            <div className="hero-img-card">
+              <img src={data.heroImage} alt={data.title} />
+              <div className="hero-img-tag">Sacred Vidhanam Reference</div>
+            </div>
           </div>
+        </header>
+
+        {/* Devotional Audio Chants Player Bar */}
+        {data.audioTrack && (
+          <div className="sa-subcat-audio-bar">
+            <div className="audio-left">
+              <button
+                type="button"
+                className="audio-play-btn"
+                onClick={() => setIsPlaying(!isPlaying)}
+                aria-label={isPlaying ? 'Pause Chants' : 'Play Chants'}
+              >
+                <Icon name={isPlaying ? 'Pause' : 'Play'} size={20} />
+              </button>
+              <div className="audio-info">
+                <span className="audio-title">{data.audioTrack.title}</span>
+                <span className="audio-sub">Ragam: {data.audioTrack.ragam} • Duration: {data.audioTrack.duration}</span>
+              </div>
+            </div>
+
+            <div className="audio-right">
+              <span className="audio-status">{isPlaying ? 'Streaming Devotional Audio...' : 'Click to Listen Chants'}</span>
+              <Icon name="Volume2" size={18} className="audio-vol-icon" />
+            </div>
+          </div>
+        )}
+
+        {/* Main Content Layout with Interactive Tabs */}
+        <div className="sa-subcat-tabs-row">
+          {[
+            { id: 'overview', label: 'Overview', icon: 'BookOpen' },
+            { id: 'procedure', label: 'Step-by-Step Vidhanam', icon: 'ListOrdered' },
+            { id: 'materials', label: 'Sacred Materials (Samagri)', icon: 'Layers' },
+            { id: 'mantras', label: 'Mantras & Chants', icon: 'Sparkles' },
+            { id: 'benefits', label: 'Benefits & Blessings', icon: 'Heart' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              className={`sa-subcat-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              <Icon name={tab.icon} size={16} />
+              <span>{tab.label}</span>
+            </button>
+          ))}
         </div>
 
-        {/* App Download Modal for the selected card */}
-        <AppDownloadModal
-          isOpen={Boolean(downloadModalItem)}
-          onClose={() => setDownloadModalItem(null)}
-          itemTitle={downloadModalItem}
-        />
-      </div>
-    );
-  }
+        {/* Tab Panel Content */}
+        <div className="sa-subcat-content-card">
+          {/* TAB 1: OVERVIEW */}
+          {activeTab === 'overview' && (
+            <div className="tab-pane">
+              <h2 className="pane-heading">Divine Purpose & Significance</h2>
+              <p className="pane-lead">{data.overview}</p>
 
-  // ── VIEW 2: SINGLE SUBCATEGORY APP DOWNLOAD PROMPT ──
-  // User policy: "instead of this page we have to show popup to download app( previous popup i want )"
-  return (
-    <div className="sa-types-list-page" style={{ minHeight: '80vh', background: 'transparent' }}>
-      <AppDownloadModal
-        isOpen={true}
-        onClose={() => navigate(-1)}
-        itemTitle={data.titleTelugu || data.title}
-      />
+              <div className="overview-highlights-grid">
+                <div className="highlight-box">
+                  <span className="box-icon">🕉️</span>
+                  <h3>Presiding Deity</h3>
+                  <p>{data.deityName} ({data.deityTelugu})</p>
+                </div>
+                <div className="highlight-box">
+                  <span className="box-icon">⏳</span>
+                  <h3>Estimated Duration</h3>
+                  <p>{data.duration} for complete rituals</p>
+                </div>
+                <div className="highlight-box">
+                  <span className="box-icon">☀️</span>
+                  <h3>Optimal Muhurtham</h3>
+                  <p>{data.bestTime}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: STEP-BY-STEP PROCEDURE (VIDHANAM) */}
+          {activeTab === 'procedure' && (
+            <div className="tab-pane">
+              <h2 className="pane-heading">Sacred Step-by-Step Worship Vidhanam</h2>
+              <p className="pane-desc">Follow these authentic traditional steps in reverence with an unobstructed mind.</p>
+
+              <div className="procedure-steps-list">
+                {data.procedure.map((step) => (
+                  <div key={step.step} className="procedure-step-card">
+                    <div className="step-num-col">
+                      <div className="step-badge">{step.step}</div>
+                      <div className="step-connector" />
+                    </div>
+                    <div className="step-detail-col">
+                      <h3 className="step-title">{step.title}</h3>
+                      <p className="step-desc">{step.desc}</p>
+                      {step.mantra && (
+                        <div className="step-mantra-box">
+                          <span className="mantra-label">Chant during this step:</span>
+                          <p className="mantra-text">{step.mantra}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: MATERIALS (SAMAGRI) */}
+          {activeTab === 'materials' && (
+            <div className="tab-pane">
+              <h2 className="pane-heading">Required Sacred Pooja Samagri Checklist</h2>
+              <p className="pane-desc">Assemble these sacred items before commencing the holy rituals.</p>
+
+              <div className="samagri-grid">
+                {data.materials.map((item, idx) => (
+                  <div key={idx} className="samagri-item-card">
+                    <div className="samagri-icon-circle">
+                      <Icon name={item.icon || 'CheckCircle2'} size={18} />
+                    </div>
+                    <div className="samagri-info">
+                      <span className="samagri-name">{item.name}</span>
+                      <span className="samagri-qty">Quantity: <strong>{item.qty}</strong></span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: MANTRAS & CHANTS */}
+          {activeTab === 'mantras' && (
+            <div className="tab-pane">
+              <div className="pane-header-with-action">
+                <div>
+                  <h2 className="pane-heading">Sacred Mantras & Divine Hymns</h2>
+                  <p className="pane-desc">Recite with purity, correct pronunciation, and contemplation of meaning.</p>
+                </div>
+                {copiedMantra && (
+                  <span className="copy-toast">✓ Mantra copied to clipboard!</span>
+                )}
+              </div>
+
+              <div className="mantras-stack">
+                {data.mantras.map((m, idx) => (
+                  <div key={idx} className="mantra-card">
+                    <div className="mantra-header">
+                      <h3 className="mantra-title">{m.title}</h3>
+                      <button
+                        type="button"
+                        className="btn-copy-mantra"
+                        onClick={() => copyMantraText(`${m.script}\n\n${m.transliteration}\n\nMeaning: ${m.meaning}`)}
+                      >
+                        <Icon name="Copy" size={14} />
+                        <span>Copy Mantra</span>
+                      </button>
+                    </div>
+
+                    <div className="mantra-script-box">
+                      <p className="mantra-sacred-script">{m.script}</p>
+                    </div>
+
+                    <div className="mantra-translit-box">
+                      <span className="translit-label">Transliteration:</span>
+                      <p className="translit-text">{m.transliteration}</p>
+                    </div>
+
+                    <div className="mantra-meaning-box">
+                      <span className="meaning-label">Devotional Meaning:</span>
+                      <p className="meaning-text">{m.meaning}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: BENEFITS */}
+          {activeTab === 'benefits' && (
+            <div className="tab-pane">
+              <h2 className="pane-heading">Divine Fruits & Spiritual Blessings (Phalasruti)</h2>
+              <p className="pane-desc">The traditional spiritual and worldly rewards bestowed upon sincere devotees.</p>
+
+              <div className="benefits-list">
+                {data.benefits.map((b, idx) => (
+                  <div key={idx} className="benefit-row">
+                    <span className="benefit-gold-bullet">◆</span>
+                    <p className="benefit-text">{b}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Back Link Footer */}
+        <div className="sa-subcat-footer-nav">
+          <button
+            type="button"
+            className="sa-btn-back-cat"
+            onClick={() => navigate(-1)}
+          >
+            <Icon name="ArrowLeft" size={16} />
+            <span>Back to Subcategories</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

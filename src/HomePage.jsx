@@ -601,17 +601,9 @@ function ServicesSection() {
                 const displayTitle = loc?.title || service.title;
                 const displaySub = loc?.sub || service.sub;
 
-                const rawUrl = service.url || '/subcategories';
-                const isDevotionalCategory = ['pooja', 'ashtothram', 'stotras', 'slokas', 'bhajans', 'songs', 'harathis'].includes(sKey) ||
-                  ['/subcategories', '/stotras', '/slokas', '/songs', '/pooja'].some((p) => rawUrl.startsWith(p));
-                const targetUrl = isDevotionalCategory
-                  ? (rawUrl.includes('?') ? `${rawUrl}&selectDeity=true` : `${rawUrl}?selectDeity=true`)
-                  : rawUrl;
-
                 return (
                   <Link
-                    to={targetUrl}
-                    state={isDevotionalCategory ? { openDeityModal: true } : undefined}
+                    to={service.url}
                     key={service.id || service.serviceId}
                     className={`sa-service-card-item ${isFoodCard ? "sa-service-card-highlight" : ""}`}
                     aria-label={`${displayTitle} - ${displaySub}`}
@@ -818,26 +810,7 @@ function PanchangamSection() {
 
 /* SECTION 6: Featured Temples of India */
 function FeaturedTemples() {
-  const { currentLanguage, t } = useLanguage();
-  const [dbTemples, setDbTemples] = useState([]);
-
-  useEffect(() => {
-    let isMounted = true;
-    fetch(`${API_BASE_URL}/temples?lang=${currentLanguage}`)
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (isMounted && data?.data && Array.isArray(data.data) && data.data.length > 0) {
-          setDbTemples(data.data.slice(0, 3));
-        }
-      })
-      .catch(() => {});
-    return () => {
-      isMounted = false;
-    };
-  }, [currentLanguage]);
-
-  const displayTemples = dbTemples.length > 0 ? dbTemples : temples.slice(0, 3);
-
+  const { t } = useLanguage();
   return (
     <section className="container sa-home-section">
       <SectionHeading
@@ -849,10 +822,10 @@ function FeaturedTemples() {
       />
 
       <div className="sa-home-temple-grid">
-        {displayTemples.map((temple) => (
-          <article className="sa-home-temple-card" key={temple.id || temple.name}>
+        {temples.slice(0, 3).map((temple) => (
+          <article className="sa-home-temple-card" key={temple.name}>
             <div className="temple-image">
-              <img src={temple.heroImageUrl || temple.thumbnailUrl || image(temple.image)} alt={temple.name} loading="lazy" />
+              <img src={image(temple.image)} alt={temple.name} loading="lazy" />
               <span className="temple-location">
                 <Icon name="MapPin" size={14} />
                 {temple.city}, {temple.state}
@@ -862,11 +835,11 @@ function FeaturedTemples() {
             <div className="sa-home-temple-details">
               <span className="sa-home-temple-deity">
                 <Icon name="Sparkles" size={13} />
-                {temple.deityName || temple.deity || 'Lord Ayyappa'}
+                {temple.deity}
               </span>
 
               <h3>{temple.name}</h3>
-              <p>{temple.about || temple.special || temple.history}</p>
+              <p>{temple.special}</p>
 
               <div className="sa-home-temple-actions">
                 <Link to="/temple-detail" className="sa-home-card-action">
@@ -907,9 +880,7 @@ function FeaturedDevotionalContent() {
         />
 
         <div className="sa-home-curated-grid">
-          {featuredDevotionItems.map((item) => {
-            const itemTitle = item.url === '/pooja-detail' ? t('pooja', item.title) : item.url === '/stotras' ? t('stotras', item.title) : item.url === '/slokas' ? t('slokas', item.title) : t('songs', item.title);
-            return (
+          {featuredDevotionItems.map((item) => (
             <Link to={item.url} className="sa-home-curated-card" key={item.title}>
               <div className="sa-home-curated-img-wrap">
                 <img src={image(item.image)} alt={item.title} loading="lazy" />
@@ -925,7 +896,7 @@ function FeaturedDevotionalContent() {
                   <span className="sa-home-curated-meta">{item.meta}</span>
                 </div>
 
-                <h3>{itemTitle}</h3>
+                <h3>{item.title}</h3>
                 <p>{item.description}</p>
 
                 <span className="sa-home-card-action">
@@ -933,7 +904,7 @@ function FeaturedDevotionalContent() {
                 </span>
               </div>
             </Link>
-          );})}
+          ))}
         </div>
       </div>
     </section>
@@ -954,13 +925,10 @@ function DonationsAndAnnadanam() {
       />
 
       <div className="sa-home-donations-consolidated-grid">
-        {donationCategories.map((item) => {
-          const itemTitle = item.id === 'annadanam' ? t('annadanamFoodSeva', item.title) : item.id === 'general' ? t('generalTempleSeva', item.title) : t('mandalaFestivalSeva', item.title);
-          const actionText = item.id === 'annadanam' ? t('contributeAnnadanam', item.actionText) : item.id === 'general' ? t('supportTempleSeva', item.actionText) : t('supportFestivalSeva', item.actionText);
-          return (
+        {donationCategories.map((item) => (
           <article className="sa-home-donation-card-modern" key={item.id}>
             <div className="sa-home-donation-hero-image">
-              <img src={image(item.image)} alt={itemTitle} loading="lazy" />
+              <img src={image(item.image)} alt={item.title} loading="lazy" />
               <span className="sa-home-donation-badge">{item.badge}</span>
             </div>
 
@@ -969,17 +937,17 @@ function DonationsAndAnnadanam() {
                 <Icon name={item.icon} size={24} />
               </div>
 
-              <h3>{itemTitle}</h3>
+              <h3>{item.title}</h3>
               <p>{item.description}</p>
 
               <div className="sa-home-donation-action-row">
                 <Link to={item.url} className="btn gold small">
-                  {actionText} <Icon name="ArrowRight" size={15} />
+                  {item.actionText} <Icon name="ArrowRight" size={15} />
                 </Link>
               </div>
             </div>
           </article>
-        );})}
+        ))}
       </div>
 
       <div className="sa-home-annadanam-callout">
@@ -1030,7 +998,7 @@ function LiveDarshanSection() {
                   }`}
                 >
                   {stream.status === "LIVE" && <span className="sa-home-live-pulse" />}
-                  {stream.status === "LIVE" ? t('liveNow', 'LIVE NOW') : stream.status}
+                  {stream.status}
                 </span>
 
                 {stream.viewers && (

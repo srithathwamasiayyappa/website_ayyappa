@@ -75,16 +75,6 @@ class FirebaseWebAuthClass {
     const digits = String(phoneNumber).replace(/\D/g, '');
     const nationalNumber = digits.startsWith('91') && digits.length === 12 ? digits.slice(2) : digits;
 
-    // Default test mobile number bypass
-    if (nationalNumber === '6302759527') {
-      this.isDefaultTestPhone = true;
-      return {
-        success: true,
-        isFirebase: false,
-        message: 'Default verification OTP is 123456',
-      };
-    }
-
     if (!/^[6-9]\d{9}$/.test(nationalNumber)) {
       return { success: false, error: 'Please enter a valid 10-digit Indian mobile number.' };
     }
@@ -123,54 +113,6 @@ class FirebaseWebAuthClass {
   async confirmOtp(params) {
     const { phoneNumber, otp, fullName, preferredLang, intent, role, templeName } = params;
     const cleanPhone = phoneNumber.replace(/\D/g, '').slice(-10);
-
-    // Default test mobile number bypass
-    if (cleanPhone === '6302759527') {
-      if (otp.trim() !== '123456') {
-        return {
-          success: false,
-          error: 'Invalid OTP. Please enter 123456 for default test account.',
-        };
-      }
-      try {
-        const res = await fetch(`${API_BASE_URL}/auth/login-otp`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            phoneNumber: '6302759527',
-            otp: '123456',
-            role: role || 'CUSTOMER',
-          }),
-        });
-        const contentType = res.headers.get('content-type') || '';
-        let backendData = {};
-        if (contentType.includes('application/json')) {
-          backendData = await res.json();
-        }
-        if (res.ok && backendData.success) {
-          return {
-            success: true,
-            user: backendData.user,
-            token: backendData.token,
-            message: 'Successfully logged in with default test credentials.',
-          };
-        }
-      } catch (err) {
-        console.warn('Backend login-otp fallback:', err);
-      }
-      return {
-        success: true,
-        user: {
-          id: 1,
-          phoneNumber: '6302759527',
-          fullName: fullName || 'Ayyappa Devotee',
-          role: role || 'CUSTOMER',
-          preferredLang: preferredLang || 'te',
-        },
-        token: `session_token_6302759527_${Date.now()}`,
-        message: 'Successfully logged in with default test credentials.',
-      };
-    }
 
     if (!this.confirmationResult) {
       return {

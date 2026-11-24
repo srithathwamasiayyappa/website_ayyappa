@@ -273,9 +273,9 @@ export class PanchangamLocalEngine {
             hour12: true,
         });
     }
-    static calculate(targetDate = new Date(), cityName = 'Hyderabad', lang = 'en') {
+    static calculate(targetDate = new Date(), cityName = 'Hyderabad', lang = 'te') {
         const coords = CITY_COORDS[cityName] || CITY_COORDS.Hyderabad;
-        const l = (['en', 'te', 'kn', 'ta', 'hi'].includes(lang) ? lang : 'en');
+        const l = (['te', 'kn', 'en', 'ta', 'hi'].includes(lang) ? lang : 'te');
         const sun = this.getSunTimes(targetDate, coords.lat, coords.lng);
         const live = this.getCelestialLongitudes(targetDate);
         const activeTithiName = TITHI_NAMES[l][live.tithiIndex];

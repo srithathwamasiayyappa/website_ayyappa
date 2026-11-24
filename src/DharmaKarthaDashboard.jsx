@@ -79,9 +79,6 @@ export default function DharmaKarthaDashboard({ notify, profile: initialProfile 
         const templesData = await templesRes.json();
         if (isMounted && templesData?.temples) {
           setTemples(templesData.temples);
-          try {
-            sessionStorage.setItem('sa_dk_temples', JSON.stringify(templesData.temples));
-          } catch {}
           if (templesData.temples.length > 0) {
             setSelectedTempleId(templesData.temples[0].id || templesData.temples[0].slug);
           }

@@ -256,17 +256,11 @@ export default function CategoriesPage() {
             const displayTitle = loc?.title || service.title;
             const displaySub = loc?.sub || service.sub;
 
-            const rawUrl = service.url || '/subcategories';
-            const isDevotionalCategory = ['pooja', 'ashtothram', 'stotras', 'slokas', 'bhajans', 'songs', 'harathis'].includes(sKey) ||
-              ['/subcategories', '/stotras', '/slokas', '/songs', '/pooja'].some((p) => rawUrl.startsWith(p));
-            const targetUrl = isDevotionalCategory
-              ? (rawUrl.includes('?') ? `${rawUrl}&selectDeity=true` : `${rawUrl}?selectDeity=true`)
-              : rawUrl;
+            const targetUrl = service.url;
 
             return (
               <Link
                 to={targetUrl}
-                state={isDevotionalCategory ? { openDeityModal: true } : undefined}
                 key={service.id || service.serviceId}
                 className={`sa-cat-card ${isFoodCard ? 'sa-cat-card-food' : ''}`}
                 aria-label={`${displayTitle} - ${displaySub}`}

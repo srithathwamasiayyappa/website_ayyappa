@@ -167,7 +167,9 @@ function App() {
   const [dkTemples, setDkTemples] = useState([]);
   const [dkLoading, setDkLoading] = useState(false);
 
-  const availableTemples = dkTemples || [];
+  const availableTemples = (dkTemples && dkTemples.length > 0)
+    ? dkTemples
+    : [{ id: 1, name: profile?.templeName || 'Sri Dharma Sastha Temple', city: profile?.templeCity || profile?.city || 'Sabarimala' }];
 
   const [showAddFestModal, setShowAddFestModal] = useState(false);
   const [newFestModalForm, setNewFestModalForm] = useState({
@@ -320,37 +322,18 @@ function App() {
 
   useEffect(() => {
     if (profile?.role === 'DHARMA_KARTHA') {
-      let uid = profile?.id || profile?.userId;
-      if (!uid) {
-        try {
-          const stored = localStorage.getItem('sa-profile') || localStorage.getItem('user');
-          if (stored) {
-            const p = JSON.parse(stored);
-            uid = p.id || p.userId;
-          }
-        } catch {}
-      }
-      uid = uid || 1;
+      const uid = profile?.id || 1;
       setDkLoading(true);
       Promise.all([
-        fetch(`${API_BASE_URL}/dharma-kartha/festivals?userId=${uid}`, { headers: { 'x-user-id': String(uid) } }).then(r => r.json()).catch(() => null),
-        fetch(`${API_BASE_URL}/dharma-kartha/events?userId=${uid}`, { headers: { 'x-user-id': String(uid) } }).then(r => r.json()).catch(() => null),
-        fetch(`${API_BASE_URL}/dharma-kartha/media?userId=${uid}`, { headers: { 'x-user-id': String(uid) } }).then(r => r.json()).catch(() => null),
-        fetch(`${API_BASE_URL}/dharma-kartha/temples?userId=${uid}`, { headers: { 'x-user-id': String(uid) } }).then(r => r.json()).catch(() => null),
+        fetch(`${API_BASE_URL}/dharma-kartha/festivals?userId=${uid}`).then(r => r.json()).catch(() => null),
+        fetch(`${API_BASE_URL}/dharma-kartha/events?userId=${uid}`).then(r => r.json()).catch(() => null),
+        fetch(`${API_BASE_URL}/dharma-kartha/media?userId=${uid}`).then(r => r.json()).catch(() => null),
+        fetch(`${API_BASE_URL}/dharma-kartha/temples?userId=${uid}`).then(r => r.json()).catch(() => null),
       ]).then(([festData, evtData, mediaData, templeData]) => {
-        const fetchedTemples = (templeData?.temples && Array.isArray(templeData.temples)) ? templeData.temples : [];
-        setDkTemples(fetchedTemples);
-        try { sessionStorage.setItem('sa_dk_temples', JSON.stringify(fetchedTemples)); } catch {}
-
-        if (fetchedTemples.length === 0) {
-          setDkFestivals([]);
-          setDkEvents([]);
-          setDkGallery([]);
-        } else {
-          setDkFestivals(festData?.festivals && Array.isArray(festData.festivals) ? festData.festivals : []);
-          setDkEvents(evtData?.events && Array.isArray(evtData.events) ? evtData.events : []);
-          setDkGallery(mediaData?.media && Array.isArray(mediaData.media) ? mediaData.media : []);
-        }
+        if (festData?.festivals) setDkFestivals(festData.festivals);
+        if (evtData?.events) setDkEvents(evtData.events);
+        if (mediaData?.media) setDkGallery(mediaData.media);
+        if (templeData?.temples) setDkTemples(templeData.temples);
       }).finally(() => setDkLoading(false));
     }
   }, [profile?.role, path]);
@@ -631,7 +614,7 @@ function App() {
       {path === '/register' && <RoleSelectionPage profile={profile} setProfile={setProfile} />}
       {path === '/auth-login' && <AuthPage initialMode="login" profile={profile} setProfile={setProfile} phone={phone} setPhone={setPhone} notify={notify} />}
       {path === '/auth-register' && <AuthPage initialMode="register" profile={profile} setProfile={setProfile} phone={phone} setPhone={setPhone} notify={notify} />}
-      {path === '/otp' && <section className="auth-single container"><div className="auth-card"><div className="centered-heading compact"><div className="shield-circle"><Icon name="ShieldCheck" size={32} /></div><h1>Verify Mobile Number</h1><p>Enter the 6-digit real-time OTP sent to +91 {phone || '••••••••••'}</p></div><div className="otp-row">{[...Array(6)].map((_, i) => <input aria-label={`OTP digit ${i + 1}`} key={i} maxLength={1} inputMode="numeric" value={otp[i] || ''} onChange={e => { let v = e.target.value.replace(/\D/g, ''); setOtp(old => (old.slice(0, i) + v + old.slice(i + 1)).slice(0, 6)); if (v) e.target.nextElementSibling?.focus() }} />)}</div><p className="otp-caption">{phone?.includes('6302759527') ? <span style={{ cursor: 'pointer', color: '#b8860b', fontWeight: 'bold' }} onClick={() => setOtp('123456')}>Default test OTP is 123456 (Click to autofill)</span> : 'Real-time OTP via Firebase Carrier SMS'}</p><Button onClick={async () => {
+      {path === '/otp' && <section className="auth-single container"><div className="auth-card"><div className="centered-heading compact"><div className="shield-circle"><Icon name="ShieldCheck" size={32} /></div><h1>Verify Mobile Number</h1><p>Enter the 6-digit real-time OTP sent to +91 {phone || '••••••••••'}</p></div><div className="otp-row">{[...Array(6)].map((_, i) => <input aria-label={`OTP digit ${i + 1}`} key={i} maxLength={1} inputMode="numeric" value={otp[i] || ''} onChange={e => { let v = e.target.value.replace(/\D/g, ''); setOtp(old => (old.slice(0, i) + v + old.slice(i + 1)).slice(0, 6)); if (v) e.target.nextElementSibling?.focus() }} />)}</div><p className="otp-caption">Real-time OTP via Firebase Carrier SMS</p><Button onClick={async () => {
         if (otp.length !== 6) return notify('Enter all 6 OTP digits');
         try {
           const isReg = location.state?.isRegister || reg;
@@ -692,13 +675,13 @@ function App() {
       {path === '/complete-profile' && <section className="container profile-form-wrap"><div className="page-header"><Tag>YOUR DEVOTIONAL IDENTITY</Tag><h1>Complete Your Profile</h1><p>Help us personalize your sacred devotional experience.</p></div><ProfileForm profile={profile} setProfile={setProfile} onSave={() => { if (!profile.name.trim()) return notify('Full name is required'); notify('Profile saved successfully'); navigate('/home') }} action="Save & Continue" /></section>}
       {path === '/home' && <HomePage />}
       {path === '/categories' && <CategoriesPage />}
-      {(path === '/subcategories' || path === '/pooja' || path === '/pooja-vidhanam') && <PoojaListingPage category="pooja" />}
+      {path === '/subcategories' && <PoojaListingPage />}
       {path === '/subcategory-detail' && <SubcategoryDetailPage />}
       {path === '/pooja-detail' && <SubcategoryDetailPage defaultCategory="pooja" />}
       {path === '/stotras' && <PoojaListingPage category="stotras" />}
       {path === '/slokas' && <PoojaListingPage category="slokas" />}
       {path === '/sloka-detail' && <SubcategoryDetailPage defaultCategory="slokas" />}
-      {(path === '/songs' || path === '/bhajans') && <PoojaListingPage category="songs" />}
+      {path === '/songs' && <PoojaListingPage category="songs" />}
       {path === '/songs-detail' && <SubcategoryDetailPage defaultCategory="songs" />}
       {path === '/live-streams' && <LiveStreamsPage notify={notify} />}
       {path === '/panchangam' && <PanchangamPage notify={notify} language={language} />}
@@ -742,7 +725,7 @@ function App() {
                 </p>
                 <div className="trust-quick-stats">
                   <div className="trust-stat-box">
-                    <b>{dkTemples.length}</b>
+                    <b>{dkTemples.length || 1}</b>
                     <span>Registered Mandir</span>
                   </div>
                   <div className="trust-stat-box">
@@ -789,13 +772,7 @@ function App() {
                     <button
                       type="button"
                       className="btn gold"
-                      onClick={() => {
-                        if (!dkTemples || dkTemples.length === 0) {
-                          notify('Without adding a temple, you cannot create festivals. Please register or add your sacred Temple first.', 'warning');
-                          return;
-                        }
-                        setShowAddFestModal(true);
-                      }}
+                      onClick={() => setShowAddFestModal(true)}
                       style={{ padding: '6px 14px', fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                     >
                       <Icon name="Plus" size={15} /> Add Temple Festival
@@ -811,17 +788,7 @@ function App() {
                 ) : dkFestivals.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '24px', background: '#fdfbf7', borderRadius: '10px', border: '1px dashed #d4a753' }}>
                     <p style={{ margin: '0 0 10px', color: '#666' }}>No temple festivals added yet.</p>
-                    <button
-                      type="button"
-                      className="btn gold small"
-                      onClick={() => {
-                        if (!dkTemples || dkTemples.length === 0) {
-                          notify('Without adding a temple, you cannot create festivals. Please register or add your sacred Temple first.', 'warning');
-                          return;
-                        }
-                        setShowAddFestModal(true);
-                      }}
-                    >
+                    <button type="button" className="btn gold small" onClick={() => setShowAddFestModal(true)}>
                       Add First Festival
                     </button>
                   </div>
@@ -1082,13 +1049,7 @@ function App() {
                     <button
                       type="button"
                       className="btn gold"
-                      onClick={() => {
-                        if (!dkTemples || dkTemples.length === 0) {
-                          notify('Without adding a temple, you cannot create events. Please register or add your sacred Temple first.', 'warning');
-                          return;
-                        }
-                        setShowAddEventModal(true);
-                      }}
+                      onClick={() => setShowAddEventModal(true)}
                       style={{ padding: '6px 14px', fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                     >
                       <Icon name="Plus" size={15} /> Create Temple Event
@@ -1104,17 +1065,7 @@ function App() {
                 ) : dkEvents.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '24px', background: '#fdfbf7', borderRadius: '10px', border: '1px dashed #d4a753' }}>
                     <p style={{ margin: '0 0 10px', color: '#666' }}>No special events scheduled yet.</p>
-                    <button
-                      type="button"
-                      className="btn gold small"
-                      onClick={() => {
-                        if (!dkTemples || dkTemples.length === 0) {
-                          notify('Without adding a temple, you cannot create events. Please register or add your sacred Temple first.', 'warning');
-                          return;
-                        }
-                        setShowAddEventModal(true);
-                      }}
-                    >
+                    <button type="button" className="btn gold small" onClick={() => setShowAddEventModal(true)}>
                       Create First Event
                     </button>
                   </div>
@@ -1385,13 +1336,7 @@ function App() {
                     <button
                       type="button"
                       className="btn gold"
-                      onClick={() => {
-                        if (!dkTemples || dkTemples.length === 0) {
-                          notify('Without adding a temple, you cannot upload gallery media. Please register or add your sacred Temple first.', 'warning');
-                          return;
-                        }
-                        setShowAddMediaModal(true);
-                      }}
+                      onClick={() => setShowAddMediaModal(true)}
                       style={{ padding: '6px 14px', fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                     >
                       <Icon name="Plus" size={15} /> Upload Temple Media
@@ -1407,17 +1352,7 @@ function App() {
                 ) : dkGallery.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '24px', background: '#fdfbf7', borderRadius: '10px', border: '1px dashed #d4a753' }}>
                     <p style={{ margin: '0 0 10px', color: '#666' }}>No photos uploaded yet.</p>
-                    <button
-                      type="button"
-                      className="btn gold small"
-                      onClick={() => {
-                        if (!dkTemples || dkTemples.length === 0) {
-                          notify('Without adding a temple, you cannot upload gallery media. Please register or add your sacred Temple first.', 'warning');
-                          return;
-                        }
-                        setShowAddMediaModal(true);
-                      }}
-                    >
+                    <button type="button" className="btn gold small" onClick={() => setShowAddMediaModal(true)}>
                       Upload First Photo
                     </button>
                   </div>
@@ -1934,7 +1869,7 @@ function ProfileForm({ profile, setProfile, onSave, action }) {
     async function fetchMasterOptions() {
       try {
         setLoadingOptions(true);
-        const res = await fetch(`${API_BASE_URL}/master/profile-options?lang=${profile.preferredLang || language || 'en'}`);
+        const res = await fetch(`${API_BASE_URL}/master/profile-options?lang=${profile.preferredLang || 'te'}`);
         if (res.ok) {
           const json = await res.json();
           if (json.data && isMounted) {

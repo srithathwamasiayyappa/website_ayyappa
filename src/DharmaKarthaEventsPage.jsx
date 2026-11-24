@@ -11,15 +11,7 @@ const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
 };
 
 export default function DharmaKarthaEventsPage({ notify, profile }) {
-  const getCachedTemples = () => {
-    try {
-      const cached = sessionStorage.getItem('sa_dk_temples');
-      if (cached) return JSON.parse(cached);
-    } catch {}
-    return null;
-  };
-  const cachedTemples = getCachedTemples();
-  const [temples, setTemples] = useState(cachedTemples || []);
+  const [temples, setTemples] = useState([]);
   const [selectedTempleId, setSelectedTempleId] = useState('ALL');
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +25,6 @@ export default function DharmaKarthaEventsPage({ notify, profile }) {
   const [editingEvent, setEditingEvent] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [actionLoading, setActionLoading] = useState(false);
-  const [templesLoaded, setTemplesLoaded] = useState(cachedTemples !== null);
 
   // New Event Form
   const [newEvent, setNewEvent] = useState({
@@ -61,66 +52,34 @@ export default function DharmaKarthaEventsPage({ notify, profile }) {
     status: 'PUBLISHED',
   });
 
-  const getUserId = () => {
-    try {
-      const stored = localStorage.getItem('sa-profile') || localStorage.getItem('user');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed?.id) return parsed.id;
-      }
-    } catch {}
-    return profile?.id || 1;
-  };
-
   // Fetch authorized temples
   useEffect(() => {
-    const uid = getUserId();
-    fetch(`${API_BASE_URL}/dharma-kartha/temples?userId=${uid}`, {
-      headers: { 'x-user-id': String(uid) }
-    })
+    fetch(`${API_BASE_URL}/dharma-kartha/temples`)
       .then((res) => res.json())
       .then((data) => {
-        if (data?.temples && Array.isArray(data.temples)) {
+        if (data?.temples && data.temples.length > 0) {
           setTemples(data.temples);
-          try { sessionStorage.setItem('sa_dk_temples', JSON.stringify(data.temples)); } catch {}
-        } else {
-          setTemples([]);
-          try { sessionStorage.setItem('sa_dk_temples', JSON.stringify([])); } catch {}
         }
       })
-      .catch(() => {
-        setTemples([]);
-      })
-      .finally(() => setTemplesLoaded(true));
+      .catch(() => {});
   }, []);
 
   // Fetch events (View All or filter by templeId)
   const fetchEvents = () => {
-    if (templesLoaded && (!temples || temples.length === 0)) {
-      setEvents([]);
-      setLoading(false);
-      return;
-    }
     setLoading(true);
-    const uid = getUserId();
-    const param = selectedTempleId && selectedTempleId !== 'ALL' ? `&templeId=${selectedTempleId}` : '';
-    fetch(`${API_BASE_URL}/dharma-kartha/events?userId=${uid}${param}`, {
-      headers: { 'x-user-id': String(uid) }
-    })
+    const param = selectedTempleId && selectedTempleId !== 'ALL' ? `?templeId=${selectedTempleId}` : '';
+    fetch(`${API_BASE_URL}/dharma-kartha/events${param}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data?.events && Array.isArray(data.events)) setEvents(data.events);
-        else setEvents([]);
+        if (data?.events) setEvents(data.events);
       })
-      .catch(() => setEvents([]))
+      .catch(() => {})
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    if (templesLoaded) {
-      fetchEvents();
-    }
-  }, [selectedTempleId, templesLoaded]);
+    fetchEvents();
+  }, [selectedTempleId]);
 
   // View by ID
   const handleViewById = async (eventOrId) => {
@@ -307,48 +266,40 @@ export default function DharmaKarthaEventsPage({ notify, profile }) {
           </p>
         </div>
 
-        {templesLoaded && temples && temples.length > 0 && (
-          <button
-            type="button"
-            className="sa-dk-btn-add"
-            onClick={() => {
-              setNewEvent({
-                templeId: selectedTempleId !== 'ALL' ? selectedTempleId : temples[0]?.id ? String(temples[0].id) : '',
-                title: '',
-                category: 'SEVA_PROGRAMME',
-                startDate: '',
-                endDate: '',
-                timeInfo: '',
-                location: '',
-                description: '',
-              });
-              setShowAddModal(true);
-            }}
-          >
-            <Icon name="Plus" size={16} />
-            <span>Create Temple Event</span>
-          </button>
-        )}
+        <button
+          type="button"
+          className="sa-dk-btn-add"
+          onClick={() => {
+            if (!temples || temples.length === 0) {
+              if (notify) {
+                notify({
+                  title: 'Mandir Registration Required',
+                  message: 'Without adding a temple, you cannot create events. Please register or add your sacred Temple first.',
+                  type: 'warning',
+                });
+              }
+              return;
+            }
+            setNewEvent({
+              templeId: selectedTempleId !== 'ALL' ? selectedTempleId : temples[0]?.id ? String(temples[0].id) : '',
+              title: '',
+              category: 'SEVA_PROGRAMME',
+              startDate: '',
+              endDate: '',
+              timeInfo: '',
+              location: '',
+              description: '',
+            });
+            setShowAddModal(true);
+          }}
+        >
+          <Icon name="Plus" size={16} />
+          <span>Create Temple Event</span>
+        </button>
       </div>
 
-      {!templesLoaded ? (
-        <div style={{ textAlign: 'center', padding: '60px 0', color: '#666' }}>
-          <Icon name="Loader" size={28} className="spin" />
-          <p style={{ marginTop: '10px' }}>Loading temple information...</p>
-        </div>
-      ) : !temples || temples.length === 0 ? (
-        <div className="sa-dk-empty-card" style={{ marginTop: '20px' }}>
-          <Icon name="Landmark" size={40} />
-          <h3>No Temples Assigned Yet</h3>
-          <p>Register a new temple or request management access to an existing holy shrine before managing events.</p>
-          <Link to="/dharma-kartha/temples/new" className="btn gold">
-            <Icon name="PlusCircle" size={17} /> Register Your Temple
-          </Link>
-        </div>
-      ) : (
-        <>
-          {/* Toolbar: Temple Selector (View All) & Search & Filters */}
-          <div className="sa-dk-toolbar-box" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      {/* Toolbar: Temple Selector (View All) & Search & Filters */}
+      <div className="sa-dk-toolbar-box" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             <span style={{ fontWeight: 700, color: '#0b3d2b', fontSize: '13.5px' }}>Filter Temple:</span>
@@ -509,8 +460,6 @@ export default function DharmaKarthaEventsPage({ notify, profile }) {
             </div>
           ))}
         </div>
-      )}
-        </>
       )}
 
       {/* ======================================================== */}

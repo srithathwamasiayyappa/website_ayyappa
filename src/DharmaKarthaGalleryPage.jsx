@@ -11,15 +11,7 @@ const Icon = ({ name = 'Sparkles', size = 20, ...props }) => {
 };
 
 export default function DharmaKarthaGalleryPage({ notify, profile }) {
-  const getCachedTemples = () => {
-    try {
-      const cached = sessionStorage.getItem('sa_dk_temples');
-      if (cached) return JSON.parse(cached);
-    } catch {}
-    return null;
-  };
-  const cachedTemples = getCachedTemples();
-  const [temples, setTemples] = useState(cachedTemples || []);
+  const [temples, setTemples] = useState([]);
   const [selectedTempleId, setSelectedTempleId] = useState('ALL');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [typeFilter, setTypeFilter] = useState('ALL');
@@ -37,19 +29,6 @@ export default function DharmaKarthaGalleryPage({ notify, profile }) {
   const [editingMedia, setEditingMedia] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [actionLoading, setActionLoading] = useState(false);
-  const [templesLoaded, setTemplesLoaded] = useState(cachedTemples !== null);
-
-  const getUserId = () => {
-    try {
-      const stored = localStorage.getItem('sa-profile') || localStorage.getItem('user');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed?.id) return parsed.id;
-      }
-    } catch {}
-    return profile?.id || 1;
-  };
-
   const [uploadData, setUploadData] = useState({
     templeId: '',
     title: '',
@@ -84,62 +63,36 @@ export default function DharmaKarthaGalleryPage({ notify, profile }) {
 
   // Fetch authorized temples
   useEffect(() => {
-    const uid = getUserId();
-    fetch(`${API_BASE_URL}/dharma-kartha/temples?userId=${uid}`, {
-      headers: { 'x-user-id': String(uid) }
-    })
+    fetch(`${API_BASE_URL}/dharma-kartha/temples`)
       .then((res) => res.json())
       .then((data) => {
-        if (data?.temples && Array.isArray(data.temples)) {
+        if (data?.temples && data.temples.length > 0) {
           setTemples(data.temples);
-          try { sessionStorage.setItem('sa_dk_temples', JSON.stringify(data.temples)); } catch {}
-        } else {
-          setTemples([]);
-          try { sessionStorage.setItem('sa_dk_temples', JSON.stringify([])); } catch {}
         }
       })
-      .catch(() => {
-        setTemples([]);
-      })
-      .finally(() => setTemplesLoaded(true));
+      .catch(() => {});
   }, []);
 
   // Fetch Media List (View All or filtered)
   const fetchMedia = () => {
-    if (templesLoaded && (!temples || temples.length === 0)) {
-      setMediaList([]);
-      setGalleryStats({ totalPhotos: 0, published: 0, pending: 0, videos: 0 });
-      setLoading(false);
-      return;
-    }
     setLoading(true);
-    const uid = getUserId();
     const params = new URLSearchParams();
-    params.append('userId', uid);
     if (selectedTempleId && selectedTempleId !== 'ALL') params.append('templeId', selectedTempleId);
     if (statusFilter !== 'ALL') params.append('status', statusFilter);
 
-    fetch(`${API_BASE_URL}/dharma-kartha/media?${params.toString()}`, {
-      headers: { 'x-user-id': String(uid) }
-    })
+    fetch(`${API_BASE_URL}/dharma-kartha/media?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.stats) setGalleryStats(data.stats);
-        if (data?.media && Array.isArray(data.media)) setMediaList(data.media);
-        else setMediaList([]);
+        if (data?.media) setMediaList(data.media);
       })
-      .catch(() => {
-        setMediaList([]);
-        setGalleryStats({ totalPhotos: 0, published: 0, pending: 0, videos: 0 });
-      })
+      .catch(() => {})
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    if (templesLoaded) {
-      fetchMedia();
-    }
-  }, [selectedTempleId, statusFilter, templesLoaded]);
+    fetchMedia();
+  }, [selectedTempleId, statusFilter]);
 
   // View by ID
   const handleViewById = async (mediaOrId) => {
@@ -375,46 +328,38 @@ export default function DharmaKarthaGalleryPage({ notify, profile }) {
           </p>
         </div>
 
-        {templesLoaded && temples && temples.length > 0 && (
-          <button
-            type="button"
-            className="sa-dk-btn-add"
-            onClick={() => {
-              setUploadData({
-                templeId: selectedTempleId !== 'ALL' ? selectedTempleId : temples[0]?.id ? String(temples[0].id) : '',
-                title: '',
-                caption: '',
-                mediaUrl: '/images/temple-hero.jpg',
-                category: 'Temple Exterior',
-                type: 'Photo',
-              });
-              setShowUploadModal(true);
-            }}
-          >
-            <Icon name="UploadCloud" size={16} />
-            <span>Upload Media</span>
-          </button>
-        )}
+        <button
+          type="button"
+          className="sa-dk-btn-add"
+          onClick={() => {
+            if (!temples || temples.length === 0) {
+              if (notify) {
+                notify({
+                  title: 'Mandir Registration Required',
+                  message: 'Without adding a temple, you cannot upload gallery media. Please register or add your sacred Temple first.',
+                  type: 'warning',
+                });
+              }
+              return;
+            }
+            setUploadData({
+              templeId: selectedTempleId !== 'ALL' ? selectedTempleId : temples[0]?.id ? String(temples[0].id) : '',
+              title: '',
+              caption: '',
+              mediaUrl: '/images/temple-hero.jpg',
+              category: 'Temple Exterior',
+              type: 'Photo',
+            });
+            setShowUploadModal(true);
+          }}
+        >
+          <Icon name="UploadCloud" size={16} />
+          <span>Upload Media</span>
+        </button>
       </div>
 
-      {!templesLoaded ? (
-        <div style={{ textAlign: 'center', padding: '60px 0', color: '#666' }}>
-          <Icon name="Loader" size={28} className="spin" />
-          <p style={{ marginTop: '10px' }}>Loading temple information...</p>
-        </div>
-      ) : !temples || temples.length === 0 ? (
-        <div className="sa-dk-empty-card" style={{ marginTop: '20px' }}>
-          <Icon name="Landmark" size={40} />
-          <h3>No Temples Assigned Yet</h3>
-          <p>Register a new temple or request management access to an existing holy shrine before managing gallery media.</p>
-          <Link to="/dharma-kartha/temples/new" className="btn gold">
-            <Icon name="PlusCircle" size={17} /> Register Your Temple
-          </Link>
-        </div>
-      ) : (
-        <>
-          {/* KPI Counters */}
-          <div className="sa-dk-kpi-row" style={{ marginTop: '20px' }}>
+      {/* KPI Counters */}
+      <div className="sa-dk-kpi-row" style={{ marginTop: '20px' }}>
         <div className="sa-dk-kpi-card">
           <div className="sa-dk-kpi-icon-wrap">
             <Icon name="Image" size={24} />
@@ -668,8 +613,6 @@ export default function DharmaKarthaGalleryPage({ notify, profile }) {
             </div>
           ))}
         </div>
-      )}
-        </>
       )}
 
       {/* ======================================================== */}

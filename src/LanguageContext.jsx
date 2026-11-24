@@ -6,27 +6,15 @@ import { translations, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from './translati
 const LanguageContext = createContext(null);
 
 export function LanguageProvider({ children }) {
-  // Read persisted language with valid fallback (defaulting to English)
+  // Read persisted language with valid fallback
   const getInitialLanguage = () => {
     try {
-      if (typeof window !== 'undefined') {
-        const urlParams = new URLSearchParams(window.location.search);
-        const urlLang = urlParams.get('lang');
-        if (urlLang && SUPPORTED_LANGUAGES.some((l) => l.code === urlLang.toLowerCase())) {
-          return urlLang.toLowerCase();
-        }
-      }
-      const isExplicit = localStorage.getItem('sa-language-explicit');
-      if (isExplicit === 'true') {
-        const stored = localStorage.getItem('sa-language');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          const code = typeof parsed === 'string' ? parsed : parsed?.code;
-          const isValid = SUPPORTED_LANGUAGES.some((l) => l.code === code);
-          if (isValid) return code;
-        }
-      }
-      return DEFAULT_LANGUAGE;
+      const stored = localStorage.getItem('sa-language');
+      if (!stored) return DEFAULT_LANGUAGE;
+      const parsed = JSON.parse(stored);
+      const code = typeof parsed === 'string' ? parsed : parsed?.code || DEFAULT_LANGUAGE;
+      const isValid = SUPPORTED_LANGUAGES.some((l) => l.code === code);
+      return isValid ? code : DEFAULT_LANGUAGE;
     } catch {
       return DEFAULT_LANGUAGE;
     }
@@ -35,36 +23,6 @@ export function LanguageProvider({ children }) {
   const [currentLanguage, setCurrentLanguageState] = useState(getInitialLanguage);
   const [languagesList, setLanguagesList] = useState(SUPPORTED_LANGUAGES);
   const [loadingLanguages, setLoadingLanguages] = useState(false);
-  const [dbTranslations, setDbTranslations] = useState(translations);
-
-  // Fetch complete UI translations dynamically from Database via API on language change
-  useEffect(() => {
-    let isMounted = true;
-    async function fetchTranslationsFromDb() {
-      try {
-        const res = await fetch(`${API_BASE_URL}/master/ui-translations?lang=${currentLanguage}`).catch(() => null);
-        if (res && res.ok) {
-          const json = await res.json();
-          if (json?.data && isMounted) {
-            setDbTranslations((prev) => ({
-              ...prev,
-              [currentLanguage]: {
-                ...(prev[currentLanguage] || {}),
-                ...json.data,
-              },
-            }));
-          }
-        }
-      } catch (e) {
-        console.warn('[LanguageProvider] DB translations sync notice:', e);
-      }
-    }
-
-    fetchTranslationsFromDb();
-    return () => {
-      isMounted = false;
-    };
-  }, [currentLanguage]);
 
   // Fetch languages dynamically from Database via Public Master API
   useEffect(() => {
@@ -143,21 +101,18 @@ export function LanguageProvider({ children }) {
     const normalized = String(code).toLowerCase().trim();
     const exists = SUPPORTED_LANGUAGES.some((l) => l.code === normalized);
     const target = exists ? normalized : DEFAULT_LANGUAGE;
-    try {
-      localStorage.setItem('sa-language-explicit', 'true');
-    } catch {}
     setCurrentLanguageState(target);
   }, []);
 
-  // Translation helper function backed by DB translations
+  // Translation helper function
   const t = useCallback(
     (key, fallback = '') => {
       if (!key) return fallback;
-      const langPack = dbTranslations[currentLanguage] || dbTranslations[DEFAULT_LANGUAGE] || {};
-      const enPack = dbTranslations.en || translations.en || {};
+      const langPack = translations[currentLanguage] || translations[DEFAULT_LANGUAGE] || {};
+      const enPack = translations.en || {};
       return langPack[key] ?? enPack[key] ?? fallback ?? key;
     },
-    [currentLanguage, dbTranslations]
+    [currentLanguage]
   );
 
   const activeMeta = languagesList.find((l) => l.code === currentLanguage) || languagesList[0];

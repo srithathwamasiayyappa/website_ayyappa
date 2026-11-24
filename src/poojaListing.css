@@ -34,8 +34,6 @@
   z-index: 0;
   opacity: 0.12; /* Refined elegant devotional opacity */
   mix-blend-mode: multiply;
-  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 90%);
-  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 90%);
   transition: opacity 0.3s ease;
 }
 
@@ -821,81 +819,3 @@
     gap: 8px;
   }
 }
-
-/* Change Deity Trigger Buttons & Dropdown Chip Matching Reference Image */
-.god-actions-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.god-change-modal-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: #0c3823;
-  color: #ffffff;
-  border: 1px solid #d4af37;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px 14px;
-  border-radius: 9999px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(12, 56, 35, 0.2);
-  transition: all 0.2s ease;
-}
-
-.god-change-modal-btn:hover {
-  background: #124d31;
-  border-color: #f1cf75;
-  transform: translateY(-1px);
-}
-
-.sa-pooja-god-chip-dropdown {
-  background: #0c3823 !important;
-  color: #ffffff !important;
-  border-color: #d4af37 !important;
-  box-shadow: 0 3px 8px rgba(12, 56, 35, 0.25);
-  font-weight: 700 !important;
-  padding-right: 14px !important;
-}
-
-.sa-pooja-god-chip-dropdown .deity-name {
-  color: #ffffff !important;
-}
-
-.sa-pooja-god-chip-dropdown .deity-chevron {
-  color: #e5c378;
-  margin-left: 3px;
-}
-
-.sa-empty-actions-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 14px;
-  flex-wrap: wrap;
-}
-
-.btn-change-deity-modal {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #0c3823;
-  color: #ffffff;
-  border: 1.5px solid #d4af37;
-  padding: 8px 20px;
-  border-radius: 9999px;
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-change-deity-modal:hover {
-  background: #144e33;
-  border-color: #f3d482;
-  transform: translateY(-1px);
-}
-
