@@ -449,17 +449,17 @@ function ServicesSection() {
         if (res.ok) {
           const result = await res.json();
           if (isMounted) {
-            if (result && Array.isArray(result.data) && result.data.length > 0) {
+            if (result && Array.isArray(result.data)) {
               setServicesData(result.data);
             } else {
-              setServicesData(services);
+              setServicesData([]);
             }
           }
         } else {
-          if (isMounted) setServicesData(services);
+          if (isMounted) setServicesData([]);
         }
       } catch {
-        if (isMounted) setServicesData(services);
+        if (isMounted) setServicesData([]);
       } finally {
         if (isMounted) setLoading(false);
       }

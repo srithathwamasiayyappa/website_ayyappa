@@ -144,18 +144,18 @@ export default function CategoriesPage() {
         if (res.ok) {
           const result = await res.json();
           if (isMounted) {
-            if (result && Array.isArray(result.data) && result.data.length > 0) {
+            if (result && Array.isArray(result.data)) {
               setServicesList(result.data);
             } else {
-              setServicesList(services);
+              setServicesList([]);
             }
           }
         } else {
-          if (isMounted) setServicesList(services);
+          if (isMounted) setServicesList([]);
         }
       } catch (err) {
         if (isMounted) {
-          setServicesList(services);
+          setServicesList([]);
         }
       } finally {
         if (isMounted) {
