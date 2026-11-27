@@ -89,6 +89,8 @@ export function LanguageProvider({ children }) {
   useEffect(() => {
     try {
       document.documentElement.lang = currentLanguage;
+      document.documentElement.setAttribute('data-lang', currentLanguage);
+      if (document.body) document.body.setAttribute('data-lang', currentLanguage);
       localStorage.setItem('sa-language', JSON.stringify(currentLanguage));
     } catch (e) {
       console.warn('[LanguageProvider] Failed to persist language:', e);
