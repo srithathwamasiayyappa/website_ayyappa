@@ -1,10 +1,20 @@
-/* Local @font-face for offline/guaranteed NTR font loading */
+/* Local @font-face for offline/guaranteed NTR font loading with instant block display */
 @font-face {
   font-family: 'NTR';
   src: url('/fonts/NTR-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
+}
+
+/* Indic characters mapped directly to NTR so they render in NTR even before any lang attribute resolves */
+@font-face {
+  font-family: 'IndicNTR';
+  src: url('/fonts/NTR-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+0900-097F, U+0B80-0BFF, U+0C00-0C7F, U+0C80-0CFF, U+200C-200D;
 }
 
 :root {
@@ -15,7 +25,7 @@
 
   /* Typography: Poppins for English, NTR font style for Telugu, Kannada, Tamil, Hindi */
   --font-english: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-indic: 'NTR', 'Noto Sans Kannada', 'Noto Sans Tamil', 'Noto Sans Devanagari', 'Poppins', sans-serif;
+  --font-indic: 'NTR', 'IndicNTR', 'Noto Sans Kannada', 'Noto Sans Tamil', 'Noto Sans Devanagari', 'Poppins', sans-serif;
   --heading-font: var(--font-english);
   --body-font: var(--font-english);
   --indic-font: var(--font-indic);
@@ -24,11 +34,17 @@
   --shadow:0 12px 35px rgba(18,58,47,.08); --max-width:1250px;
 }
 
+/* Base Body: Indic characters automatically map to NTR by default */
+body {
+  font-family: 'IndicNTR', 'Poppins', 'NTR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 /* Regional Indic Languages: Telugu, Kannada, Tamil, Hindi use NTR font style */
 html[lang="te"], body[data-lang="te"], html[lang="te"] *, body[data-lang="te"] *,
 html[lang="kn"], body[data-lang="kn"], html[lang="kn"] *, body[data-lang="kn"] *,
 html[lang="ta"], body[data-lang="ta"], html[lang="ta"] *, body[data-lang="ta"] *,
 html[lang="hi"], body[data-lang="hi"], html[lang="hi"] *, body[data-lang="hi"] *,
+html[data-lang="te"], html[data-lang="kn"], html[data-lang="ta"], html[data-lang="hi"],
 .lang-te, .lang-kn, .lang-ta, .lang-hi,
 .indic-text, .sacred-verse, .stotra-chant {
   font-family: var(--font-indic) !important;
@@ -36,6 +52,6 @@ html[lang="hi"], body[data-lang="hi"], html[lang="hi"] *, body[data-lang="hi"] *
 
 /* English explicitly uses Poppins */
 html[lang="en"], body[data-lang="en"], html[lang="en"] *, body[data-lang="en"] *,
-.lang-en {
+html[data-lang="en"], .lang-en {
   font-family: var(--font-english) !important;
 }

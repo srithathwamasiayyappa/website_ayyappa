@@ -1,13 +1,34 @@
 <!doctype html>
-<html lang="en">
+<html lang="te" data-lang="te">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#4B1023" />
     <meta name="description" content="Saranam Ayyappa — devotional content, sacred poojas, stotras, temples in India, daily panchangam and annadanam." />
+    <!-- Instant Synchronous Language Initializer (Eliminates 2-second font-shift on refresh) -->
+    <script>
+      (function() {
+        try {
+          var p = new URLSearchParams(window.location.search);
+          var l = p.get('lang') || localStorage.getItem('sa-language') || 'te';
+          if (typeof l === 'string') {
+            try { l = JSON.parse(l); } catch(e) {}
+          }
+          l = (typeof l === 'string' ? l : (l && l.code) || 'te').toLowerCase();
+          if (!['te', 'kn', 'ta', 'hi', 'en'].includes(l)) l = 'te';
+          document.documentElement.lang = l;
+          document.documentElement.setAttribute('data-lang', l);
+        } catch(e) {
+          document.documentElement.lang = 'te';
+          document.documentElement.setAttribute('data-lang', 'te');
+        }
+      })();
+    </script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Preload NTR font directly for instant 0ms rendering -->
+    <link rel="preload" href="/fonts/NTR-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=NTR&family=Poppins:wght@300;400;500;600;700;800;900&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
